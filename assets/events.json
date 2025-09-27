@@ -1,0 +1,189 @@
+[
+  {
+    "id": "2270c236-051b-4d09-9b4b-cc9f16ba391a",
+    "title": "NO MEETING",
+    "start": "2025-01-02T19:30:00+11:00",
+    "end": "2025-01-02T21:30:00+11:00",
+    "location": "",
+    "description": "",
+    "meetingActivity": "NO MEETING",
+    "miniCompetition": "",
+    "comments": ""
+  },
+  {
+    "id": "c9dbf982-c365-411a-aa8e-462eb6e5a0a0",
+    "title": "First Meeting of the Year",
+    "start": "2025-02-05T19:30:00+11:00",
+    "end": "2025-02-05T21:30:00+11:00",
+    "location": "",
+    "description": "",
+    "meetingActivity": "First Meeting of the Year",
+    "miniCompetition": "",
+    "comments": ""
+  },
+  {
+    "id": "97ca52fa-259e-4b79-b505-546ff6f0e734",
+    "title": "Jeff Aston, winemaker at Tractorless Vineyard -  a tasting of a few of his wines and Q&A",
+    "start": "2025-02-06T19:30:00+11:00",
+    "end": "2025-02-06T21:30:00+11:00",
+    "location": "",
+    "description": "",
+    "meetingActivity": "Jeff Aston, winemaker at Tractorless Vineyard -  a tasting of a few of his wines and Q&A",
+    "miniCompetition": "Distribute yeast and chemicals",
+    "comments": "Open discussion on sourcing grapes and preparing for winemaking season."
+  },
+  {
+    "id": "eee151c4-ec66-4cca-b46e-9e191f5848c3",
+    "title": "The Saignée Process - get some free rosé - Roger",
+    "start": "2025-03-06T19:30:00+11:00",
+    "end": "2025-03-06T21:30:00+11:00",
+    "location": "",
+    "description": "",
+    "meetingActivity": "The Saignée Process - get some free rosé - Roger",
+    "miniCompetition": "Award White Grape\nDry White Grape Wine, any variety",
+    "comments": ""
+  },
+  {
+    "id": "71164cb5-cbaa-4a1e-aea0-1143974a162f",
+    "title": "Make a fruit wine - Roger",
+    "start": "2025-04-03T19:30:00+11:00",
+    "end": "2025-04-03T21:30:00+11:00",
+    "location": "",
+    "description": "",
+    "meetingActivity": "Make a fruit wine - Roger",
+    "miniCompetition": "Award Red Grape\nDry Red Grape Wine, any variety",
+    "comments": "Note that fruit wine mini-competitions are to be held later in the year"
+  },
+  {
+    "id": "4c92cb90-18e1-4a93-b592-7c31b1af7c4c",
+    "title": "Making mead - Matt",
+    "start": "2025-05-01T19:30:00+10:00",
+    "end": "2025-05-01T21:30:00+10:00",
+    "location": "",
+    "description": "",
+    "meetingActivity": "Making mead - Matt",
+    "miniCompetition": "Barrel Sample 2024 Dry White Grape Wine",
+    "comments": "Not a wine judging night.\nOpportunity for constructive criticism"
+  },
+  {
+    "id": "fced76a6-bb3b-4dd2-9333-2305fc8f1c7e",
+    "title": "Sulphur dioxide and ph - Roger Guerin",
+    "start": "2025-06-05T19:30:00+10:00",
+    "end": "2025-06-05T21:30:00+10:00",
+    "location": "",
+    "description": "",
+    "meetingActivity": "Sulphur dioxide and ph - Roger Guerin",
+    "miniCompetition": "Award Fruit\nWhite non-grape wine",
+    "comments": ""
+  },
+  {
+    "id": "4ecc2d58-7c0e-400e-b404-d75107664d3d",
+    "title": "SO2 testing at Dario's - 10:00am to noon.",
+    "start": "2025-06-14T10:00:00+10:00",
+    "end": "2025-06-14T12:00:00+10:00",
+    "location": "",
+    "description": "",
+    "meetingActivity": "SO2 testing at Dario's - 10:00am to noon.",
+    "miniCompetition": "",
+    "comments": "Have the SO2 level of your wine accurately tested"
+  },
+  {
+    "id": "875cd0d1-9bd8-4626-b80b-c12c019f8260",
+    "title": "Exotic wine tasting - Robert",
+    "start": "2025-07-03T19:30:00+10:00",
+    "end": "2025-07-03T21:30:00+10:00",
+    "location": "",
+    "description": "",
+    "meetingActivity": "Exotic wine tasting - Robert",
+    "miniCompetition": "",
+    "comments": ""
+  },
+  {
+    "id": "7448fb05-0c71-46c5-9c32-955247150df5",
+    "title": "Racking and fining",
+    "start": "2025-08-07T19:30:00+10:00",
+    "end": "2025-08-07T21:30:00+10:00",
+    "location": "",
+    "description": "",
+    "meetingActivity": "Racking and fining",
+    "miniCompetition": "Barrel Sample 2024 Dry Red Grape Wine",
+    "comments": "Not a wine judging night.\nOpportunity for constructive criticism"
+  },
+  {
+    "id": "4096819c-9db8-4a8a-9c9a-46dd311b5052",
+    "title": "Oak in Wine",
+    "start": "2025-09-04T19:30:00+10:00",
+    "end": "2025-09-04T21:30:00+10:00",
+    "location": "",
+    "description": "",
+    "meetingActivity": "Oak in Wine",
+    "miniCompetition": "Award Fruit\nDry White non-grape wine including mead",
+    "comments": ""
+  },
+  {
+    "id": "c03378bb-0472-4c42-8f25-07b61b44be08",
+    "title": "Annual Wine Show Registration and Preparation",
+    "start": "2025-09-13T10:00:00+10:00",
+    "end": "2025-09-13T12:00:00+10:00",
+    "location": "",
+    "description": "",
+    "meetingActivity": "Annual Wine Show Registration and Preparation",
+    "miniCompetition": "",
+    "comments": ""
+  },
+  {
+    "id": "eafe8be1-03ca-4473-950f-08ce223b38a5",
+    "title": "Annual Wine Show Judging",
+    "start": "2025-09-14T10:00:00+10:00",
+    "end": "2025-09-14T17:00:00+10:00",
+    "location": "",
+    "description": "",
+    "meetingActivity": "Annual Wine Show Judging",
+    "miniCompetition": "",
+    "comments": ""
+  },
+  {
+    "id": "8c209376-2cef-4308-b635-55a376b0de6a",
+    "title": "Making Spirits - Alex and Roger",
+    "start": "2025-10-02T19:30:00+10:00",
+    "end": "2025-10-02T21:30:00+10:00",
+    "location": "",
+    "description": "",
+    "meetingActivity": "Making Spirits - Alex and Roger",
+    "miniCompetition": "Mead",
+    "comments": ""
+  },
+  {
+    "id": "418dc7a3-27f1-47ed-97a9-78d9640b270f",
+    "title": "Annual Presentation Night",
+    "start": "2025-11-06T19:30:00+11:00",
+    "end": "2025-11-06T21:30:00+11:00",
+    "location": "",
+    "description": "",
+    "meetingActivity": "Annual Presentation Night",
+    "miniCompetition": "",
+    "comments": ""
+  },
+  {
+    "id": "27cbfcb6-41de-43ce-9658-066a465dd4b2",
+    "title": "Open discussion on the wine making process.  Oak, fermentation, cold stabilisation, SO2 additions etc.",
+    "start": "2025-12-04T19:30:00+11:00",
+    "end": "2025-12-04T21:30:00+11:00",
+    "location": "",
+    "description": "",
+    "meetingActivity": "Open discussion on the wine making process.  Oak, fermentation, cold stabilisation, SO2 additions etc.",
+    "miniCompetition": "Dry Red Grape Wine over 2 years old (2023 and older)",
+    "comments": "AGM\nIssue wine chemical order sheets"
+  },
+  {
+    "id": "6fab46ed-f54e-4f57-9931-5ca7aee0fa3c",
+    "title": "NO MEETING",
+    "start": "2026-01-01T19:30:00+11:00",
+    "end": "2026-01-01T21:30:00+11:00",
+    "location": "",
+    "description": "",
+    "meetingActivity": "NO MEETING",
+    "miniCompetition": "",
+    "comments": ""
+  }
+]
