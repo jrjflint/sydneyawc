@@ -138,3 +138,43 @@ a:hover {
   /* Hide non-essential UI if added later */
   nav, .button, .no-print { display: none !important; }
 }
+
+/* Calls-to-action grid */
+.cta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin: 2rem 0;
+  }
+  
+  .card {
+    border: 1px solid #000;
+    padding: 1.25rem;
+  }
+  
+  .card h2 {
+    margin-top: 0;
+  }
+  
+  /* Minimal button */
+  .btn {
+    display: inline-block;
+    border: 1px solid #000;
+    padding: 0.6rem 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: #000;
+  }
+  
+  .btn:hover {
+    background: #000;
+    color: #fff;
+  }
+  
+  /* Stack on mobile */
+  @media (max-width: 600px) {
+    .cta-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
