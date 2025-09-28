@@ -2,7 +2,7 @@
     const EVENTS_JSON_URL = '/assets/events.json';
     const TZ = 'Australia/Sydney';
   
-    // --- formatting helpers (Sydney-aware for display only) ---
+    // --- formatting helpers (Sydney-aware for display) ---
     const fmtTime = (iso) =>
       new Intl.DateTimeFormat('en-AU', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: TZ })
         .format(new Date(iso))
@@ -17,15 +17,14 @@
   
     const partsForDate = (iso) => {
       const d = new Date(iso);
-      const weekday = new Intl.DateTimeFormat('en-AU', { weekday: 'long', timeZone: TZ }).format(d);   // Thursday
-      const dayNum  = Number(new Intl.DateTimeFormat('en-AU', { day: 'numeric', timeZone: TZ }).format(d)); // 2
-      const month   = new Intl.DateTimeFormat('en-AU', { month: 'long', timeZone: TZ }).format(d);     // October
-      const year    = new Intl.DateTimeFormat('en-AU', { year: 'numeric', timeZone: TZ }).format(d);    // 2025
+      const weekday = new Intl.DateTimeFormat('en-AU', { weekday: 'long', timeZone: TZ }).format(d);
+      const dayNum  = Number(new Intl.DateTimeFormat('en-AU', { day: 'numeric', timeZone: TZ }).format(d));
+      const month   = new Intl.DateTimeFormat('en-AU', { month: 'long', timeZone: TZ }).format(d);
+      const year    = new Intl.DateTimeFormat('en-AU', { year: 'numeric', timeZone: TZ }).format(d);
       return { weekday, dayNum, month, year };
     };
   
     // --- logic helpers ---
-    // If no explicit end, consider the event active until 23:59:59 of its start day
     const effectiveEnd = (e) => {
       if (e.end) return new Date(e.end);
       const start = new Date(e.start);
@@ -42,25 +41,41 @@
       return upcoming[0] || null;
     };
   
-    // --- renderer ---
+    // --- rendering helpers ---
+    const esc = (s) => String(s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  
+    const row = (label, value) =>
+      `<div class="ev-row"><span class="ev-label">${esc(label)}</span><span class="ev-val">${value}</span></div>`;
+  
     const renderIntoSection = (section, ev) => {
-      const title = ev.title || 'Next Meeting';
       const time = fmtTime(ev.start);
       const { weekday, dayNum, month, year } = partsForDate(ev.start);
       const dateLine = `${time} ${weekday} ${ordinal(dayNum)} ${month} ${year}`;
   
-      // Location: prefer event.location; fall back to data attributes on the section; else keep a default “TBA”
       const fallbackName = section.dataset.defaultLocationName || 'TBA';
       const fallbackAddr = section.dataset.defaultLocationAddress || '';
       const locName = (ev.location && ev.location.trim()) || fallbackName;
       const locAddr = (ev.location && ev.location.trim() && fallbackAddr) ? '' : (fallbackAddr || '');
   
-      // Build new HTML (keeps your structure, just updates content)
+      const details = [];
+      if (ev.meetingActivity) {
+        details.push(row('Meeting Activity', esc(ev.meetingActivity)));
+      }
+      if (ev.miniCompetition) {
+        details.push(row('Mini Competition', esc(ev.miniCompetition)));
+      }
+      if (ev.comments) {
+        const commentsHTML = esc(ev.comments).replace(/\n/g, '<br>');
+        details.push(row('Comments', commentsHTML));
+      }
+      const detailsBlock = details.length ? `<div class="ev-extra">${details.join('')}</div>` : '';
+  
       section.innerHTML = `
         <h2>Next Meeting</h2>
-        <p><strong>${dateLine}</strong></p>
-        ${ev.meetingActivity ? `<p>${ev.meetingActivity}</p>` : `<p></p>`}
-        <p><strong>${locName}</strong>${locAddr ? `<br>${locAddr}` : ''}</p>
+        <p><strong>${esc(dateLine)}</strong></p>
+        ${detailsBlock}
+        <p><strong>${esc(locName)}</strong>${locAddr ? `<br>${esc(locAddr)}` : ''}</p>
       `;
     };
   
