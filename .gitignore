@@ -4,3 +4,9 @@ Thumbs.db
 
 # Ignore VS Code settings
 .vscode/
+
+# Ignore Excel spreadsheets
+*.xlsx
+
+# Ignore Excel spreadsheets
+*.csv

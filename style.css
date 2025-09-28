@@ -177,4 +177,14 @@ a:hover {
       grid-template-columns: 1fr;
     }
   }
+
+  .event-item { padding: .5rem 0 1rem; border-bottom: 1px solid #eee; }
+  .event-item h3 { margin: 0 0 .25rem; }
+  .ev-when, .ev-loc, .ev-desc, .ev-subscribe { margin: .25rem 0; }
+  .ev-extra { margin:.5rem 0 0; }
+  .ev-row { display:flex; gap:.5rem; margin:.15rem 0; }
+  .ev-label { min-width: 10.5ch; font-weight:600; color:#444; }
+  .ev-val { flex:1; }
+  .event-month { margin: 1rem 0 1.25rem; }
+  .event-month h4 { margin: .75rem 0 .5rem; border-bottom: 1px solid #eee; padding-bottom:.25rem; }
   

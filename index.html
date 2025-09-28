@@ -105,10 +105,26 @@
     </div>
   </section>
 
+  <section id="events" class="events">
+    <h2>Upcoming Events</h2>
+    <p><a href="/assets/sawc-events.ics">Subscribe to the club calendar (.ics)</a></p>
+    <div id="events-list" aria-live="polite"></div>
+  
+    <details id="past-wrapper" style="margin-top:1rem;">
+      <summary>Show past events</summary>
+      <div id="past-events"></div>
+    </details>
+  </section>
+  <script src="/assets/events.js" defer></script>
+
+
   <footer>
     <p>📧 Email us at <a href="mailto:sydneyawclub@gmail.com">sydneyawclub@gmail.com</a></p>
     <p>&copy; Sydney Amateur Winemakers Club | <a href="https://www.sydneyawc.com">www.sydneyawc.com</a></p>
     <p>Sharing a passion for home winemaking.</p>
   </footer>
+  <!-- place near the end of body for best performance -->
+<script src="/assets/events.js" defer></script>
+
 </body>
 </html>
