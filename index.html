@@ -74,13 +74,15 @@
     <p>
         Whether you are just beginning your winemaking journey or have been experimenting for years, SydneyAWC offers a space to learn, share, and grow — turning curiosity into craft and passion into community. We meet on the first Thursday of each month at 7:30 PM at Club Rivers</p>
   </section>
-  <section class="meeting-info">
-    <h2>Next Meeting</h2>
-    <p><strong>7:30 PM Thursday 2nd October 2025</strong></p>
-    <p></p>
-    <p><strong>Club Rivers</strong><br>
-    32 Littleton St, Riverwood NSW 2210</p>
-  </section>
+  <section class="meeting-info"
+  data-default-location-name="Club Rivers"
+  data-default-location-address="32 Littleton St, Riverwood NSW 2210">
+<h2>Next Meeting</h2>
+<p><strong>Loading…</strong></p>
+<p></p>
+<p><strong>Club Rivers</strong><br>
+32 Littleton St, Riverwood NSW 2210</p>
+</section>
 
   <section class="cta-grid">
     <div class="card">
@@ -115,7 +117,21 @@
       <div id="past-events"></div>
     </details>
   </section>
-  <script src="/assets/events.js" defer></script>
+
+  <!-- Apple Calendar / Outlook -->
+<a class="btn" href="webcal://www.sydneyawc.com/assets/sawc-events.ics">
+  Subscribe in Apple/Outlook
+</a>
+
+<!-- Google Calendar (subscribe by URL) -->
+<a class="btn" href="https://calendar.google.com/calendar/u/0/r?cid=https%3A%2F%2Fwww.sydneyawc.com%2Fassets%2Fsawc-events.ics">
+  Subscribe in Google Calendar
+</a>
+
+<!-- Direct download -->
+<a class="btn" href="https://www.sydneyawc.com/assets/sawc-events.ics">
+  Download .ics
+</a>
 
 
   <footer>
@@ -124,6 +140,7 @@
     <p>Sharing a passion for home winemaking.</p>
   </footer>
   <!-- place near the end of body for best performance -->
+  <script src="/assets/nextevent.js" defer></script>
 <script src="/assets/events.js" defer></script>
 
 </body>
