@@ -3,15 +3,7 @@
     const ICS_URL = '/assets/sawc-events.ics';
     const TZ = 'Australia/Sydney';
   
-    // ---------- Time helpers ----------
-    const toSydneyDate = (dateish) => {
-      const d = typeof dateish === 'string' ? new Date(dateish) : dateish;
-      // Rebuild using Sydney TZ to avoid client local-tz skew
-      return new Date(d.toLocaleString('en-AU', { timeZone: TZ }));
-    };
-  
-    const nowSydney = () => new Date(new Date().toLocaleString('en-AU', { timeZone: TZ }));
-  
+    // ---------- Display formatters (keep Sydney timezone for UI) ----------
     const fmtDate = (iso) =>
       new Intl.DateTimeFormat('en-AU', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', timeZone: TZ })
         .format(new Date(iso));
@@ -154,6 +146,17 @@
       for (const e of events) container.appendChild(renderEvent(e));
     };
   
+    // ---------- Upcoming/Past logic (fixed) ----------
+    // Use ISO timestamps directly (they include the correct +10:00/+11:00 offsets).
+    // For events without an explicit end, treat them as active until 23:59:59 the same day.
+    const effectiveEnd = (e) => {
+      if (e.end) return new Date(e.end);
+      const start = new Date(e.start);
+      const end = new Date(start);
+      end.setHours(23, 59, 59, 999);
+      return end;
+    };
+  
     // ---------- Boot ----------
     const init = async () => {
       const listEl = document.getElementById('events-list');
@@ -168,9 +171,9 @@
         // sort ascending by start
         all.sort((a, b) => new Date(a.start) - new Date(b.start));
   
-        const now = nowSydney();
-        const upcoming = all.filter(e => toSydneyDate(e.end || e.start) >= now);
-        const past = all.filter(e => toSydneyDate(e.end || e.start) < now).reverse();
+        const now = new Date();
+        const upcoming = all.filter(e => effectiveEnd(e) >= now);
+        const past     = all.filter(e => effectiveEnd(e) <  now).reverse();
   
         renderUpcoming(listEl, upcoming);
         if (pastEl && pastWrap) renderPast(pastEl, pastWrap, past);
