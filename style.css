@@ -37,7 +37,7 @@ p {
 }
 
 .meeting-info {
-  text-align: center;
+  /* text-align: center; */
   border-top: 1px solid #000;
   border-bottom: 1px solid #000;
   padding: 1.5rem 0;
@@ -187,4 +187,9 @@ a:hover {
   .ev-val { flex:1; }
   .event-month { margin: 1rem 0 1.25rem; }
   .event-month h4 { margin: .75rem 0 .5rem; border-bottom: 1px solid #eee; padding-bottom:.25rem; }
+  
+  .ev-extra { margin:.5rem 0 0; }
+  .ev-row { display:flex; gap:.5rem; margin:.15rem 0; }
+  .ev-label { min-width: 12ch; font-weight:600; color:#444; }
+  .ev-val { flex:1; }
   
