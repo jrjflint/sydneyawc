@@ -49,7 +49,8 @@ DTSTART;TZID=Australia/Sydney:20250206T083000
 DTEND;TZID=Australia/Sydney:20250206T103000
 SUMMARY:Jeff Aston – Tractorless Vineyard Tasting
 LOCATION:Club Rivers\n32 Littleton St\, Riverwood NSW 2210
-DESCRIPTION:Winemaker Jeff Aston will present a tasting of a few of his wines and a Q&A session.
+DESCRIPTION:Winemaker Jeff Aston will present a tasting of a few of his wines and
+  a Q&A session.
 END:VEVENT
 BEGIN:VEVENT
 UID:b570358f-1c70-428f-b1fd-80ebd51a5e90@sydneyawc.com
