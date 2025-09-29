@@ -32,7 +32,7 @@ DTSTAMP:20250928T113218Z
 DTSTART;TZID=Australia/Sydney:20250102T083000
 DTEND;TZID=Australia/Sydney:20250102T103000
 SUMMARY:NO MEETING
-LOCATION:
+LOCATION:Club Rivers\n32 Littleton St\, Riverwood NSW 2210
 DESCRIPTION:
 END:VEVENT
 BEGIN:VEVENT
@@ -41,7 +41,7 @@ DTSTAMP:20250928T113218Z
 DTSTART;TZID=Australia/Sydney:20250205T083000
 DTEND;TZID=Australia/Sydney:20250205T103000
 SUMMARY:First Meeting of the Year
-LOCATION:
+LOCATION:Club Rivers\n32 Littleton St\, Riverwood NSW 2210
 DESCRIPTION:
 END:VEVENT
 BEGIN:VEVENT
@@ -49,18 +49,18 @@ UID:bb200071-917c-4ed3-887a-d368a986a755@sydneyawc.com
 DTSTAMP:20250928T113218Z
 DTSTART;TZID=Australia/Sydney:20250206T083000
 DTEND;TZID=Australia/Sydney:20250206T103000
-SUMMARY:Jeff Aston\, winemaker at Tractorless Vineyard -  a tasting of a few of his wines and Q&A
-LOCATION:
-DESCRIPTION:
+SUMMARY:Jeff Aston – Tractorless Vineyard Tasting
+LOCATION:Club Rivers\n32 Littleton St\, Riverwood NSW 2210
+DESCRIPTION:Winemaker Jeff Aston will present a tasting of a few of his wines and a Q&A session.
 END:VEVENT
 BEGIN:VEVENT
 UID:b570358f-1c70-428f-b1fd-80ebd51a5e90@sydneyawc.com
 DTSTAMP:20250928T113218Z
 DTSTART;TZID=Australia/Sydney:20250306T083000
 DTEND;TZID=Australia/Sydney:20250306T103000
-SUMMARY:The Saignée Process - get some free rosé - Roger
-LOCATION:
-DESCRIPTION:
+SUMMARY:The Saignée Process - Roger
+LOCATION:Club Rivers\n32 Littleton St\, Riverwood NSW 2210
+DESCRIPTION:The Saignée Process - get some free rosé - Roger
 END:VEVENT
 BEGIN:VEVENT
 UID:795841fc-8e74-43d5-9480-968a27a8d7d7@sydneyawc.com
@@ -68,8 +68,8 @@ DTSTAMP:20250928T113218Z
 DTSTART;TZID=Australia/Sydney:20250403T083000
 DTEND;TZID=Australia/Sydney:20250403T103000
 SUMMARY:Make a fruit wine - Roger
-LOCATION:
-DESCRIPTION:
+LOCATION:Club Rivers\n32 Littleton St\, Riverwood NSW 2210
+DESCRIPTION: Make a fruit wine - Roger
 END:VEVENT
 BEGIN:VEVENT
 UID:d042400b-d951-4069-b3bb-19b93436bf43@sydneyawc.com
@@ -77,8 +77,8 @@ DTSTAMP:20250928T113218Z
 DTSTART;TZID=Australia/Sydney:20250501T093000
 DTEND;TZID=Australia/Sydney:20250501T113000
 SUMMARY:Making mead - Matt
-LOCATION:
-DESCRIPTION:
+LOCATION:Club Rivers\n32 Littleton St\, Riverwood NSW 2210
+DESCRIPTION:Making mead - Matt
 END:VEVENT
 BEGIN:VEVENT
 UID:c81e717d-9b7c-4969-8ac3-cc8d2225cf07@sydneyawc.com
@@ -86,17 +86,17 @@ DTSTAMP:20250928T113218Z
 DTSTART;TZID=Australia/Sydney:20250605T093000
 DTEND;TZID=Australia/Sydney:20250605T113000
 SUMMARY:Sulphur dioxide and ph - Roger Guerin
-LOCATION:
-DESCRIPTION:
+LOCATION:Club Rivers\n32 Littleton St\, Riverwood NSW 2210
+DESCRIPTION:Sulphur dioxide and ph - Roger Guerin
 END:VEVENT
 BEGIN:VEVENT
 UID:40719126-86cd-44dd-8391-6f826a927fac@sydneyawc.com
 DTSTAMP:20250928T113218Z
 DTSTART;TZID=Australia/Sydney:20250614T000000
 DTEND;TZID=Australia/Sydney:20250614T020000
-SUMMARY:SO2 testing at Dario's - 10:00am to noon.
-LOCATION:
-DESCRIPTION:
+SUMMARY:SO2 testing at Dario's
+LOCATION:TBA
+DESCRIPTION:SO2 testing at Dario's - 10:00am to noon.
 END:VEVENT
 BEGIN:VEVENT
 UID:01db8248-bee2-4bd1-a91e-e9f10299fbf9@sydneyawc.com
@@ -104,8 +104,8 @@ DTSTAMP:20250928T113218Z
 DTSTART;TZID=Australia/Sydney:20250703T093000
 DTEND;TZID=Australia/Sydney:20250703T113000
 SUMMARY:Exotic wine tasting - Robert
-LOCATION:
-DESCRIPTION:
+LOCATION:Club Rivers\n32 Littleton St\, Riverwood NSW 2210
+DESCRIPTION:Exotic wine tasting - Robert
 END:VEVENT
 BEGIN:VEVENT
 UID:0f279de1-b21f-4147-8a3e-eb8db195491b@sydneyawc.com
@@ -113,8 +113,8 @@ DTSTAMP:20250928T113218Z
 DTSTART;TZID=Australia/Sydney:20250807T093000
 DTEND;TZID=Australia/Sydney:20250807T113000
 SUMMARY:Racking and fining
-LOCATION:
-DESCRIPTION:
+LOCATION:Club Rivers\n32 Littleton St\, Riverwood NSW 2210
+DESCRIPTION:Racking and fining
 END:VEVENT
 BEGIN:VEVENT
 UID:28e6c1e7-4746-4836-97cf-0068ede468b0@sydneyawc.com
@@ -122,8 +122,8 @@ DTSTAMP:20250928T113218Z
 DTSTART;TZID=Australia/Sydney:20250904T093000
 DTEND;TZID=Australia/Sydney:20250904T113000
 SUMMARY:Oak in Wine
-LOCATION:
-DESCRIPTION:
+LOCATION:Club Rivers\n32 Littleton St\, Riverwood NSW 2210
+DESCRIPTION:Oak in Wine
 END:VEVENT
 BEGIN:VEVENT
 UID:e07a3ceb-88df-4613-a8e5-ad10b9f68a8f@sydneyawc.com
@@ -131,8 +131,8 @@ DTSTAMP:20250928T113218Z
 DTSTART;TZID=Australia/Sydney:20250913T000000
 DTEND;TZID=Australia/Sydney:20250913T020000
 SUMMARY:Annual Wine Show Registration and Preparation
-LOCATION:
-DESCRIPTION:
+LOCATION:Club Rivers\n32 Littleton St\, Riverwood NSW 2210
+DESCRIPTION:Annual Wine Show Registration and Preparation
 END:VEVENT
 BEGIN:VEVENT
 UID:475dc192-1a83-4e43-a35b-8077167f83e9@sydneyawc.com
@@ -140,8 +140,8 @@ DTSTAMP:20250928T113218Z
 DTSTART;TZID=Australia/Sydney:20250914T000000
 DTEND;TZID=Australia/Sydney:20250914T070000
 SUMMARY:Annual Wine Show Judging
-LOCATION:
-DESCRIPTION:
+LOCATION:Club Rivers\n32 Littleton St\, Riverwood NSW 2210
+DESCRIPTION:Annual Wine Show Judging
 END:VEVENT
 BEGIN:VEVENT
 UID:f65daa16-1868-4213-b683-8b73ad6a55b9@sydneyawc.com
@@ -149,8 +149,8 @@ DTSTAMP:20250928T113218Z
 DTSTART;TZID=Australia/Sydney:20251002T093000
 DTEND;TZID=Australia/Sydney:20251002T113000
 SUMMARY:Making Spirits - Alex and Roger
-LOCATION:
-DESCRIPTION:
+LOCATION:Club Rivers\n32 Littleton St\, Riverwood NSW 2210
+DESCRIPTION:Making Spirits - Alex and Roger
 END:VEVENT
 BEGIN:VEVENT
 UID:357d0799-2447-44c3-8278-981032d2b965@sydneyawc.com
@@ -158,17 +158,18 @@ DTSTAMP:20250928T113218Z
 DTSTART;TZID=Australia/Sydney:20251106T083000
 DTEND;TZID=Australia/Sydney:20251106T103000
 SUMMARY:Annual Presentation Night
-LOCATION:
-DESCRIPTION:
+LOCATION:Club Rivers\n32 Littleton St\, Riverwood NSW 2210
+DESCRIPTION:Annual Presentation Night
 END:VEVENT
 BEGIN:VEVENT
 UID:677157cc-2f7f-4b75-a1cb-da66695324e6@sydneyawc.com
 DTSTAMP:20250928T113218Z
 DTSTART;TZID=Australia/Sydney:20251204T083000
 DTEND;TZID=Australia/Sydney:20251204T103000
-SUMMARY:Open discussion on the wine making process.  Oak\, fermentation\, cold stabilisation\, SO2 additions etc.
-LOCATION:
-DESCRIPTION:
+SUMMARY:Open discussion on the wine making process.
+LOCATION:Club Rivers\n32 Littleton St\, Riverwood NSW 2210
+DESCRIPTION:Open discussion on the wine making process. Oak\, fermentation\, cold
+  stabilisation\, SO2 additions etc.
 END:VEVENT
 BEGIN:VEVENT
 UID:4df3c292-703e-4f6b-9389-4b9d414e68d0@sydneyawc.com
@@ -176,7 +177,7 @@ DTSTAMP:20250928T113218Z
 DTSTART;TZID=Australia/Sydney:20260101T083000
 DTEND;TZID=Australia/Sydney:20260101T103000
 SUMMARY:NO MEETING
-LOCATION:
+LOCATION:Club Rivers\n32 Littleton St\, Riverwood NSW 2210
 DESCRIPTION:
 END:VEVENT
 END:VCALENDAR
