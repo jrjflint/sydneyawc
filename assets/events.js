@@ -100,13 +100,7 @@
   
       const details = renderDetails(e);
       if (details) art.appendChild(details);
-  
-      art.appendChild(
-        el('p', { class: 'ev-subscribe' },
-          el('a', { href: ICS_URL, 'aria-label': `Subscribe to calendar for ${e.title}` }, 'Add to Calendar')
-        )
-      );
-  
+
       appendJsonLd(art, buildEventLD(e));
       return art;
     };
