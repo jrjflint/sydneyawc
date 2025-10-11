@@ -9,6 +9,7 @@ A community of home winemaking enthusiasts in Sydney. This repo hosts the offici
   - [1. Prepare the spreadsheet export](#1-prepare-the-spreadsheet-export)
   - [2. Regenerate events.json](#2-regenerate-eventsjson)
   - [3. Publish a refreshed calendar feed](#3-publish-a-refreshed-calendar-feed)
+- [Testing the Next Meeting structured data](#testing-the-next-meeting-structured-data)
 - [Python environment setup](#python-environment-setup)
 - [Working effectively with Codex or other AI assistants](#working-effectively-with-codex-or-other-ai-assistants)
 
@@ -32,6 +33,17 @@ python -m http.server 8000
 ```
 
 Then open <http://localhost:8000/index.html> in a browser.
+
+## Testing the Next Meeting structured data
+
+The Next Meeting section injects a JSON-LD `<script>` with the upcoming event metadata once `assets/nextevent.js` loads `events.json`.
+
+1. **Start a local server** – run `python -m http.server 8000` (or any static server) from the repo root.
+2. **Load the homepage** – visit <http://localhost:8000/index.html> and confirm the “Next Meeting” details render with real event data rather than the loading placeholder.
+3. **Verify JSON-LD is present** – open your browser developer tools, inspect the `<head>`, and ensure there is a `<script id="next-event-jsonld" type="application/ld+json">` element containing the event payload.
+4. **Validate with Google’s Rich Results Test** – navigate to <https://search.google.com/test/rich-results>, choose **URL** (for the deployed site) or **Code** (paste the HTML after copying it via “View Source”), and confirm the Event structured data appears without warnings for the previously missing fields (organizer, offers, image, performer, address).
+
+If no upcoming meeting exists in `events.json`, the script removes the JSON-LD node. To test that branch, temporarily delete future events from `assets/events.json`, refresh the page, and confirm the structured data snippet disappears.
 
 ## Event data pipeline
 
