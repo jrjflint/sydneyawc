@@ -48,16 +48,122 @@
     const row = (label, value) =>
       `<div class="ev-row"><span class="ev-label">${esc(label)}</span><span class="ev-val">${value}</span></div>`;
   
+    const buildLocation = (section, ev) => {
+      const dataset = section.dataset || {};
+      const fallbackName = dataset.defaultLocationName || 'TBA';
+      const fallbackAddr = dataset.defaultLocationAddress || '';
+
+      const defaultAddress = {
+        street: dataset.defaultLocationStreet || '',
+        locality: dataset.defaultLocationLocality || '',
+        region: dataset.defaultLocationRegion || '',
+        postcode: dataset.defaultLocationPostcode || '',
+        country: dataset.defaultLocationCountry || ''
+      };
+
+      const rawLocation = (ev.location && ev.location.trim()) || '';
+      const lower = rawLocation.toLowerCase();
+
+      let name = fallbackName;
+      if (rawLocation) {
+        if (lower === 'tba' || lower === 'to be announced') {
+          name = 'To be announced';
+        } else if (fallbackName && rawLocation.startsWith(fallbackName)) {
+          name = fallbackName;
+        } else {
+          name = rawLocation;
+        }
+      }
+
+      const needsAddress = name === fallbackName && fallbackAddr;
+      const displayAddress = needsAddress ? fallbackAddr : '';
+
+      const structuredAddress = needsAddress ? (() => {
+        const addr = { '@type': 'PostalAddress' };
+        const street = defaultAddress.street || '';
+        if (street) addr.streetAddress = street;
+        if (defaultAddress.locality) addr.addressLocality = defaultAddress.locality;
+        if (defaultAddress.region) addr.addressRegion = defaultAddress.region;
+        if (defaultAddress.postcode) addr.postalCode = defaultAddress.postcode;
+        addr.addressCountry = defaultAddress.country || 'AU';
+        return addr;
+      })() : undefined;
+
+      return { name, displayAddress, structuredAddress };
+    };
+
+    const updateStructuredData = (section, ev) => {
+      const { name, structuredAddress } = buildLocation(section, ev);
+      const startISO = ev.start;
+      const endISO = ev.end || new Date(effectiveEnd(ev)).toISOString();
+
+      const meetingActivity = ev.meetingActivity && ev.meetingActivity.trim();
+      const title = ev.title && ev.title.trim();
+      const descriptionParts = [ev.description, ev.comments].filter(Boolean).map((s) => s.trim()).filter(Boolean);
+
+      const eventData = {
+        '@context': 'https://schema.org',
+        '@type': 'Event',
+        name: meetingActivity || title || 'Sydney Amateur Winemakers Club Meeting',
+        description: descriptionParts.join('\n') || 'Sydney Amateur Winemakers Club monthly meeting.',
+        startDate: startISO,
+        endDate: endISO,
+        url: 'https://www.sydneyawc.com/',
+        isAccessibleForFree: true,
+        eventStatus: 'https://schema.org/EventScheduled',
+        eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+        organizer: {
+          '@type': 'Organization',
+          name: 'Sydney Amateur Winemakers Club',
+          url: 'https://www.sydneyawc.com/',
+          email: 'mailto:sydneyawclub@gmail.com'
+        },
+        performer: {
+          '@type': 'Organization',
+          name: 'Sydney Amateur Winemakers Club'
+        },
+        location: {
+          '@type': 'Place',
+          name,
+          ...(structuredAddress ? { address: structuredAddress } : {})
+        },
+        image: ['https://www.sydneyawc.com/og-image.png'],
+        offers: [{
+          '@type': 'Offer',
+          url: 'https://www.sydneyawc.com/',
+          price: 0,
+          priceCurrency: 'AUD',
+          availability: 'https://schema.org/InStock',
+          validFrom: startISO
+        }]
+      };
+
+      const scriptId = 'next-event-jsonld';
+      let script = document.getElementById(scriptId);
+      if (!script) {
+        script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.id = scriptId;
+        document.head.appendChild(script);
+      }
+
+      script.textContent = JSON.stringify(eventData, null, 2);
+    };
+
+    const removeStructuredData = () => {
+      const script = document.getElementById('next-event-jsonld');
+      if (script) {
+        script.remove();
+      }
+    };
+
     const renderIntoSection = (section, ev) => {
       const time = fmtTime(ev.start);
       const { weekday, dayNum, month, year } = partsForDate(ev.start);
       const dateLine = `${time} ${weekday} ${ordinal(dayNum)} ${month} ${year}`;
-  
-      const fallbackName = section.dataset.defaultLocationName || 'TBA';
-      const fallbackAddr = section.dataset.defaultLocationAddress || '';
-      const locName = (ev.location && ev.location.trim()) || fallbackName;
-      const locAddr = (ev.location && ev.location.trim() && fallbackAddr) ? '' : (fallbackAddr || '');
-  
+
+      const { name, displayAddress } = buildLocation(section, ev);
+
       const details = [];
       if (ev.meetingActivity) {
         details.push(row('Meeting Activity', esc(ev.meetingActivity)));
@@ -75,16 +181,20 @@
         <h2>Next Meeting</h2>
         <p><strong>${esc(dateLine)}</strong></p>
         ${detailsBlock}
-        <p><strong>${esc(locName)}</strong>${locAddr ? `<br>${esc(locAddr)}` : ''}</p>
+        <p><strong>${esc(name)}</strong>${displayAddress ? `<br>${esc(displayAddress)}` : ''}</p>
       `;
+
+      updateStructuredData(section, ev);
     };
-  
+
     const renderNoUpcoming = (section) => {
       section.innerHTML = `
         <h2>Next Meeting</h2>
         <p><strong>No upcoming meeting scheduled</strong></p>
         <p>Please check back soon.</p>
       `;
+
+      removeStructuredData();
     };
   
     // --- boot ---
