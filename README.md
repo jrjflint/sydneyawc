@@ -5,6 +5,7 @@ A community of home winemaking enthusiasts in Sydney. This repo hosts the offici
 ## Table of contents
 - [Project layout](#project-layout)
 - [Local preview](#local-preview)
+- [Wineshow results data](#wineshow-results-data)
 - [Event data pipeline](#event-data-pipeline)
   - [1. Prepare the spreadsheet export](#1-prepare-the-spreadsheet-export)
   - [2. Regenerate events.json](#2-regenerate-eventsjson)
@@ -16,10 +17,13 @@ A community of home winemaking enthusiasts in Sydney. This repo hosts the offici
 ## Project layout
 
 - `index.html` – main landing page that loads the club overview, meeting details, competition info, and embeds structured event data.
-- `style.css` – global stylesheet with responsive layouts, print styles, and typography rules.
+- `style.css` – global stylesheet with responsive layouts, print styles, the wineshow results page components, and typography rules.
 - `404.html` – custom not-found page that keeps visitors engaged and links back to the home page.
+- `results.html` – dynamic results page for the annual wineshow, powered by vanilla JS and JSON feeds.
 - `assets/`
   - `events.js` and `nextevent.js` fetch data from JSON/ICS feeds and render the upcoming meeting schedule.
+  - `js/results.js` powers the wineshow results experience (filters, leaderboards, JSON-LD updates).
+  - `data/results_index.json` and `data/results_entries.json` contain the structured competition results.
   - `events.json` and `calendar.ics` are the data feeds consumed by the front-end.
   - `generate_events_from_clean.py` converts a cleaned spreadsheet export into `events.json` (and optionally `calendar.ics`).
   - `generate_ics.py` and `generate_ics_refactored.py` rebuild an iCalendar feed from `events.json`.
@@ -33,6 +37,19 @@ python -m http.server 8000
 ```
 
 Then open <http://localhost:8000/index.html> in a browser.
+
+## Wineshow results data
+
+The annual wineshow results live at [`results.html`](./results.html). The page loads two JSON feeds from `assets/data/` and renders everything client-side with progressive enhancement-friendly HTML. To publish a new year:
+
+1. Export the latest judging spreadsheet and regenerate the JSON feeds (`results_index.json` for aggregates, `results_entries.json` for row-level entries). Keep the same schema as the provided samples.
+2. Replace the files under `assets/data/` with the refreshed exports and commit them.
+3. Update any year-specific copy (e.g. start/end dates in the JSON-LD payload) if the event schedule has changed.
+4. Preview <http://localhost:8000/results.html?year=YYYY> locally to confirm the filters, leaderboards, and print view look correct.
+
+The script automatically detects the newest year in `results_index.json`, updates the `?year=` URL query string, and gracefully handles missing leaderboard sections.
+
+> **Note:** The ordinal show numbering assumes the first competition was held in 1975. Update `baseYear` in `assets/js/results.js` if the historical reference changes.
 
 ## Testing the Next Meeting structured data
 

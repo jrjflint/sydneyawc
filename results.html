@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SAWC Show Results — 51st Annual Wineshow 2025</title>
+  <meta name="description" content="Sydney Amateur Winemakers Club show results, leaderboards, and award winners for the 51st Annual Wineshow." />
+  <link rel="preload" href="/assets/data/results_index.json" as="fetch" type="application/json" crossorigin="anonymous" />
+  <link rel="preload" href="/assets/data/results_entries.json" as="fetch" type="application/json" crossorigin="anonymous" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body class="results-page">
+  <a class="skip-link" href="#results-main">Skip to results content</a>
+  <header class="page-header">
+    <div class="container">
+      <p class="eyebrow">Sydney Amateur Winemakers Club</p>
+      <h1>SAWC Show Results</h1>
+      <p id="showSubtitle" class="subtitle"><span data-show-number>51st</span> Annual Wineshow — <span data-year-label>2025</span></p>
+    </div>
+  </header>
+
+  <main id="results-main" class="container" tabindex="-1">
+    <section class="controls" aria-label="Results filters">
+      <div class="control-group">
+        <label for="yearSelect">Year</label>
+        <select id="yearSelect" name="year"></select>
+      </div>
+      <div class="control-group">
+        <label for="classSelect">Class</label>
+        <select id="classSelect" name="class">
+          <option value="">All classes</option>
+        </select>
+      </div>
+      <div class="control-group control-group-search">
+        <label for="searchBox">Search</label>
+        <input id="searchBox" type="search" name="search" placeholder="Search winemaker or wine" aria-describedby="searchHint" />
+        <p id="searchHint" class="hint">Matches winemaker name or wine style.</p>
+      </div>
+    </section>
+
+    <section class="highlight-grid" aria-label="Show highlights">
+      <article id="champions" class="card" aria-live="polite">
+        <h2>Champions</h2>
+        <p class="empty-state">Loading champions…</p>
+      </article>
+      <article id="leaderboards" class="card" aria-live="polite">
+        <div class="leaderboard-header">
+          <h2>Leaderboards</h2>
+          <div role="tablist" aria-label="Leaderboard metrics" class="leaderboard-tabs" id="leaderboardTabs">
+            <button role="tab" id="tab-average" class="tab" aria-controls="panel-average" aria-selected="true" data-metric="averageScore">Average Score</button>
+            <button role="tab" id="tab-median" class="tab" aria-controls="panel-median" aria-selected="false" data-metric="medianScore">Median Score</button>
+            <button role="tab" id="tab-top5" class="tab" aria-controls="panel-top5" aria-selected="false" data-metric="sumTop5">Sum of Top 5</button>
+          </div>
+        </div>
+        <div id="leaderboardPanels" class="leaderboard-panels">
+          <div role="tabpanel" id="panel-average" class="panel" aria-labelledby="tab-average"></div>
+          <div role="tabpanel" id="panel-median" class="panel" aria-labelledby="tab-median" hidden></div>
+          <div role="tabpanel" id="panel-top5" class="panel" aria-labelledby="tab-top5" hidden></div>
+        </div>
+      </article>
+      <article id="bestInClass" class="card" aria-live="polite">
+        <h2>Best in Class</h2>
+        <p class="empty-state">Loading classes…</p>
+      </article>
+    </section>
+
+    <section id="entries" aria-live="polite">
+      <div class="section-heading">
+        <h2>All Entries</h2>
+        <p class="section-summary" id="entriesSummary">Showing results for 2025.</p>
+      </div>
+      <div class="table-wrapper">
+        <table id="entriesTable">
+          <caption class="visually-hidden">Competition entries filtered by year, class, and search.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Class</th>
+              <th scope="col">Entry #</th>
+              <th scope="col">Winemaker</th>
+              <th scope="col">Wine</th>
+              <th scope="col">Score</th>
+              <th scope="col">Flags</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="6">Loading entries…</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    <div class="container">
+      <p>Results compiled from official judging sheets.</p>
+      <p><a href="/">Back to SAWC home</a></p>
+    </div>
+  </footer>
+
+  <script id="resultsJsonLd" type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": "Sydney Amateur Winemakers Club — 51st Annual Wineshow 2025",
+    "eventStatus": "https://schema.org/EventCompleted",
+    "location": {
+      "@type": "Place",
+      "name": "Club Rivers, Riverwood NSW"
+    },
+    "startDate": "2025-09-01",
+    "endDate": "2025-09-30",
+    "url": "https://www.sydneyawc.com/results.html?year=2025",
+    "organizer": {
+      "@type": "Organization",
+      "name": "Sydney Amateur Winemakers Club"
+    }
+  }
+  </script>
+  <script src="/assets/js/results.js" defer></script>
+</body>
+</html>
