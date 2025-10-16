@@ -6,6 +6,12 @@ This document describes the requirements for an execution plan ("ExecPlan"), a d
 
 When authoring an executable specification (ExecPlan), follow PLANS.md _to the letter_. If it is not in your context, refresh your memory by reading the entire PLANS.md file. Be thorough in reading (and re-reading) source material to produce an accurate specification. When creating a spec, start from the skeleton and flesh it out as you do your research.
 
+Every plan must cross-reference the repository’s canonical documentation so a future contributor understands the origin of the requirements. That means:
+
+* Cite relevant sections from [`README.md`](./README.md) when describing implementation details, pipelines, or local workflows.
+* Cite relevant sections from [`PRD.md`](./PRD.md) when describing product goals, user behaviours, or acceptance criteria.
+* If information is drawn from other committed files (HTML, JS, JSON, Python), quote or describe the exact lines so the reader can validate assumptions quickly.
+
 When implementing an executable specification (ExecPlan), do not prompt the user for "next steps"; simply proceed to the next milestone. Keep all sections up to date, add or split entries in the list at every stopping point to affirmatively state the progress made and next steps. Resolve ambiguities autonomously, and commit frequently.
 
 When discussing an executable specification (ExecPlan), record decisions in a log in the spec for posterity; it should be unambiguously clear why any change to the specification was made. ExecPlans are living documents, and it should always be possible to restart from _only_ the ExecPlan and no other work.
@@ -16,7 +22,7 @@ When researching a design with challenging requirements or significant unknowns,
 
 NON-NEGOTIABLE REQUIREMENTS:
 
-* Every ExecPlan must be fully self-contained. Self-contained means that in its current form it contains all knowledge and instructions needed for a novice to succeed.
+* Every ExecPlan must be fully self-contained. Self-contained means that in its current form it contains all knowledge and instructions needed for a novice to succeed, including distilled context from README.md and PRD.md where applicable.
 * Every ExecPlan is a living document. Contributors are required to revise it as progress is made, as discoveries occur, and as design decisions are finalized. Each revision must remain fully self-contained.
 * Every ExecPlan must enable a complete novice to implement the feature end-to-end without prior knowledge of this repo.
 * Every ExecPlan must produce a demonstrably working behavior, not merely code changes to "meet a definition".
@@ -28,7 +34,7 @@ The agent executing your plan can list files, read files, search, run the projec
 
 ## Formatting
 
-Format and envelope are simple and strict. Each ExecPlan must be one single fenced code block labeled as `md` that begins and ends with triple backticks. Do not nest additional triple-backtick code fences inside; when you need to show commands, transcripts, diffs, or code, present them as indented blocks within that single fence. Use indentation for clarity rather than code fences inside an ExecPlan to avoid prematurely closing the ExecPlan's code fence. Use two newlines after every heading, use # and ## and so on, and correct syntax for ordered and unordered lists.
+Format and envelope are simple and strict. Each ExecPlan must be one single fenced code block labeled as `md` that begins and ends with triple backticks. Do not nest additional triple-backtick code fences inside; when you need to show commands, transcripts, diffs, or code, present them as indented blocks within that single fence. Use indentation for clarity rather than code fences inside an ExecPlan to avoid prematurely closing the ExecPlan's code fence. Use two newlines after every heading, use # and ## and so on, and correct syntax for ordered and unordered lists. When pointing to supporting material, provide repository-relative paths and line references when available so the reader can open the correct file without searching.
 
 When writing an ExecPlan to a Markdown (.md) file where the content of the file *is only* the single ExecPlan, you should omit the triple backticks.
 
@@ -114,11 +120,11 @@ Summarize outcomes, gaps, and lessons learned at major milestones or at completi
 
 ## Context and Orientation
 
-Describe the current state relevant to this task as if the reader knows nothing. Name the key files and modules by full path. Define any non-obvious term you will use. Do not refer to prior plans.
+Describe the current state relevant to this task as if the reader knows nothing. Name the key files and modules by full path. Define any non-obvious term you will use. Do not refer to prior plans. Whenever you mention behaviour that already exists, note which source file or documentation snippet establishes that behaviour (e.g., “per README.md §Event data pipeline, …”).
 
 ## Plan of Work
 
-Describe, in prose, the sequence of edits and additions. For each edit, name the file and location (function, module) and what to insert or change. Keep it concrete and minimal.
+Describe, in prose, the sequence of edits and additions. For each edit, name the file and location (function, module) and what to insert or change. Keep it concrete and minimal. Tie each planned edit back to the motivation in PRD.md or README.md so the rationale is explicit.
 
 ## Concrete Steps
 
