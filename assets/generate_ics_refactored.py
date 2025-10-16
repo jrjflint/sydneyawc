@@ -89,6 +89,33 @@ def to_vevent(ev: dict, dtstamp_utc: str, tzid: str, default_location: str) -> l
     lines.append("END:VEVENT")
     return [fold(l) for l in lines]
 
+def build_vtimezone(tzid: str) -> list[str]:
+    """Return a VTIMEZONE block for the supplied tzid (limited support)."""
+    if tzid != "Australia/Sydney":
+        return []
+
+    lines = [
+        "BEGIN:VTIMEZONE",
+        f"TZID:{tzid}",
+        "X-LIC-LOCATION:Australia/Sydney",
+        "BEGIN:STANDARD",
+        "TZOFFSETFROM:+1100",
+        "TZOFFSETTO:+1000",
+        "TZNAME:AEST",
+        "DTSTART:19700405T030000",
+        "RRULE:FREQ=YEARLY;BYMONTH=4;BYDAY=1SU",
+        "END:STANDARD",
+        "BEGIN:DAYLIGHT",
+        "TZOFFSETFROM:+1000",
+        "TZOFFSETTO:+1100",
+        "TZNAME:AEDT",
+        "DTSTART:19701004T020000",
+        "RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=1SU",
+        "END:DAYLIGHT",
+        "END:VTIMEZONE",
+    ]
+    return [fold(l) for l in lines]
+
 def generate_ics(events: list[dict], tzid: str, cal_name: str, cal_desc: str,
                  prodid: str, default_location: str) -> str:
     now_utc = dt.datetime.utcnow().strftime("%Y%m%dT%H%M%S")
@@ -102,6 +129,10 @@ def generate_ics(events: list[dict], tzid: str, cal_name: str, cal_desc: str,
         f"X-WR-CALDESC:{esc(cal_desc)}",
         f"X-WR-TIMEZONE:{tzid}",
     ]
+
+    tz_block = build_vtimezone(tzid)
+    if tz_block:
+        lines.extend(tz_block)
     for ev in events:
         if "start" not in ev or "end" not in ev or not ev["start"] or not ev["end"]:
             raise ValueError(f"Event missing required 'start'/'end': {ev}")
