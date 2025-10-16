@@ -35,8 +35,8 @@
 ### 4.2 Wineshow Results Experience
 1. **Standalone page layout** with skip link, filter controls, highlight cards, and entries table that defaults to the latest competition year.【F:results.html†L13-L92】
 2. **Data loading**
-   - Preload JSON feeds for aggregates (`results_index.json`) and entries (`results_entries.json`).【F:results.html†L8-L9】
-   - Fetch both feeds on DOM ready, cache in local state, and gracefully handle failures with shared error copy.【F:assets/js/results.js†L16-L507】
+   - Preload the consolidated results feed (`results.json`).【F:results.html†L8-L9】
+    - Fetch the feed on DOM ready, cache in local state, and gracefully handle failures with shared error copy.【F:assets/js/results.js†L16-L507】
 3. **Filters & interactions**
    - Populate year dropdown from index data, sync `?year=` query param, and reset filters when year changes.【F:assets/js/results.js†L77-L145】
    - Provide class dropdown and text search, filtering the entries table in real time and pushing GTM events for analytics.【F:assets/js/results.js†L51-L507】
@@ -51,7 +51,7 @@
    - Rebuild `assets/events.json` (and optional `.ics`) from the cleaned club spreadsheet using `generate_events_from_clean.py` and related scripts.【F:README.md†L65-L101】
    - Spreadsheet export must include required columns (Date, Start, End, Meeting Activity, Mini Competition, Comments, Location, Description).【F:README.md†L69-L73】
 2. **Wineshow results updates**
-   - Refresh both `results_index.json` and `results_entries.json` from judging spreadsheets, keeping schema consistent and updating year-specific copy as needed.【F:README.md†L41-L53】
+   - Refresh `results.json` from judging spreadsheets, keeping schema consistent and updating year-specific copy as needed.【F:README.md†L41-L53】
 3. **Local preview workflow** relies on any static HTTP server (no build step); document remains in README for continuity.【F:README.md†L31-L39】
 
 ### 4.4 Analytics & Instrumentation

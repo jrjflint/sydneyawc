@@ -1,10 +1,8 @@
 (function () {
   const DATA_BASE_PATH = '/assets/data';
-  const RESULTS_INDEX_URL = `${DATA_BASE_PATH}/results_index.json`;
-  const RESULTS_ENTRIES_URL = `${DATA_BASE_PATH}/results_entries.json`;
+  const RESULTS_DATA_URL = `${DATA_BASE_PATH}/results.json`;
   const STATE = {
-    index: {},
-    entries: [],
+    resultsByYear: {},
     year: null,
     classNo: '',
     search: '',
@@ -19,12 +17,8 @@
     cacheDom();
     attachEventListeners();
     try {
-      const [indexData, entriesData] = await Promise.all([
-        fetchJson(RESULTS_INDEX_URL),
-        fetchJson(RESULTS_ENTRIES_URL)
-      ]);
-      STATE.index = indexData || {};
-      STATE.entries = Array.isArray(entriesData?.entries) ? entriesData.entries : [];
+      const resultsData = await fetchJson(RESULTS_DATA_URL);
+      STATE.resultsByYear = buildYearCache(resultsData || {});
       initYearSelect();
       initLeaderboardTabs();
     } catch (error) {
@@ -75,13 +69,13 @@
   }
 
   function initYearSelect() {
-    const years = Object.keys(STATE.index)
+    const years = Object.keys(STATE.resultsByYear)
       .map((year) => parseInt(year, 10))
       .filter((value) => !Number.isNaN(value))
       .sort((a, b) => b - a);
 
     if (!years.length) {
-      renderErrorState('No years available in the results index.');
+      renderErrorState('No years available in the results dataset.');
       return;
     }
 
@@ -144,31 +138,49 @@
   }
 
   function updateSubtitleYear() {
+    const yearData = getYearData(STATE.year);
+    const show = yearData?.raw?.show || {};
+    const displayYear = show.year || STATE.year;
     if (refs.subtitleYear) {
-      refs.subtitleYear.textContent = STATE.year;
+      refs.subtitleYear.textContent = displayYear || '';
     }
     if (refs.subtitleShowNumber) {
-      refs.subtitleShowNumber.textContent = ordinalShowNumber(STATE.year);
+      refs.subtitleShowNumber.textContent = getEditionDisplay(show, displayYear || STATE.year);
     }
-    const title = `SAWC Show Results — ${STATE.year}`;
+    const editionLabel = resolveEditionLabel(show, displayYear || STATE.year);
+    const titleYear = displayYear || STATE.year;
+    const title = `SAWC Show Results — ${editionLabel} ${titleYear}`;
     document.title = title;
   }
 
   function populateClassSelect() {
     if (!refs.classSelect) return;
-    const classes = STATE.index[STATE.year]?.classes || {};
-    const options = [
-      '<option value="">All classes</option>',
-      ...Object.keys(classes)
-        .sort((a, b) => parseInt(a, 10) - parseInt(b, 10))
-        .map((classNo) => `<option value="${classNo}">${classNo}</option>`)
-    ];
+    const yearData = getYearData(STATE.year);
+    const classes = Array.isArray(yearData?.classes) ? yearData.classes.slice() : [];
+    if (!classes.length) {
+      refs.classSelect.innerHTML = '<option value="">All classes</option>';
+      return;
+    }
+    classes.sort((a, b) => {
+      const orderA = typeof a?.sort_order === 'number' ? a.sort_order : Number.MAX_SAFE_INTEGER;
+      const orderB = typeof b?.sort_order === 'number' ? b.sort_order : Number.MAX_SAFE_INTEGER;
+      if (orderA !== orderB) return orderA - orderB;
+      const codeA = String(a?.code ?? '');
+      const codeB = String(b?.code ?? '');
+      return codeA.localeCompare(codeB, undefined, { numeric: true });
+    });
+    const options = ['<option value="">All classes</option>'];
+    classes.forEach((classInfo) => {
+      const code = classInfo?.code != null ? String(classInfo.code) : '';
+      const name = classInfo?.name ? ` — ${escapeHtml(classInfo.name)}` : '';
+      options.push(`<option value="${escapeHtml(code)}">${escapeHtml(code)}${name}</option>`);
+    });
     refs.classSelect.innerHTML = options.join('');
   }
 
   function renderChampions() {
     if (!refs.champions) return;
-    const champions = STATE.index[STATE.year]?.champions || [];
+    const champions = getYearData(STATE.year)?.champions || [];
     if (!champions.length) {
       refs.champions.innerHTML = `
         <h2>Champions</h2>
@@ -179,17 +191,29 @@
 
     const listItems = champions
       .map((champion) => {
-        const details = [
-          champion.wineType ? `<span>${champion.wineType}</span>` : '',
-          champion.classNo ? `<span>Class ${champion.classNo}</span>` : '',
-          champion.score != null ? `<span>Score ${formatScore(champion.score)}</span>` : ''
-        ]
-          .filter(Boolean)
-          .join(' · ');
+        const details = [];
+        if (champion.wineType) {
+          details.push(`<span>${escapeHtml(champion.wineType)}</span>`);
+        } else if (champion.wineName) {
+          details.push(`<span>${escapeHtml(champion.wineName)}</span>`);
+        }
+        if (champion.wineVintage) {
+          details.push(`<span>Vintage ${escapeHtml(String(champion.wineVintage))}</span>`);
+        }
+        if (champion.classNo) {
+          details.push(`<span>Class ${escapeHtml(String(champion.classNo))}</span>`);
+        }
+        if (champion.medal && champion.medal !== 'No Award') {
+          details.push(`<span>${escapeHtml(champion.medal)} Medal</span>`);
+        }
+        if (champion.score != null) {
+          details.push(`<span>Score ${formatScore(champion.score)}</span>`);
+        }
+        const detailMarkup = details.filter(Boolean).join(' · ');
         return `
           <li class="champion-item">
             <strong>${escapeHtml(champion.winemaker || 'Unnamed entry')}</strong>
-            <span class="champion-meta">${details}</span>
+            <span class="champion-meta">${detailMarkup}</span>
           </li>
         `;
       })
@@ -203,7 +227,7 @@
 
   function renderLeaderboards() {
     if (!refs.leaderboardPanels) return;
-    const leaderboards = STATE.index[STATE.year]?.leaderboards || {};
+    const leaderboards = getYearData(STATE.year)?.leaderboards || {};
     const metrics = [
       { key: 'averageScore', label: 'Average Score', valueKey: 'score', formatter: formatScore },
       { key: 'medianScore', label: 'Median Score', valueKey: 'score', formatter: formatScore },
@@ -306,42 +330,61 @@
 
   function renderBestInClass() {
     if (!refs.bestInClass) return;
-    const classes = STATE.index[STATE.year]?.classes || {};
-    const classKeys = Object.keys(classes).sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
-    if (!classKeys.length) {
+    const yearData = getYearData(STATE.year);
+    const classes = Array.isArray(yearData?.classes) ? yearData.classes.slice() : [];
+    if (!classes.length) {
       refs.bestInClass.innerHTML = `
         <h2>Best in Class</h2>
         <p class="empty-state">Class winners will be announced soon.</p>
       `;
       return;
     }
+    classes.sort((a, b) => {
+      const orderA = typeof a?.sort_order === 'number' ? a.sort_order : Number.MAX_SAFE_INTEGER;
+      const orderB = typeof b?.sort_order === 'number' ? b.sort_order : Number.MAX_SAFE_INTEGER;
+      if (orderA !== orderB) return orderA - orderB;
+      const codeA = String(a?.code ?? '');
+      const codeB = String(b?.code ?? '');
+      return codeA.localeCompare(codeB, undefined, { numeric: true });
+    });
 
-    const listItems = classKeys
-      .map((classNo) => {
-        const entries = classes[classNo]?.bestInClass || [];
-        if (!entries.length) {
+    const listItems = classes
+      .map((classInfo) => {
+        const winners = (yearData?.bestInClassEntries || []).filter((entry) => entry.classId === classInfo.id);
+        if (!winners.length) {
           return `
             <li>
-              <div class="class-heading">Class ${classNo}</div>
+              <div class="class-heading">Class ${escapeHtml(String(classInfo.code ?? ''))}</div>
               <p class="empty-state">No best in class recorded.</p>
             </li>
           `;
         }
-        const winners = entries
-          .map((entry) => `
-            <div>
-              <strong>${escapeHtml(entry.winemaker || 'Unnamed entrant')}</strong>
-              <div class="class-meta">
-                ${entry.wineType ? `<span>${escapeHtml(entry.wineType)}</span>` : ''}
-                ${entry.score != null ? `<span>Score ${formatScore(entry.score)}</span>` : ''}
+        const winnerMarkup = winners
+          .map((entry) => {
+            const details = [];
+            if (entry.wineType) {
+              details.push(`<span>${escapeHtml(entry.wineType)}</span>`);
+            } else if (entry.wineName) {
+              details.push(`<span>${escapeHtml(entry.wineName)}</span>`);
+            }
+            if (entry.medal && entry.medal !== 'No Award') {
+              details.push(`<span>${escapeHtml(entry.medal)} Medal</span>`);
+            }
+            if (entry.score != null) {
+              details.push(`<span>Score ${formatScore(entry.score)}</span>`);
+            }
+            return `
+              <div>
+                <strong>${escapeHtml(entry.winemaker || 'Unnamed entrant')}</strong>
+                <div class="class-meta">${details.filter(Boolean).join(' · ')}</div>
               </div>
-            </div>
-          `)
+            `;
+          })
           .join('');
         return `
           <li>
-            <div class="class-heading">Class ${classNo}</div>
-            ${winners}
+            <div class="class-heading">Class ${escapeHtml(String(classInfo.code ?? ''))}</div>
+            ${winnerMarkup}
           </li>
         `;
       })
@@ -355,24 +398,29 @@
 
   function renderEntries() {
     if (!refs.entriesTableBody) return;
-    const filtered = STATE.entries
-      .filter((entry) => entry.year === STATE.year)
+    const entries = getEntriesForYear(STATE.year);
+    const filtered = entries
       .filter((entry) => {
         if (!STATE.classNo) return true;
         return String(entry.classNo) === STATE.classNo;
       })
       .filter((entry) => {
         if (!STATE.search) return true;
-        const haystack = `${entry.winemaker || ''} ${entry.wineType || ''}`.toLowerCase();
+        const haystack = `${entry.winemaker || ''} ${entry.wineType || ''} ${entry.wineName || ''}`.toLowerCase();
         return haystack.includes(STATE.search.toLowerCase());
       })
       .sort((a, b) => {
-        const scoreA = Number(a.score) || 0;
-        const scoreB = Number(b.score) || 0;
-        if (scoreA === scoreB) {
-          return (a.entryNo || 0) - (b.entryNo || 0);
+        const scoreA = typeof a.score === 'number' ? a.score : -Infinity;
+        const scoreB = typeof b.score === 'number' ? b.score : -Infinity;
+        if (scoreA !== scoreB) {
+          return scoreB - scoreA;
         }
-        return scoreB - scoreA;
+        const classOrderA = typeof a.classSortOrder === 'number' ? a.classSortOrder : Number.MAX_SAFE_INTEGER;
+        const classOrderB = typeof b.classSortOrder === 'number' ? b.classSortOrder : Number.MAX_SAFE_INTEGER;
+        if (classOrderA !== classOrderB) {
+          return classOrderA - classOrderB;
+        }
+        return String(a.entryNo ?? '').localeCompare(String(b.entryNo ?? ''), undefined, { numeric: true, sensitivity: 'base' });
       });
 
     if (!filtered.length) {
@@ -394,15 +442,28 @@
         if (entry.champFlag) {
           flags.push('<span>Champion</span>');
         }
+        if (entry.medal && entry.medal !== 'No Award') {
+          flags.push(`<span>${escapeHtml(entry.medal)}</span>`);
+        }
         const flagMarkup = flags.length
           ? `<div class="flag-group">${flags.join('')}</div>`
           : '<span class="empty-state">—</span>';
+        const wineLabelParts = [];
+        if (entry.wineName) {
+          wineLabelParts.push(entry.wineName);
+        } else if (entry.wineType) {
+          wineLabelParts.push(entry.wineType);
+        }
+        if (entry.wineVintage) {
+          wineLabelParts.push(`(${entry.wineVintage})`);
+        }
+        const wineLabel = wineLabelParts.filter(Boolean).join(' ');
         return `
           <tr>
             <td data-title="Class">${escapeHtml(String(entry.classNo ?? ''))}</td>
             <td data-title="Entry">${escapeHtml(String(entry.entryNo ?? ''))}</td>
             <td data-title="Winemaker">${escapeHtml(entry.winemaker || '')}</td>
-            <td data-title="Wine">${escapeHtml(entry.wineType || '')}</td>
+            <td data-title="Wine">${escapeHtml(wineLabel || entry.wineType || '')}</td>
             <td data-title="Score">${formatScore(entry.score)}</td>
             <td data-title="Flags">${flagMarkup}</td>
           </tr>
@@ -415,37 +476,54 @@
 
   function updateEntriesSummary(count) {
     if (!refs.entriesSummary) return;
-    const classSegment = STATE.classNo ? `Class ${STATE.classNo}` : 'all classes';
+    const yearData = getYearData(STATE.year);
+    const classSegment = STATE.classNo
+      ? formatClassSummary(yearData, STATE.classNo)
+      : 'all classes';
     const searchSegment = STATE.search ? ` matching “${STATE.search}”` : '';
     const plural = count === 1 ? 'entry' : 'entries';
-    refs.entriesSummary.textContent = `${count} ${plural} from ${STATE.year} in ${classSegment}${searchSegment}.`;
+    const showYear = yearData?.raw?.show?.year || STATE.year;
+    refs.entriesSummary.textContent = `${count} ${plural} from ${showYear} in ${classSegment}${searchSegment}.`;
   }
 
   function updateJsonLd() {
     if (!refs.jsonLd) return;
+    const yearData = getYearData(STATE.year);
+    const show = yearData?.raw?.show || {};
+    const displayYear = show.year || STATE.year;
+    const dateRange = show.date_range || {};
+    const editionLabel = resolveEditionLabel(show, displayYear || STATE.year);
+    const baseName = show.name || 'Sydney Amateur Winemakers Club';
+    const eventName = `${baseName} — ${editionLabel} ${displayYear}`;
     const json = {
       '@context': 'https://schema.org',
       '@type': 'Event',
-      name: `Sydney Amateur Winemakers Club — ${ordinalShowNumber(STATE.year)} Annual Wineshow ${STATE.year}`,
+      name: eventName,
       eventStatus: 'https://schema.org/EventCompleted',
       location: {
         '@type': 'Place',
-        name: 'Club Rivers, Riverwood NSW'
+        name: show.location || 'Club Rivers, Riverwood NSW'
       },
-      startDate: `${STATE.year}-09-01`,
-      endDate: `${STATE.year}-09-30`,
-      url: `${window.location.origin}${window.location.pathname}?year=${STATE.year}`,
+      startDate: dateRange.start || `${displayYear}-09-01`,
+      endDate: dateRange.end || dateRange.start || `${displayYear}-09-30`,
+      url: `${window.location.origin}${window.location.pathname}?year=${displayYear}`,
       organizer: {
         '@type': 'Organization',
-        name: 'Sydney Amateur Winemakers Club'
+        name: show.organizer?.name || 'Sydney Amateur Winemakers Club'
       }
     };
+    if (show.organizer?.website) {
+      json.organizer.url = show.organizer.website;
+    }
     refs.jsonLd.textContent = JSON.stringify(json, null, 2);
   }
 
   function ordinalShowNumber(year) {
     const baseYear = 1975; // First show year assumption for numbering continuity
-    const showNumber = Math.max(1, year - baseYear + 1);
+    if (typeof year !== 'number' || Number.isNaN(year)) {
+      return '1st';
+    }
+    const showNumber = Math.max(1, Math.round(year - baseYear + 1));
     const suffix = getOrdinalSuffix(showNumber);
     return `${showNumber}${suffix}`;
   }
@@ -457,6 +535,207 @@
     if (rem10 === 2 && rem100 !== 12) return 'nd';
     if (rem10 === 3 && rem100 !== 13) return 'rd';
     return 'th';
+  }
+
+  function buildYearCache(rawData) {
+    const cache = {};
+    if (!rawData || typeof rawData !== 'object') {
+      return cache;
+    }
+
+    Object.keys(rawData).forEach((yearKey) => {
+      const yearNumber = parseInt(yearKey, 10);
+      if (Number.isNaN(yearNumber)) {
+        return;
+      }
+      const yearPayload = rawData[yearKey] || {};
+      const classes = Array.isArray(yearPayload.classes) ? yearPayload.classes.slice() : [];
+      const entrants = Array.isArray(yearPayload.entrants) ? yearPayload.entrants.slice() : [];
+      const entrantsById = entrants.reduce((accumulator, entrant) => {
+        if (entrant?.id) {
+          accumulator[entrant.id] = entrant;
+        }
+        return accumulator;
+      }, {});
+      const classesById = {};
+      const classesByCode = {};
+      classes.forEach((classInfo) => {
+        if (classInfo?.id) {
+          classesById[classInfo.id] = classInfo;
+        }
+        if (classInfo?.code != null) {
+          classesByCode[String(classInfo.code)] = classInfo;
+        }
+      });
+      const entriesRaw = Array.isArray(yearPayload.entries) ? yearPayload.entries : [];
+      const entries = entriesRaw.map((entry) => {
+        const classInfo = classesById[entry?.class_id] || {};
+        const entrantInfo = entrantsById[entry?.entrant_id] || {};
+        const numericScore = typeof entry?.judging?.Score === 'number'
+          ? entry.judging.Score
+          : Number(entry?.judging?.Score);
+        const score = Number.isNaN(numericScore) ? null : numericScore;
+        const trophies = Array.isArray(entry?.judging?.trophies) ? entry.judging.trophies : [];
+        const bestInClass = trophies.some((trophy) => typeof trophy === 'string' && trophy.toLowerCase().includes('best in class'));
+        const champion = trophies.some((trophy) => typeof trophy === 'string' && trophy.toLowerCase().includes('best in show'));
+        const components = entry?.components || {};
+        const score100 = typeof entry?.judging?.Score100 === 'number'
+          ? entry.judging.Score100
+          : score != null
+            ? score * 5
+            : null;
+        return {
+          id: entry?.id || null,
+          year: yearNumber,
+          classId: entry?.class_id || null,
+          classNo: classInfo?.code != null ? String(classInfo.code) : '',
+          className: classInfo?.name || '',
+          classSortOrder: typeof classInfo?.sort_order === 'number' ? classInfo.sort_order : Number.MAX_SAFE_INTEGER,
+          entryNo: entry?.exhibit_number || entry?.entry_number || '',
+          winemaker: entrantInfo?.display_name || entrantInfo?.name || 'Unnamed entrant',
+          winemakerId: entry?.entrant_id || null,
+          entrantClub: entrantInfo?.club || null,
+          wineName: entry?.wine?.name || '',
+          wineType: entry?.wine?.style || entry?.wine?.name || '',
+          wineVintage: entry?.wine?.vintage ?? null,
+          wineColour: entry?.wine?.colour || '',
+          wineRegion: entry?.wine?.region || '',
+          wineCountry: entry?.wine?.country || '',
+          score,
+          score100,
+          medal: entry?.judging?.Medal || null,
+          aroma: components?.aroma ?? null,
+          colour: components?.colour ?? null,
+          taste: components?.taste ?? null,
+          bestInClass,
+          champFlag: champion,
+          trophies,
+          rankInClass: entry?.judging?.rank_in_class ?? null,
+          panel: entry?.judging?.panel || null,
+          flight: entry?.judging?.flight || null,
+          raw: entry
+        };
+      });
+      const validEntries = entries.filter((entry) => entry);
+
+      cache[yearNumber] = {
+        raw: yearPayload,
+        classes,
+        classesById,
+        classesByCode,
+        entrants,
+        entrantsById,
+        entries: validEntries,
+        champions: validEntries.filter((entry) => entry.champFlag),
+        bestInClassEntries: validEntries.filter((entry) => entry.bestInClass),
+        leaderboards: computeLeaderboards(validEntries)
+      };
+    });
+
+    return cache;
+  }
+
+  function getYearData(year) {
+    if (year == null) return null;
+    return STATE.resultsByYear[year] || null;
+  }
+
+  function getEntriesForYear(year) {
+    const yearData = getYearData(year);
+    return Array.isArray(yearData?.entries) ? yearData.entries : [];
+  }
+
+  function computeLeaderboards(entries) {
+    if (!Array.isArray(entries) || !entries.length) {
+      return {};
+    }
+    const map = new Map();
+    entries.forEach((entry) => {
+      if (typeof entry?.score !== 'number') return;
+      const key = entry.winemakerId || entry.winemaker;
+      if (!map.has(key)) {
+        map.set(key, { winemaker: entry.winemaker, scores: [] });
+      }
+      map.get(key).scores.push(entry.score);
+    });
+    const rows = Array.from(map.values());
+    if (!rows.length) {
+      return {};
+    }
+    rows.forEach((row) => row.scores.sort((a, b) => b - a));
+    const averageScore = rows
+      .map((row) => ({
+        winemaker: row.winemaker,
+        score: row.scores.reduce((sum, value) => sum + value, 0) / row.scores.length
+      }))
+      .sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+    const medianScore = rows
+      .map((row) => ({ winemaker: row.winemaker, score: median(row.scores) }))
+      .sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+    const sumTop5 = rows
+      .map((row) => ({
+        winemaker: row.winemaker,
+        sumTop5: row.scores.slice(0, 5).reduce((sum, value) => sum + value, 0)
+      }))
+      .sort((a, b) => (b.sumTop5 ?? 0) - (a.sumTop5 ?? 0));
+    return { averageScore, medianScore, sumTop5 };
+  }
+
+  function median(values) {
+    if (!Array.isArray(values) || !values.length) {
+      return null;
+    }
+    const sorted = values.slice().sort((a, b) => a - b);
+    const mid = Math.floor(sorted.length / 2);
+    if (sorted.length % 2 === 0) {
+      return (sorted[mid - 1] + sorted[mid]) / 2;
+    }
+    return sorted[mid];
+  }
+
+  function formatClassSummary(yearData, classCode) {
+    if (!classCode) {
+      return 'the selected class';
+    }
+    const classInfo = yearData?.classesByCode?.[String(classCode)] || null;
+    if (!classInfo) {
+      return `Class ${classCode}`;
+    }
+    return classInfo.name ? `Class ${classCode} — ${classInfo.name}` : `Class ${classCode}`;
+  }
+
+  function getEditionDisplay(show, fallbackYear) {
+    if (typeof show?.edition_number === 'number') {
+      return formatOrdinal(show.edition_number);
+    }
+    const ordinal = extractOrdinalFromEdition(show?.edition);
+    if (ordinal) {
+      return ordinal;
+    }
+    return ordinalShowNumber(fallbackYear);
+  }
+
+  function resolveEditionLabel(show, fallbackYear) {
+    if (show?.edition) {
+      return show.edition;
+    }
+    if (typeof show?.edition_number === 'number') {
+      return `${formatOrdinal(show.edition_number)} Annual Wine Show`;
+    }
+    return `${ordinalShowNumber(fallbackYear)} Annual Wine Show`;
+  }
+
+  function formatOrdinal(value) {
+    if (value == null) return '';
+    const number = Number(value);
+    if (Number.isNaN(number)) return '';
+    return `${number}${getOrdinalSuffix(number)}`;
+  }
+
+  function extractOrdinalFromEdition(value) {
+    if (typeof value !== 'string') return null;
+    const match = value.trim().match(/^(\d+(?:st|nd|rd|th))/i);
+    return match ? match[1] : null;
   }
 
   function renderErrorState(message = 'We were unable to load the show results. Please refresh to try again.') {

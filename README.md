@@ -23,7 +23,7 @@ A community of home winemaking enthusiasts in Sydney. This repo hosts the offici
 - `assets/`
   - `events.js` and `nextevent.js` fetch data from JSON/ICS feeds and render the upcoming meeting schedule.
   - `js/results.js` powers the wineshow results experience (filters, leaderboards, JSON-LD updates).
-  - `data/results_index.json` and `data/results_entries.json` contain the structured competition results.
+- `data/results.json` contains the structured competition results keyed by show year.
   - `events.json` and `calendar.ics` are the data feeds consumed by the front-end.
   - `generate_events_from_clean.py` converts a cleaned spreadsheet export into `events.json` (and optionally `calendar.ics`).
   - `generate_ics.py` and `generate_ics_refactored.py` rebuild an iCalendar feed from `events.json`.
@@ -40,14 +40,14 @@ Then open <http://localhost:8000/index.html> in a browser.
 
 ## Wineshow results data
 
-The annual wineshow results live at [`results.html`](./results.html). The page loads two JSON feeds from `assets/data/` and renders everything client-side with progressive enhancement-friendly HTML. To publish a new year:
+The annual wineshow results live at [`results.html`](./results.html). The page loads a JSON feed from `assets/data/` and renders everything client-side with progressive enhancement-friendly HTML. To publish a new year:
 
-1. Export the latest judging spreadsheet and regenerate the JSON feeds (`results_index.json` for aggregates, `results_entries.json` for row-level entries). Keep the same schema as the provided samples.
-2. Replace the files under `assets/data/` with the refreshed exports and commit them.
+1. Export the latest judging spreadsheet and regenerate `results.json` (one top-level object per show year) following the documented schema with `show`, `classes`, `entrants`, `entries`, and `awards` sections.
+2. Replace `assets/data/results.json` with the refreshed export and commit it.
 3. Update any year-specific copy (e.g. start/end dates in the JSON-LD payload) if the event schedule has changed.
 4. Preview <http://localhost:8000/results.html?year=YYYY> locally to confirm the filters, leaderboards, and print view look correct.
 
-The script automatically detects the newest year in `results_index.json`, updates the `?year=` URL query string, and gracefully handles missing leaderboard sections.
+The script automatically detects the newest year in `results.json`, updates the `?year=` URL query string, and gracefully handles missing leaderboard sections.
 
 > **Note:** The ordinal show numbering assumes the first competition was held in 1975. Update `baseYear` in `assets/js/results.js` if the historical reference changes.
 
