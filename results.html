@@ -30,37 +30,17 @@
           <option value="">All classes</option>
         </select>
       </div>
+      <div class="control-group">
+        <label for="winemakerSelect">Winemaker</label>
+        <select id="winemakerSelect" name="winemaker">
+          <option value="">All winemakers</option>
+        </select>
+      </div>
       <div class="control-group control-group-search">
         <label for="searchBox">Search</label>
         <input id="searchBox" type="search" name="search" placeholder="Search winemaker or wine" aria-describedby="searchHint" />
         <p id="searchHint" class="hint">Matches winemaker name or wine style.</p>
       </div>
-    </section>
-
-    <section class="highlight-grid" aria-label="Show highlights">
-      <article id="champions" class="card" aria-live="polite">
-        <h2>Champions</h2>
-        <p class="empty-state">Loading champions…</p>
-      </article>
-      <article id="leaderboards" class="card" aria-live="polite">
-        <div class="leaderboard-header">
-          <h2>Leaderboards</h2>
-          <div role="tablist" aria-label="Leaderboard metrics" class="leaderboard-tabs" id="leaderboardTabs">
-            <button role="tab" id="tab-average" class="tab" aria-controls="panel-average" aria-selected="true" data-metric="averageScore">Average Score</button>
-            <button role="tab" id="tab-median" class="tab" aria-controls="panel-median" aria-selected="false" data-metric="medianScore">Median Score</button>
-            <button role="tab" id="tab-top5" class="tab" aria-controls="panel-top5" aria-selected="false" data-metric="sumTop5">Sum of Top 5</button>
-          </div>
-        </div>
-        <div id="leaderboardPanels" class="leaderboard-panels">
-          <div role="tabpanel" id="panel-average" class="panel" aria-labelledby="tab-average"></div>
-          <div role="tabpanel" id="panel-median" class="panel" aria-labelledby="tab-median" hidden></div>
-          <div role="tabpanel" id="panel-top5" class="panel" aria-labelledby="tab-top5" hidden></div>
-        </div>
-      </article>
-      <article id="bestInClass" class="card" aria-live="polite">
-        <h2>Best in Class</h2>
-        <p class="empty-state">Loading classes…</p>
-      </article>
     </section>
 
     <section id="entries" aria-live="polite">
