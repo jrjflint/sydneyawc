@@ -1,0 +1,276 @@
+{
+  "2025": {
+    "show": {
+      "id": "d1d9a2b6-7b1f-4f0a-9f2e-4df8a9d4e3d2",
+      "name": "Sydney Amateur Winemakers Club Annual Wine Show",
+      "edition": "51st Annual Wine Show",
+      "edition_number": 51,
+      "year": 2025,
+      "organizer": {
+        "name": "Sydney Amateur Winemakers Club",
+        "website": "https://www.sydneyawc.com"
+      },
+      "location": "Club Rivers, Riverwood NSW",
+      "date_range": {
+        "start": "2025-09-27",
+        "end": "2025-09-28"
+      }
+    },
+    "classes": [
+      {
+        "id": "cls-2025-02",
+        "code": "02",
+        "name": "Sparkling – Any Style",
+        "description": "Sparkling wines made by traditional or tank method.",
+        "style": "Sparkling",
+        "sort_order": 2
+      },
+      {
+        "id": "cls-2025-07",
+        "code": "07",
+        "name": "Shiraz & Cabernet",
+        "description": "All Shiraz, Cabernet, and related blends.",
+        "style": "Red",
+        "sort_order": 7
+      }
+    ],
+    "judges": [
+      {
+        "id": "judge-jane-smith",
+        "name": "Jane Smith",
+        "role": "Panel Chair"
+      }
+    ],
+    "entrants": [
+      { "id": "entrant-luigi-petrini", "display_name": "Luigi Petrini", "club": "SAWC" },
+      { "id": "entrant-mae-chen", "display_name": "Mae Chen", "club": "SAWC" },
+      { "id": "entrant-farah-singh", "display_name": "Farah Singh", "club": "SAWC" }
+    ],
+    "entries": [
+      {
+        "id": "entry-2025-118",
+        "class_id": "cls-2025-07",
+        "entrant_id": "entrant-luigi-petrini",
+        "exhibit_number": "07-118",
+        "wine": {
+          "name": "Hunter Reserve Shiraz",
+          "vintage": 2023,
+          "style": "Shiraz",
+          "colour": "Red",
+          "region": "Hunter Valley, NSW",
+          "country": "Australia"
+        },
+        "judging": {
+          "Score": 16.0,
+          "Score100": 80.0,
+          "Medal": "Bronze",
+          "flight": "Flight 2",
+          "panel": "Panel A",
+          "rank_in_class": 1,
+          "trophies": ["Best in Show", "Best in Class"]
+        },
+        "components": {
+          "colour": 3.0,
+          "aroma": 5.0,
+          "taste": 8.0
+        },
+        "audit": {
+          "received_at": "2025-09-20",
+          "checked_by": "Steward A",
+          "disqualified": false
+        }
+      },
+      {
+        "id": "entry-2025-045",
+        "class_id": "cls-2025-02",
+        "entrant_id": "entrant-mae-chen",
+        "exhibit_number": "02-045",
+        "wine": {
+          "name": "Sparkling Chardonnay",
+          "vintage": 2024,
+          "style": "Chardonnay",
+          "colour": "White",
+          "region": "Orange, NSW",
+          "country": "Australia"
+        },
+        "judging": {
+          "Score": 18.5,
+          "Score100": 92.5,
+          "Medal": "Gold",
+          "flight": "Flight 1",
+          "panel": "Panel A",
+          "rank_in_class": 1,
+          "trophies": ["Best in Class"]
+        },
+        "components": {
+          "colour": 4.5,
+          "aroma": 6.0,
+          "taste": 8.0
+        },
+        "audit": {
+          "received_at": "2025-09-19",
+          "checked_by": "Steward B",
+          "disqualified": false
+        }
+      },
+      {
+        "id": "entry-2025-120",
+        "class_id": "cls-2025-07",
+        "entrant_id": "entrant-farah-singh",
+        "exhibit_number": "07-120",
+        "wine": {
+          "name": "Cabernet Sauvignon",
+          "vintage": 2022,
+          "style": "Cabernet Sauvignon",
+          "colour": "Red",
+          "region": "Coonawarra, SA",
+          "country": "Australia"
+        },
+        "judging": {
+          "Score": 17.7,
+          "Score100": 88.5,
+          "Medal": "Silver",
+          "flight": "Flight 2",
+          "panel": "Panel A",
+          "rank_in_class": 2,
+          "trophies": []
+        },
+        "components": {
+          "colour": 4.0,
+          "aroma": 5.5,
+          "taste": 8.2
+        },
+        "audit": {
+          "received_at": "2025-09-20",
+          "checked_by": "Steward A",
+          "disqualified": false
+        }
+      }
+    ],
+    "awards": [
+      {
+        "id": "award-2025-best-in-show",
+        "name": "Best in Show",
+        "criteria": "Highest Score across all classes",
+        "winner_entry_id": "entry-2025-118"
+      }
+    ],
+    "version": "2025.10.12"
+  },
+  "2024": {
+    "show": {
+      "id": "d1d9a2b6-7b1f-4f0a-9f2e-4df8a9d4e3d1",
+      "name": "Sydney Amateur Winemakers Club Annual Wine Show",
+      "edition": "50th Annual Wine Show",
+      "edition_number": 50,
+      "year": 2024,
+      "organizer": {
+        "name": "Sydney Amateur Winemakers Club",
+        "website": "https://www.sydneyawc.com"
+      },
+      "location": "Club Rivers, Riverwood NSW",
+      "date_range": {
+        "start": "2024-09-28",
+        "end": "2024-09-29"
+      }
+    },
+    "classes": [
+      {
+        "id": "cls-2024-06",
+        "code": "06",
+        "name": "Grenache & Blends",
+        "description": "Grenache and Mediterranean red styles.",
+        "style": "Red",
+        "sort_order": 6
+      }
+    ],
+    "judges": [
+      {
+        "id": "judge-george-taylor",
+        "name": "George Taylor",
+        "role": "Panel Chair"
+      }
+    ],
+    "entrants": [
+      { "id": "entrant-george-ellis", "display_name": "George Ellis", "club": "SAWC" },
+      { "id": "entrant-carla-james", "display_name": "Carla James", "club": "SAWC" }
+    ],
+    "entries": [
+      {
+        "id": "entry-2024-088",
+        "class_id": "cls-2024-06",
+        "entrant_id": "entrant-george-ellis",
+        "exhibit_number": "06-088",
+        "wine": {
+          "name": "Grenache",
+          "vintage": 2022,
+          "style": "Grenache",
+          "colour": "Red",
+          "region": "Barossa Valley, SA",
+          "country": "Australia"
+        },
+        "judging": {
+          "Score": 18.1,
+          "Score100": 90.5,
+          "Medal": "Silver",
+          "flight": "Flight 1",
+          "panel": "Panel B",
+          "rank_in_class": 1,
+          "trophies": ["Best in Show", "Best in Class"]
+        },
+        "components": {
+          "colour": 4.0,
+          "aroma": 6.0,
+          "taste": 8.1
+        },
+        "audit": {
+          "received_at": "2024-09-21",
+          "checked_by": "Steward C",
+          "disqualified": false
+        }
+      },
+      {
+        "id": "entry-2024-090",
+        "class_id": "cls-2024-06",
+        "entrant_id": "entrant-carla-james",
+        "exhibit_number": "06-090",
+        "wine": {
+          "name": "Mourvèdre",
+          "vintage": 2022,
+          "style": "Mourvèdre",
+          "colour": "Red",
+          "region": "McLaren Vale, SA",
+          "country": "Australia"
+        },
+        "judging": {
+          "Score": 17.3,
+          "Score100": 86.5,
+          "Medal": "Silver",
+          "flight": "Flight 1",
+          "panel": "Panel B",
+          "rank_in_class": 2,
+          "trophies": []
+        },
+        "components": {
+          "colour": 3.8,
+          "aroma": 5.6,
+          "taste": 7.9
+        },
+        "audit": {
+          "received_at": "2024-09-21",
+          "checked_by": "Steward C",
+          "disqualified": false
+        }
+      }
+    ],
+    "awards": [
+      {
+        "id": "award-2024-best-in-show",
+        "name": "Best in Show",
+        "criteria": "Highest Score across all classes",
+        "winner_entry_id": "entry-2024-088"
+      }
+    ],
+    "version": "2024.10.05"
+  }
+}
