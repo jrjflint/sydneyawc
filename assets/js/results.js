@@ -48,6 +48,8 @@
     refs.winemakerSelect?.addEventListener('change', (event) => {
       STATE.winemakerKey = event.target.value;
       renderEntries();
+      updateUrlQuery();
+      updateJsonLd();
       pushDataLayer('filter_change', { classNo: STATE.classNo || null, winemaker: STATE.winemakerKey || null });
     });
     refs.searchBox?.addEventListener('input', onSearchInput);
@@ -78,7 +80,8 @@
       return;
     }
 
-    const urlYear = parseInt(new URLSearchParams(window.location.search).get('year'), 10);
+    const params = new URLSearchParams(window.location.search);
+    const urlYear = parseInt(params.get('year'), 10);
     const defaultYear = years.includes(urlYear) ? urlYear : years[0];
 
     refs.yearSelect.innerHTML = years
@@ -86,6 +89,10 @@
       .join('');
 
     STATE.year = defaultYear;
+    const winemakerParam = params.get('winemaker');
+    if (winemakerParam) {
+      STATE.winemakerKey = resolveWinemakerKeyFromQuery(winemakerParam, STATE.year);
+    }
     updateYearDependentUi();
     pushDataLayer('results_view', {});
   }
@@ -109,18 +116,25 @@
   }
 
   function updateYearDependentUi() {
-    updateUrlQuery();
     updateSubtitleYear();
     populateClassSelect();
     populateWinemakerSelect();
     renderEntries();
     updateJsonLd();
+    updateUrlQuery();
   }
 
   function updateUrlQuery() {
     const params = new URLSearchParams(window.location.search);
     params.set('year', STATE.year);
-    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    const winemakerValue = getWinemakerQueryValue();
+    if (winemakerValue) {
+      params.set('winemaker', winemakerValue);
+    } else {
+      params.delete('winemaker');
+    }
+    const queryString = params.toString();
+    const newUrl = queryString ? `${window.location.pathname}?${queryString}` : window.location.pathname;
     window.history.replaceState({}, '', newUrl);
   }
 
@@ -310,7 +324,7 @@
       },
       startDate: dateRange.start || `${displayYear}-09-01`,
       endDate: dateRange.end || dateRange.start || `${displayYear}-09-30`,
-      url: `${window.location.origin}${window.location.pathname}?year=${displayYear}`,
+      url: buildJsonLdUrl(displayYear),
       organizer: {
         '@type': 'Organization',
         name: show.organizer?.name || 'Sydney Amateur Winemakers Club'
@@ -320,6 +334,20 @@
       json.organizer.url = show.organizer.website;
     }
     refs.jsonLd.textContent = JSON.stringify(json, null, 2);
+  }
+
+  function buildJsonLdUrl(displayYear) {
+    const params = new URLSearchParams();
+    if (displayYear != null) {
+      params.set('year', displayYear);
+    }
+    const winemakerValue = getWinemakerQueryValue();
+    if (winemakerValue) {
+      params.set('winemaker', winemakerValue);
+    }
+    const query = params.toString();
+    const baseUrl = `${window.location.origin}${window.location.pathname}`;
+    return query ? `${baseUrl}?${query}` : baseUrl;
   }
 
   function ordinalShowNumber(year) {
@@ -480,6 +508,36 @@
       return `winemaker ${label}`;
     }
     return 'the selected winemaker';
+  }
+
+  function getWinemakerQueryValue() {
+    if (!STATE.winemakerKey) {
+      return '';
+    }
+    const yearData = getYearData(STATE.year);
+    const label = yearData?.winemakersByKey?.[STATE.winemakerKey];
+    return label || STATE.winemakerKey;
+  }
+
+  function resolveWinemakerKeyFromQuery(rawValue, year) {
+    if (!rawValue) {
+      return '';
+    }
+    const yearData = getYearData(year);
+    if (!yearData) {
+      return '';
+    }
+    const trimmed = rawValue.trim();
+    if (!trimmed) {
+      return '';
+    }
+    const winemakersByKey = yearData.winemakersByKey || {};
+    if (winemakersByKey[trimmed]) {
+      return trimmed;
+    }
+    const normalized = trimmed.toLowerCase();
+    const match = Object.entries(winemakersByKey).find(([, label]) => label.toLowerCase() === normalized);
+    return match ? match[0] : '';
   }
 
   function getEditionDisplay(show, fallbackYear) {
