@@ -12,12 +12,21 @@ project conventions, safety checks, and workflow expectations.
 - **Python helpers:** `assets/generate_events_from_clean.py` and related scripts rebuild JSON/ICS feeds from spreadsheet exports.
 - **Styling:** All global styles are in `style.css`; there is no build pipeline or CSS preprocessor.
 
+### Documentation map
+- **High-level orientation:** [`README.md`](./README.md) explains local preview steps, data pipelines, and helper scripts. Treat it as the
+  canonical reference for how assets are generated and how Codex should be briefed when collaborating with humans.
+- **Product intent:** [`PRD.md`](./PRD.md) captures audience goals, acceptance criteria, and success metrics. Use it to evaluate whether
+  feature changes align with the club’s needs before editing files.
+- **Execution planning:** [`PLANS.md`](./PLANS.md) defines the ExecPlan format required for multi-step or high-risk changes. Any plan you
+  create must satisfy the constraints in that document in addition to the guidance here.
+
 ## Coding guidelines
 Follow these principles when modifying files:
 1. **Prefer semantic HTML.** Preserve accessible markup (ARIA attributes, heading hierarchy, descriptive alt text) present in
    existing documents. Keep content changes minimal unless the task demands a rewrite.
 2. **Respect inline comments and structure.** Many files include explanatory comments; read them before editing to avoid breaking
-   data contracts or rendering logic.
+   data contracts or rendering logic. When in doubt, consult the relevant section in `README.md` or `PRD.md` to confirm the intended
+   behaviour before changing markup or data formats.
 3. **No bundlers or transpilers.** Keep JavaScript in ES6-compatible syntax that runs natively in modern browsers. Avoid introducing
    dependencies that require a build step.
 4. **CSS practices.** Use existing class naming patterns (dash-separated, utility-style). Maintain mobile-first responsive behaviour
@@ -25,7 +34,16 @@ Follow these principles when modifying files:
 5. **Python scripts.** Target Python 3.9+. Keep scripts idempotent, command-line friendly, and free of side effects beyond their
    outputs. Validate inputs and prefer standard library modules unless a dependency already exists in `requirements.txt`.
 6. **Data files.** When updating JSON feeds, ensure they remain valid UTF-8 with trailing newline and formatted consistently with the
-   current style (compact but readable, two-space indentation when appropriate).
+  current style (compact but readable, two-space indentation when appropriate). Mirror the schemas described in `README.md` and `PRD.md`
+  so the front-end code continues to parse them safely.
+
+## Working with ExecPlans
+- If a task requires more than a trivial change, draft or update an ExecPlan under the scope dictated by [`PLANS.md`](./PLANS.md). Keep the
+  plan checked in alongside the code changes and update the living sections (`Progress`, `Decision Log`, etc.) as work advances.
+- ExecPlans must explicitly reference the behavioural expectations from `PRD.md` and any implementation steps from `README.md` so that a
+  new contributor can trace requirements back to source material.
+- When finishing an ExecPlan, summarise the validation steps taken (tests, manual verification) and confirm the instructions remain
+  accurate for future agents.
 
 ## Testing & validation
 Before committing changes, run the relevant manual or automated checks:
