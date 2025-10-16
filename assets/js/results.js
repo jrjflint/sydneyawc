@@ -5,8 +5,8 @@
     resultsByYear: {},
     year: null,
     classNo: '',
-    search: '',
-    activeLeaderboard: 'averageScore'
+    winemakerKey: '',
+    search: ''
   };
 
   const refs = {};
@@ -20,7 +20,6 @@
       const resultsData = await fetchJson(RESULTS_DATA_URL);
       STATE.resultsByYear = buildYearCache(resultsData || {});
       initYearSelect();
-      initLeaderboardTabs();
     } catch (error) {
       console.error('Unable to load results data', error);
       renderErrorState();
@@ -30,15 +29,12 @@
   function cacheDom() {
     refs.yearSelect = document.getElementById('yearSelect');
     refs.classSelect = document.getElementById('classSelect');
+    refs.winemakerSelect = document.getElementById('winemakerSelect');
     refs.searchBox = document.getElementById('searchBox');
-    refs.champions = document.getElementById('champions');
-    refs.bestInClass = document.getElementById('bestInClass');
     refs.entriesTableBody = document.querySelector('#entriesTable tbody');
     refs.entriesSummary = document.getElementById('entriesSummary');
     refs.subtitleYear = document.querySelector('[data-year-label]');
     refs.subtitleShowNumber = document.querySelector('[data-show-number]');
-    refs.leaderboardPanels = document.getElementById('leaderboardPanels');
-    refs.leaderboardTabs = document.getElementById('leaderboardTabs');
     refs.jsonLd = document.getElementById('resultsJsonLd');
   }
 
@@ -47,11 +43,14 @@
     refs.classSelect?.addEventListener('change', (event) => {
       STATE.classNo = event.target.value;
       renderEntries();
-      pushDataLayer('filter_change', { classNo: STATE.classNo || null });
+      pushDataLayer('filter_change', { classNo: STATE.classNo || null, winemaker: STATE.winemakerKey || null });
+    });
+    refs.winemakerSelect?.addEventListener('change', (event) => {
+      STATE.winemakerKey = event.target.value;
+      renderEntries();
+      pushDataLayer('filter_change', { classNo: STATE.classNo || null, winemaker: STATE.winemakerKey || null });
     });
     refs.searchBox?.addEventListener('input', onSearchInput);
-    refs.leaderboardTabs?.addEventListener('click', onLeaderboardTabClick);
-    refs.leaderboardTabs?.addEventListener('keydown', onLeaderboardTabKeydown);
   }
 
   function onSearchInput(event) {
@@ -91,20 +90,6 @@
     pushDataLayer('results_view', {});
   }
 
-  function initLeaderboardTabs() {
-    const defaultTab = refs.leaderboardTabs?.querySelector('[data-metric="averageScore"]');
-    if (defaultTab) {
-      defaultTab.setAttribute('aria-selected', 'true');
-      defaultTab.setAttribute('tabindex', '0');
-      refs.leaderboardTabs.querySelectorAll('[role="tab"]').forEach((tab) => {
-        if (tab !== defaultTab) {
-          tab.setAttribute('aria-selected', 'false');
-          tab.setAttribute('tabindex', '-1');
-        }
-      });
-    }
-  }
-
   function onYearChange(event) {
     const selectedYear = parseInt(event.target.value, 10);
     if (Number.isNaN(selectedYear)) {
@@ -113,19 +98,21 @@
     STATE.year = selectedYear;
     STATE.classNo = '';
     refs.classSelect.value = '';
+    STATE.winemakerKey = '';
+    if (refs.winemakerSelect) {
+      refs.winemakerSelect.value = '';
+    }
     refs.searchBox.value = '';
     STATE.search = '';
     updateYearDependentUi();
-    pushDataLayer('filter_change', { classNo: null });
+    pushDataLayer('filter_change', { classNo: null, winemaker: null });
   }
 
   function updateYearDependentUi() {
     updateUrlQuery();
     updateSubtitleYear();
     populateClassSelect();
-    renderChampions();
-    renderLeaderboards();
-    renderBestInClass();
+    populateWinemakerSelect();
     renderEntries();
     updateJsonLd();
   }
@@ -178,222 +165,32 @@
     refs.classSelect.innerHTML = options.join('');
   }
 
-  function renderChampions() {
-    if (!refs.champions) return;
-    const champions = getYearData(STATE.year)?.champions || [];
-    if (!champions.length) {
-      refs.champions.innerHTML = `
-        <h2>Champions</h2>
-        <p class="empty-state">Champions will be announced soon. Check back later.</p>
-      `;
-      return;
-    }
-
-    const listItems = champions
-      .map((champion) => {
-        const details = [];
-        if (champion.wineType) {
-          details.push(`<span>${escapeHtml(champion.wineType)}</span>`);
-        } else if (champion.wineName) {
-          details.push(`<span>${escapeHtml(champion.wineName)}</span>`);
-        }
-        if (champion.wineVintage) {
-          details.push(`<span>Vintage ${escapeHtml(String(champion.wineVintage))}</span>`);
-        }
-        if (champion.classNo) {
-          details.push(`<span>Class ${escapeHtml(String(champion.classNo))}</span>`);
-        }
-        if (champion.medal && champion.medal !== 'No Award') {
-          details.push(`<span>${escapeHtml(champion.medal)} Medal</span>`);
-        }
-        if (champion.score != null) {
-          details.push(`<span>Score ${formatScore(champion.score)}</span>`);
-        }
-        const detailMarkup = details.filter(Boolean).join(' · ');
-        return `
-          <li class="champion-item">
-            <strong>${escapeHtml(champion.winemaker || 'Unnamed entry')}</strong>
-            <span class="champion-meta">${detailMarkup}</span>
-          </li>
-        `;
-      })
-      .join('');
-
-    refs.champions.innerHTML = `
-      <h2>Champions</h2>
-      <ul>${listItems}</ul>
-    `;
-  }
-
-  function renderLeaderboards() {
-    if (!refs.leaderboardPanels) return;
-    const leaderboards = getYearData(STATE.year)?.leaderboards || {};
-    const metrics = [
-      { key: 'averageScore', label: 'Average Score', valueKey: 'score', formatter: formatScore },
-      { key: 'medianScore', label: 'Median Score', valueKey: 'score', formatter: formatScore },
-      { key: 'sumTop5', label: 'Sum of Top 5', valueKey: 'sumTop5', formatter: formatScore }
-    ];
-
-    metrics.forEach(({ key, label, valueKey, formatter }) => {
-      const panel = document.getElementById(`panel-${metricPanelKey(key)}`);
-      if (!panel) return;
-      const rows = Array.isArray(leaderboards[key]) ? leaderboards[key].slice(0, 10) : [];
-      if (!rows.length) {
-        panel.innerHTML = `<p class="empty-state">${label} leaderboard will be published soon.</p>`;
-        panel.hidden = STATE.activeLeaderboard !== key;
-        return;
-      }
-
-      const tableRows = rows
-        .map((row, index) => `
-          <tr>
-            <td>${index + 1}</td>
-            <td>${escapeHtml(row.winemaker || 'Unnamed entrant')}</td>
-            <td>${row[valueKey] != null ? formatter(row[valueKey]) : '—'}</td>
-          </tr>
-        `)
-        .join('');
-
-      panel.innerHTML = `
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">Rank</th>
-              <th scope="col">Winemaker</th>
-              <th scope="col">${label === 'Sum of Top 5' ? 'Total' : 'Score'}</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${tableRows}
-          </tbody>
-        </table>
-      `;
-      panel.hidden = STATE.activeLeaderboard !== key;
-    });
-  }
-
-  function onLeaderboardTabClick(event) {
-    if (event.target?.matches('[role="tab"]')) {
-      const metric = event.target.getAttribute('data-metric');
-      if (!metric || metric === STATE.activeLeaderboard) return;
-      STATE.activeLeaderboard = metric;
-      const tabs = refs.leaderboardTabs.querySelectorAll('[role="tab"]');
-      tabs.forEach((tab) => {
-        const isActive = tab.getAttribute('data-metric') === metric;
-        tab.setAttribute('aria-selected', String(isActive));
-        tab.setAttribute('tabindex', isActive ? '0' : '-1');
-      });
-      event.target.focus();
-      const panels = refs.leaderboardPanels.querySelectorAll('[role="tabpanel"]');
-      panels.forEach((panel) => {
-        const panelMetric = panel.id.replace('panel-', '');
-        const normalizedMetric = normalizeMetricKey(metric);
-        panel.hidden = panelMetric !== normalizedMetric;
-      });
-      pushDataLayer('leaderboard_tab_view', { tab: metric });
-    }
-  }
-
-  function onLeaderboardTabKeydown(event) {
-    const keys = ['ArrowLeft', 'ArrowRight', 'Home', 'End'];
-    if (!keys.includes(event.key)) return;
-    event.preventDefault();
-    const tabs = Array.from(refs.leaderboardTabs.querySelectorAll('[role="tab"]'));
-    if (!tabs.length) return;
-    const currentIndex = tabs.findIndex((tab) => tab.getAttribute('data-metric') === STATE.activeLeaderboard);
-    let newIndex = currentIndex;
-    if (event.key === 'ArrowLeft') {
-      newIndex = currentIndex <= 0 ? tabs.length - 1 : currentIndex - 1;
-    } else if (event.key === 'ArrowRight') {
-      newIndex = currentIndex >= tabs.length - 1 ? 0 : currentIndex + 1;
-    } else if (event.key === 'Home') {
-      newIndex = 0;
-    } else if (event.key === 'End') {
-      newIndex = tabs.length - 1;
-    }
-    const nextTab = tabs[newIndex];
-    if (nextTab) {
-      nextTab.click();
-    }
-  }
-
-  function normalizeMetricKey(metric) {
-    if (metric === 'sumTop5') return 'top5';
-    if (metric === 'averageScore') return 'average';
-    if (metric === 'medianScore') return 'median';
-    return metric;
-  }
-
-  function metricPanelKey(metric) {
-    return normalizeMetricKey(metric);
-  }
-
-  function renderBestInClass() {
-    if (!refs.bestInClass) return;
+  function populateWinemakerSelect() {
+    if (!refs.winemakerSelect) return;
     const yearData = getYearData(STATE.year);
-    const classes = Array.isArray(yearData?.classes) ? yearData.classes.slice() : [];
-    if (!classes.length) {
-      refs.bestInClass.innerHTML = `
-        <h2>Best in Class</h2>
-        <p class="empty-state">Class winners will be announced soon.</p>
-      `;
+    const winemakersByKey = yearData?.winemakersByKey || {};
+    const entries = Object.entries(winemakersByKey);
+    if (!entries.length) {
+      refs.winemakerSelect.innerHTML = '<option value="">All winemakers</option>';
+      STATE.winemakerKey = '';
+      refs.winemakerSelect.value = '';
       return;
     }
-    classes.sort((a, b) => {
-      const orderA = typeof a?.sort_order === 'number' ? a.sort_order : Number.MAX_SAFE_INTEGER;
-      const orderB = typeof b?.sort_order === 'number' ? b.sort_order : Number.MAX_SAFE_INTEGER;
-      if (orderA !== orderB) return orderA - orderB;
-      const codeA = String(a?.code ?? '');
-      const codeB = String(b?.code ?? '');
-      return codeA.localeCompare(codeB, undefined, { numeric: true });
-    });
 
-    const listItems = classes
-      .map((classInfo) => {
-        const winners = (yearData?.bestInClassEntries || []).filter((entry) => entry.classId === classInfo.id);
-        if (!winners.length) {
-          return `
-            <li>
-              <div class="class-heading">Class ${escapeHtml(String(classInfo.code ?? ''))}</div>
-              <p class="empty-state">No best in class recorded.</p>
-            </li>
-          `;
-        }
-        const winnerMarkup = winners
-          .map((entry) => {
-            const details = [];
-            if (entry.wineType) {
-              details.push(`<span>${escapeHtml(entry.wineType)}</span>`);
-            } else if (entry.wineName) {
-              details.push(`<span>${escapeHtml(entry.wineName)}</span>`);
-            }
-            if (entry.medal && entry.medal !== 'No Award') {
-              details.push(`<span>${escapeHtml(entry.medal)} Medal</span>`);
-            }
-            if (entry.score != null) {
-              details.push(`<span>Score ${formatScore(entry.score)}</span>`);
-            }
-            return `
-              <div>
-                <strong>${escapeHtml(entry.winemaker || 'Unnamed entrant')}</strong>
-                <div class="class-meta">${details.filter(Boolean).join(' · ')}</div>
-              </div>
-            `;
-          })
-          .join('');
-        return `
-          <li>
-            <div class="class-heading">Class ${escapeHtml(String(classInfo.code ?? ''))}</div>
-            ${winnerMarkup}
-          </li>
-        `;
-      })
-      .join('');
+    const options = ['<option value="">All winemakers</option>'];
+    entries
+      .sort((a, b) => a[1].localeCompare(b[1], undefined, { sensitivity: 'base' }))
+      .forEach(([value, label]) => {
+        options.push(`<option value="${escapeHtml(value)}">${escapeHtml(label)}</option>`);
+      });
+    refs.winemakerSelect.innerHTML = options.join('');
 
-    refs.bestInClass.innerHTML = `
-      <h2>Best in Class</h2>
-      <ul class="best-list">${listItems}</ul>
-    `;
+    if (STATE.winemakerKey && !winemakersByKey[STATE.winemakerKey]) {
+      STATE.winemakerKey = '';
+      refs.winemakerSelect.value = '';
+    } else if (STATE.winemakerKey) {
+      refs.winemakerSelect.value = STATE.winemakerKey;
+    }
   }
 
   function renderEntries() {
@@ -403,6 +200,10 @@
       .filter((entry) => {
         if (!STATE.classNo) return true;
         return String(entry.classNo) === STATE.classNo;
+      })
+      .filter((entry) => {
+        if (!STATE.winemakerKey) return true;
+        return entry.winemakerKey === STATE.winemakerKey;
       })
       .filter((entry) => {
         if (!STATE.search) return true;
@@ -480,10 +281,13 @@
     const classSegment = STATE.classNo
       ? formatClassSummary(yearData, STATE.classNo)
       : 'all classes';
+    const winemakerSegment = STATE.winemakerKey
+      ? ` for ${formatWinemakerSummary(yearData, STATE.winemakerKey)}`
+      : '';
     const searchSegment = STATE.search ? ` matching “${STATE.search}”` : '';
     const plural = count === 1 ? 'entry' : 'entries';
     const showYear = yearData?.raw?.show?.year || STATE.year;
-    refs.entriesSummary.textContent = `${count} ${plural} from ${showYear} in ${classSegment}${searchSegment}.`;
+    refs.entriesSummary.textContent = `${count} ${plural} from ${showYear} in ${classSegment}${winemakerSegment}${searchSegment}.`;
   }
 
   function updateJsonLd() {
@@ -568,6 +372,7 @@
         }
       });
       const entriesRaw = Array.isArray(yearPayload.entries) ? yearPayload.entries : [];
+      const winemakersByKey = {};
       const entries = entriesRaw.map((entry) => {
         const classInfo = classesById[entry?.class_id] || {};
         const entrantInfo = entrantsById[entry?.entrant_id] || {};
@@ -584,6 +389,17 @@
           : score != null
             ? score * 5
             : null;
+        const winemakerId = entry?.entrant_id ?? null;
+        const winemakerName = entrantInfo?.display_name || entrantInfo?.name || 'Unnamed entrant';
+        const hasWinemakerName = Boolean(winemakerName && winemakerName !== 'Unnamed entrant');
+        const winemakerKey = winemakerId != null
+          ? `id:${winemakerId}`
+          : hasWinemakerName
+            ? `name:${winemakerName.toLowerCase()}`
+            : '';
+        if (winemakerKey) {
+          winemakersByKey[winemakerKey] = winemakerName;
+        }
         return {
           id: entry?.id || null,
           year: yearNumber,
@@ -592,8 +408,9 @@
           className: classInfo?.name || '',
           classSortOrder: typeof classInfo?.sort_order === 'number' ? classInfo.sort_order : Number.MAX_SAFE_INTEGER,
           entryNo: entry?.exhibit_number || entry?.entry_number || '',
-          winemaker: entrantInfo?.display_name || entrantInfo?.name || 'Unnamed entrant',
-          winemakerId: entry?.entrant_id || null,
+          winemaker: winemakerName,
+          winemakerId,
+          winemakerKey,
           entrantClub: entrantInfo?.club || null,
           wineName: entry?.wine?.name || '',
           wineType: entry?.wine?.style || entry?.wine?.name || '',
@@ -626,9 +443,7 @@
         entrants,
         entrantsById,
         entries: validEntries,
-        champions: validEntries.filter((entry) => entry.champFlag),
-        bestInClassEntries: validEntries.filter((entry) => entry.bestInClass),
-        leaderboards: computeLeaderboards(validEntries)
+        winemakersByKey
       };
     });
 
@@ -645,54 +460,6 @@
     return Array.isArray(yearData?.entries) ? yearData.entries : [];
   }
 
-  function computeLeaderboards(entries) {
-    if (!Array.isArray(entries) || !entries.length) {
-      return {};
-    }
-    const map = new Map();
-    entries.forEach((entry) => {
-      if (typeof entry?.score !== 'number') return;
-      const key = entry.winemakerId || entry.winemaker;
-      if (!map.has(key)) {
-        map.set(key, { winemaker: entry.winemaker, scores: [] });
-      }
-      map.get(key).scores.push(entry.score);
-    });
-    const rows = Array.from(map.values());
-    if (!rows.length) {
-      return {};
-    }
-    rows.forEach((row) => row.scores.sort((a, b) => b - a));
-    const averageScore = rows
-      .map((row) => ({
-        winemaker: row.winemaker,
-        score: row.scores.reduce((sum, value) => sum + value, 0) / row.scores.length
-      }))
-      .sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
-    const medianScore = rows
-      .map((row) => ({ winemaker: row.winemaker, score: median(row.scores) }))
-      .sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
-    const sumTop5 = rows
-      .map((row) => ({
-        winemaker: row.winemaker,
-        sumTop5: row.scores.slice(0, 5).reduce((sum, value) => sum + value, 0)
-      }))
-      .sort((a, b) => (b.sumTop5 ?? 0) - (a.sumTop5 ?? 0));
-    return { averageScore, medianScore, sumTop5 };
-  }
-
-  function median(values) {
-    if (!Array.isArray(values) || !values.length) {
-      return null;
-    }
-    const sorted = values.slice().sort((a, b) => a - b);
-    const mid = Math.floor(sorted.length / 2);
-    if (sorted.length % 2 === 0) {
-      return (sorted[mid - 1] + sorted[mid]) / 2;
-    }
-    return sorted[mid];
-  }
-
   function formatClassSummary(yearData, classCode) {
     if (!classCode) {
       return 'the selected class';
@@ -702,6 +469,17 @@
       return `Class ${classCode}`;
     }
     return classInfo.name ? `Class ${classCode} — ${classInfo.name}` : `Class ${classCode}`;
+  }
+
+  function formatWinemakerSummary(yearData, winemakerKey) {
+    if (!winemakerKey) {
+      return 'the selected winemaker';
+    }
+    const label = yearData?.winemakersByKey?.[winemakerKey];
+    if (label) {
+      return `winemaker ${label}`;
+    }
+    return 'the selected winemaker';
   }
 
   function getEditionDisplay(show, fallbackYear) {
@@ -739,22 +517,11 @@
   }
 
   function renderErrorState(message = 'We were unable to load the show results. Please refresh to try again.') {
-    if (refs.champions) {
-      refs.champions.innerHTML = `<h2>Champions</h2><p class="empty-state">${escapeHtml(message)}</p>`;
-    }
-    if (refs.bestInClass) {
-      refs.bestInClass.innerHTML = `<h2>Best in Class</h2><p class="empty-state">${escapeHtml(message)}</p>`;
-    }
     if (refs.entriesTableBody) {
       refs.entriesTableBody.innerHTML = `<tr><td colspan="6">${escapeHtml(message)}</td></tr>`;
     }
     if (refs.entriesSummary) {
       refs.entriesSummary.textContent = message;
-    }
-    if (refs.leaderboardPanels) {
-      refs.leaderboardPanels.querySelectorAll('[role="tabpanel"]').forEach((panel) => {
-        panel.innerHTML = `<p class="empty-state">${escapeHtml(message)}</p>`;
-      });
     }
   }
 
