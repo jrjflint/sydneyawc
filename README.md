@@ -21,11 +21,12 @@ A community of home winemaking enthusiasts in Sydney. This repo hosts the offici
 - `404.html` – custom not-found page that keeps visitors engaged and links back to the home page.
 - `results.html` – dynamic results page for the annual wineshow, powered by vanilla JS and JSON feeds.
 - `assets/`
-  - `events.js` and `nextevent.js` fetch data from JSON/ICS feeds and render the upcoming meeting schedule.
+  - `events.json` – canonical event data consumed by the homepage listings and JSON-LD helpers.
+  - `sawc-events.ics` – the published iCalendar feed generated from the same event data (linked from the homepage and sitemap).
+  - `events.js` and `nextevent.js` fetch the feeds above and render the upcoming meeting schedule plus structured data.
   - `js/results.js` powers the wineshow results experience (filters, leaderboards, JSON-LD updates).
-- `data/results.json` contains the structured competition results keyed by show year.
-  - `events.json` and `calendar.ics` are the data feeds consumed by the front-end.
-  - `generate_events_from_clean.py` converts a cleaned spreadsheet export into `events.json` (and optionally `calendar.ics`).
+  - `data/results.json` contains the structured competition results keyed by show year.
+  - `generate_events_from_clean.py` converts a cleaned spreadsheet export into `events.json` (and can optionally emit an `.ics` file).
   - `generate_ics.py` and `generate_ics_refactored.py` rebuild an iCalendar feed from `events.json`.
 
 ## Local preview
@@ -64,7 +65,7 @@ If no upcoming meeting exists in `events.json`, the script removes the JSON-LD n
 
 ## Event data pipeline
 
-Keeping the website up to date requires two artefacts under `assets/`: `events.json` (used for the event listings) and an iCalendar file (`calendar.ics` or `sawc-events.ics`). The Python helper scripts make it repeatable to rebuild both from the club's planning spreadsheet.
+Keeping the website up to date requires two artefacts under `assets/`: `events.json` (used for the event listings) and an iCalendar file (`sawc-events.ics`). The Python helper scripts make it repeatable to rebuild both from the club's planning spreadsheet.
 
 ### 1. Prepare the spreadsheet export
 
@@ -78,7 +79,7 @@ Run the conversion script, pointing it at the spreadsheet export and desired out
 
 ```bash
 python assets/generate_events_from_clean.py "SAWC 2025 Activities Calendar_Clean.csv" \
-  --json assets/events.json --ics assets/calendar.ics --id-mode uuid
+  --json assets/events.json --ics assets/sawc-events.ics --id-mode uuid
 ```
 
 Key flags:
@@ -92,11 +93,13 @@ The script validates required columns, normalises times, and prints a summary co
 
 ### 3. Publish a refreshed calendar feed
 
-If you want a calendar feed that mirrors exactly what the site uses, regenerate it from the JSON so both artefacts stay in sync:
+If you want a calendar feed that mirrors exactly what the site uses, regenerate it from the JSON so both artefacts stay in sync (useful when the events script ran without `--ics` or you want to refresh metadata without touching the spreadsheet):
 
 ```bash
 python assets/generate_ics.py --in assets/events.json --out assets/sawc-events.ics
 ```
+
+Both `generate_ics.py` variants default to writing `./assets/sawc-events.ics`, keeping the download link, sitemap entry, and JavaScript references in sync with the JSON feed.
 
 This produces an RFC5545-compliant `.ics` file with folded lines, escaped text, and the correct timezone annotations for import into Google Calendar, Outlook, etc.
 
