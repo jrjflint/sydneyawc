@@ -4,6 +4,7 @@ A community of home winemaking enthusiasts in Sydney. This repo hosts the offici
 
 ## Table of contents
 - [Project layout](#project-layout)
+- [Changelog](#changelog)
 - [Local preview](#local-preview)
 - [Wineshow results data](#wineshow-results-data)
 - [Event data pipeline](#event-data-pipeline)
@@ -28,6 +29,10 @@ A community of home winemaking enthusiasts in Sydney. This repo hosts the offici
   - `data/results.json` contains the structured competition results keyed by show year.
   - `generate_events_from_clean.py` converts a cleaned spreadsheet export into `events.json` (and can optionally emit an `.ics` file).
   - `generate_ics.py` and `generate_ics_refactored.py` rebuild an iCalendar feed from `events.json`.
+
+## Changelog
+
+Review [`CHANGELOG.md`](./CHANGELOG.md) before starting work to understand recent updates. When you finish a feature or fix that impacts users, append a dated bullet summarising the change so the history stays current.
 
 ## Local preview
 

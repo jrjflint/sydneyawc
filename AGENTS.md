@@ -58,6 +58,7 @@ Before committing changes, run the relevant manual or automated checks:
 - Update documentation (README, PRD, comments) when behaviour or data contracts change.
 - Maintain compatibility with GitHub Pages hosting (no server-side logic, keep assets relative).
 - If you touch files in new directories, create additional `AGENTS.md` files with directory-specific rules as needed.
+- **Maintain the changelog.** Review existing entries in `CHANGELOG.md` before making substantive changes. Summarise user-visible updates in the appropriate release section (or create a new dated section) so future contributors can track project history at a glance.
 
 ## Resources
 - Primary documentation: [`README.md`](./README.md) for data pipeline and local development details.
