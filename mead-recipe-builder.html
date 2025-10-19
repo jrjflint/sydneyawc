@@ -55,23 +55,25 @@
       </p>
     </section>
 
-    <form id="meadBuilderForm" novalidate aria-describedby="builder-status">
+    <form id="meadBuilderForm" class="card builder-form" novalidate aria-describedby="builder-status">
       <fieldset>
         <legend>Batch inputs</legend>
-        <div class="control-group">
-          <label for="batchVolume">Batch volume (litres)</label>
-          <input id="batchVolume" name="batchVolume" type="number" min="0" step="0.1" inputmode="decimal" placeholder="20" aria-describedby="batchVolumeHint">
-          <p class="hint" id="batchVolumeHint">Final must volume in litres (L).</p>
-        </div>
-        <div class="control-group">
-          <label for="targetAbv">Target alcohol by volume (%)</label>
-          <input id="targetAbv" name="targetAbv" type="number" min="0" max="25" step="0.1" inputmode="decimal" placeholder="12" aria-describedby="targetAbvHint">
-          <p class="hint" id="targetAbvHint">Desired finished ABV percentage for the batch.</p>
-        </div>
-        <div class="control-group">
-          <label for="targetFg">Target sweetness (final gravity, SG)</label>
-          <input id="targetFg" name="targetFg" type="number" min="0.98" max="1.2" step="0.001" inputmode="decimal" placeholder="1.010" aria-describedby="targetFgHint">
-          <p class="hint" id="targetFgHint">Approximate finishing gravity to express desired sweetness level.</p>
+        <div class="control-grid">
+          <div class="control-group">
+            <label for="batchVolume">Batch volume (litres)</label>
+            <input id="batchVolume" name="batchVolume" type="number" min="0" step="0.1" inputmode="decimal" placeholder="20" aria-describedby="batchVolumeHint">
+            <p class="hint" id="batchVolumeHint">Final must volume in litres (L).</p>
+          </div>
+          <div class="control-group">
+            <label for="targetAbv">Target alcohol by volume (%)</label>
+            <input id="targetAbv" name="targetAbv" type="number" min="0" max="25" step="0.1" inputmode="decimal" placeholder="12" aria-describedby="targetAbvHint">
+            <p class="hint" id="targetAbvHint">Desired finished ABV percentage for the batch.</p>
+          </div>
+          <div class="control-group">
+            <label for="targetFg">Target sweetness (final gravity, SG)</label>
+            <input id="targetFg" name="targetFg" type="number" min="0.98" max="1.2" step="0.001" inputmode="decimal" placeholder="1.010" aria-describedby="targetFgHint">
+            <p class="hint" id="targetFgHint">Approximate finishing gravity to express desired sweetness level.</p>
+          </div>
         </div>
       </fieldset>
     </form>

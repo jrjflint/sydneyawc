@@ -14,6 +14,227 @@ body {
   margin-right: auto;
 }
 
+body.mead-builder-page {
+  background: linear-gradient(180deg, #f8f3eb 0%, #fdfaf5 30%, #ffffff 100%);
+  color: #2d1c0f;
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
+
+body.mead-builder-page *,
+body.mead-builder-page *::before,
+body.mead-builder-page *::after {
+  box-sizing: border-box;
+}
+
+body.mead-builder-page .skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -3rem;
+  background: #b86422;
+  color: #fffaf2;
+  padding: 0.75rem 1.15rem;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  transition: top 0.25s ease;
+  z-index: 1000;
+}
+
+body.mead-builder-page .skip-link:focus {
+  top: 1rem;
+}
+
+body.mead-builder-page .container {
+  width: min(100% - 2.5rem, 960px);
+  margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+  body.mead-builder-page .container {
+    width: min(100% - 1.5rem, 100%);
+  }
+}
+
+body.mead-builder-page .page-header {
+  background: radial-gradient(circle at top left, rgba(184, 100, 34, 0.18), transparent 55%),
+    radial-gradient(circle at top right, rgba(131, 74, 24, 0.12), transparent 50%),
+    #fef8f0;
+  border-bottom: 1px solid rgba(45, 28, 15, 0.12);
+  padding: clamp(2.75rem, 7vw, 3.75rem) 0 clamp(2.25rem, 5vw, 3rem);
+  text-align: left;
+}
+
+body.mead-builder-page .page-header h1 {
+  font-size: clamp(2.3rem, 5vw, 2.9rem);
+  margin-bottom: 0.5rem;
+}
+
+body.mead-builder-page .page-header .eyebrow {
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  color: rgba(45, 28, 15, 0.6);
+  margin-bottom: 0.35rem;
+}
+
+body.mead-builder-page .page-header .subtitle {
+  margin: 0;
+  max-width: 40ch;
+  color: rgba(45, 28, 15, 0.7);
+}
+
+body.mead-builder-page main {
+  padding: clamp(2rem, 6vw, 3.5rem) 0 clamp(3rem, 8vw, 4.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+body.mead-builder-page .card {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 1rem;
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+  border: 1px solid rgba(45, 28, 15, 0.1);
+  box-shadow: 0 24px 55px rgba(65, 40, 18, 0.08);
+  backdrop-filter: blur(4px);
+}
+
+body.mead-builder-page .card h2 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: clamp(1.6rem, 4vw, 2rem);
+}
+
+body.mead-builder-page .hint {
+  font-size: 0.9rem;
+  color: rgba(45, 28, 15, 0.68);
+  margin-top: 0.1rem;
+}
+
+body.mead-builder-page .builder-form {
+  display: block;
+}
+
+body.mead-builder-page fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+body.mead-builder-page legend {
+  font-family: 'Sorts Mill Goudy', Georgia, serif;
+  font-size: clamp(1.3rem, 3vw, 1.6rem);
+  margin-bottom: 1.25rem;
+}
+
+body.mead-builder-page .control-grid {
+  display: grid;
+  gap: clamp(1rem, 3vw, 1.5rem);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 640px) {
+  body.mead-builder-page .control-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+body.mead-builder-page .control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+body.mead-builder-page label {
+  font-weight: 600;
+  color: #45280f;
+}
+
+body.mead-builder-page input[type="number"] {
+  font: inherit;
+  padding: 0.65rem 0.75rem;
+  border-radius: 0.65rem;
+  border: 1px solid rgba(45, 28, 15, 0.2);
+  background: rgba(255, 255, 255, 0.96);
+  color: inherit;
+  min-height: 2.75rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+body.mead-builder-page input[type="number"]:focus {
+  outline: 3px solid rgba(184, 100, 34, 0.3);
+  outline-offset: 2px;
+  border-color: rgba(184, 100, 34, 0.7);
+  box-shadow: 0 0 0 4px rgba(184, 100, 34, 0.15);
+}
+
+body.mead-builder-page input[type="number"]::placeholder {
+  color: rgba(45, 28, 15, 0.45);
+}
+
+body.mead-builder-page .summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: clamp(1rem, 3vw, 1.5rem);
+  margin: 1.25rem 0 0;
+}
+
+body.mead-builder-page .summary > div {
+  background: linear-gradient(160deg, rgba(184, 100, 34, 0.08), rgba(255, 255, 255, 0.95));
+  border-radius: 0.85rem;
+  padding: 0.9rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  border: 1px solid rgba(45, 28, 15, 0.08);
+}
+
+body.mead-builder-page .summary dt {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: rgba(45, 28, 15, 0.65);
+}
+
+body.mead-builder-page .summary dd {
+  margin: 0;
+  font-size: clamp(1.25rem, 3.5vw, 1.55rem);
+  font-weight: 600;
+  color: #3a230c;
+}
+
+body.mead-builder-page h3 {
+  font-size: clamp(1.25rem, 3vw, 1.45rem);
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+body.mead-builder-page ol,
+body.mead-builder-page ul {
+  padding-left: 1.3rem;
+}
+
+body.mead-builder-page li + li {
+  margin-top: 0.65rem;
+}
+
+body.mead-builder-page footer.page-footer {
+  margin-top: 0;
+  background: #2d1c0f;
+  color: #fef8f0;
+  padding: 1.75rem 0;
+}
+
+body.mead-builder-page footer.page-footer a {
+  color: #ffddae;
+}
+
+body.mead-builder-page footer.page-footer a:hover,
+body.mead-builder-page footer.page-footer a:focus {
+  color: #ffffff;
+}
+
 header {
   text-align: center;
   margin-bottom: 2rem;
