@@ -38,6 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const DEFAULT_HONEY_CONTRIBUTION =
     HONEY_SUGAR_FRACTION * SUGAR_POINTS_PER_KG_PER_LITRE;
   const FERMAID_AT_DOSE_PER_LITRE = 0.35;
+  const YEAST_DOSE_G_PER_HL = 30;
+  const GOFERM_RATIO = 1.25;
+  const REHYDRATION_WATER_MULT = 20;
   const RESIDUAL_SUGAR_MULTIPLIER = 2.65;
 
   const getNumericInput = (name) => {
@@ -102,8 +105,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     setOutput('yeast-mass', null);
     setOutput('go-ferm', null);
+    setOutput('rehydration-water', null);
     if (Number.isFinite(volumeLitres) && volumeLitres > 0) {
+      const yeastMass = volumeLitres * (YEAST_DOSE_G_PER_HL / 100);
+      const goFermMass = yeastMass * GOFERM_RATIO;
+      const rehydrationWaterVolume = goFermMass * REHYDRATION_WATER_MULT;
       const fermaidAtMass = volumeLitres * FERMAID_AT_DOSE_PER_LITRE;
+
+      setOutput('yeast-mass', formatters.mass.format(yeastMass));
+      setOutput('go-ferm', formatters.mass.format(goFermMass));
+      setOutput(
+        'rehydration-water',
+        formatters.mass.format(rehydrationWaterVolume)
+      );
       setOutput('fermaid-at', formatters.mass.format(fermaidAtMass));
     } else {
       setOutput('fermaid-at', null);
