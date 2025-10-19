@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 - Added dedicated mead landing and prototype recipe builder pages to support the upcoming metric calculator work.
 - Refined the mead recipe builder layout for mobile responsiveness and clearer data entry cards.
+- Scoped mead builder styling into a dedicated stylesheet to reduce merge conflicts with site-wide rules.
 
 ## 2025-09-27
 - Established the static site foundation, styling, and deployment configuration.
