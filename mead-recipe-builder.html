@@ -57,31 +57,26 @@
 
     <form id="meadBuilderForm" novalidate aria-describedby="builder-status">
       <fieldset>
-        <legend>Batch parameters</legend>
+        <legend>Batch inputs</legend>
         <div class="control-group">
           <label for="batchVolume">Batch volume (litres)</label>
           <input id="batchVolume" name="batchVolume" type="number" min="0" step="0.1" inputmode="decimal" placeholder="20" aria-describedby="batchVolumeHint">
           <p class="hint" id="batchVolumeHint">Final must volume in litres (L).</p>
         </div>
         <div class="control-group">
-          <label for="targetOg">Target original gravity (SG)</label>
-          <input id="targetOg" name="targetOg" type="number" min="1" max="1.2" step="0.001" inputmode="decimal" placeholder="1.100" aria-describedby="targetOgHint">
-          <p class="hint" id="targetOgHint">Specific gravity target before fermentation.</p>
+          <label for="targetAbv">Target alcohol by volume (%)</label>
+          <input id="targetAbv" name="targetAbv" type="number" min="0" max="25" step="0.1" inputmode="decimal" placeholder="12" aria-describedby="targetAbvHint">
+          <p class="hint" id="targetAbvHint">Desired finished ABV percentage for the batch.</p>
         </div>
         <div class="control-group">
-          <label for="targetFg">Estimated final gravity (SG)</label>
+          <label for="targetFg">Target sweetness (final gravity, SG)</label>
           <input id="targetFg" name="targetFg" type="number" min="0.98" max="1.2" step="0.001" inputmode="decimal" placeholder="1.010" aria-describedby="targetFgHint">
-          <p class="hint" id="targetFgHint">Used to project alcohol and residual sweetness.</p>
+          <p class="hint" id="targetFgHint">Approximate finishing gravity to express desired sweetness level.</p>
         </div>
       </fieldset>
 
-      <fieldset>
-        <legend>Honey profile</legend>
-        <div class="control-group">
-          <label for="honeyVariety">Honey variety</label>
-          <input id="honeyVariety" name="honeyVariety" type="text" placeholder="Yellow Box" aria-describedby="honeyVarietyHint">
-          <p class="hint" id="honeyVarietyHint">Free text description (variety, supplier, harvest year).</p>
-        </div>
+      <details class="card optional-inputs">
+        <summary>Advanced assumptions</summary>
         <div class="control-group">
           <label for="honeyDensity">Honey density (kg/L)</label>
           <input id="honeyDensity" name="honeyDensity" type="number" min="1.3" max="1.5" step="0.001" inputmode="decimal" placeholder="1.42" aria-describedby="honeyDensityHint">
@@ -90,64 +85,82 @@
         <div class="control-group">
           <label for="honeyContribution">Honey gravity contribution (points/kg/L)</label>
           <input id="honeyContribution" name="honeyContribution" type="number" min="300" max="400" step="1" inputmode="decimal" placeholder="350" aria-describedby="honeyContributionHint">
-          <p class="hint" id="honeyContributionHint">Approximate specific gravity points per kilogram of honey in a litre of must.</p>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>Fermaid AT plan</legend>
-        <div class="control-group">
-          <label for="gravitySchedule">Fermentation gravity bracket</label>
-          <select id="gravitySchedule" name="gravitySchedule" aria-describedby="gravityScheduleHint">
-            <option value="">Choose an initial gravity range</option>
-            <option value="medium">1.100 SG or lower</option>
-            <option value="high">Above 1.100 SG</option>
-          </select>
-          <p class="hint" id="gravityScheduleHint">Guides the Fermaid AT grams per hectolitre dosage.</p>
+          <p class="hint" id="honeyContributionHint">Specific gravity points per kilogram of honey per litre of must.</p>
         </div>
         <div class="control-group">
-          <label for="yeastPitch">Yeast cells pitched (billion)</label>
-          <input id="yeastPitch" name="yeastPitch" type="number" min="0" step="10" inputmode="decimal" placeholder="200" aria-describedby="yeastPitchHint">
-          <p class="hint" id="yeastPitchHint">Optional tracking value if you monitor pitch rate. Helps document your batch.</p>
-        </div>
-        <div class="control-group">
-          <label for="fermaidAddition">Fermaid AT total (g/hL)</label>
+          <label for="fermaidAddition">Fermaid AT target dose (g/hL)</label>
           <input id="fermaidAddition" name="fermaidAddition" type="number" min="0" step="0.1" inputmode="decimal" placeholder="30" aria-describedby="fermaidAdditionHint">
-          <p class="hint" id="fermaidAdditionHint">Enter the dosage per hectolitre you plan to trial; the calculator will scale by batch volume.</p>
+          <p class="hint" id="fermaidAdditionHint">Choose grams per hectolitre for the staggered nutrient plan.</p>
         </div>
-      </fieldset>
+      </details>
     </form>
 
     <section aria-labelledby="summary-heading" class="card">
-      <h2 id="summary-heading">Batch summary</h2>
+      <h2 id="summary-heading">Batch outputs</h2>
       <p class="hint">Calculated values will display here in a future update.</p>
       <dl class="summary" aria-live="polite">
         <div>
-          <dt>Honey required</dt>
+          <dt>Target original gravity (SG)</dt>
+          <dd data-output="target-og">Pending calculation</dd>
+        </div>
+        <div>
+          <dt>Estimated residual sugar (g/L)</dt>
+          <dd data-output="residual-sugar">Pending calculation</dd>
+        </div>
+        <div>
+          <dt>Honey needed (kg)</dt>
           <dd data-output="honey-mass">Pending calculation</dd>
         </div>
         <div>
-          <dt>Water top-up</dt>
-          <dd data-output="water-topup">Pending calculation</dd>
+          <dt>Yeast addition (g)</dt>
+          <dd data-output="yeast-mass">Pending calculation</dd>
         </div>
         <div>
-          <dt>Estimated ABV</dt>
-          <dd data-output="estimated-abv">Pending calculation</dd>
+          <dt>Go-Ferm (g)</dt>
+          <dd data-output="go-ferm">Pending calculation</dd>
         </div>
         <div>
-          <dt>Fermaid AT schedule</dt>
-          <dd data-output="fermaid-schedule">Plan forthcoming</dd>
+          <dt>Fermaid AT (g)</dt>
+          <dd data-output="fermaid-at">Pending calculation</dd>
         </div>
       </dl>
     </section>
 
-    <section aria-labelledby="builder-notes">
-      <h2 id="builder-notes">Working notes</h2>
+    <section aria-labelledby="instructions-heading" class="card">
+      <h2 id="instructions-heading">Metric brew day checklist</h2>
+      <h3>General instructions</h3>
+      <ol>
+        <li>Clean and sanitise everything that will come into contact with your must.</li>
+        <li>Dissolve honey in a small volume of water (leave headspace so you can top up to the batch volume later).</li>
+        <li>Add water so the fermenter holds your target batch volume minus the amount reserved for yeast rehydration.</li>
+        <li>Aerate the must with a drill stirrer or shake/stir vigorously for 15&nbsp;minutes.</li>
+        <li>Rehydrate, temper, and pitch yeast per the Go-Ferm instructions below.</li>
+        <li>Record specific gravity and temperature for future reference.</li>
+        <li>Apply an airlock. Ferment within your yeast&rsquo;s recommended range; around 16&nbsp;&deg;C suits most wine strains.</li>
+        <li>Degas twice per day for the first week of fermentation.</li>
+        <li>Dose nutrients per the Fermaid protocol below.</li>
+        <li>Rack when gravity is stable for two weeks. Also rack within three weeks of a sediment layer forming to avoid off flavours.</li>
+        <li>When the mead clears, bottle and enjoy. Most batches are ready to drink after 2&ndash;3&nbsp;months.</li>
+      </ol>
+
+      <h3>Go-Ferm rehydration procedure</h3>
+      <p>For two packets of yeast, dissolve 12.5&nbsp;g Go-Ferm Protect in 250&nbsp;mL hot water (the hotter the better).</p>
+      <ol>
+        <li>When the water cools to 40&nbsp;&deg;C, pour in the yeast and give the slurry a quick swirl.</li>
+        <li>After 15&nbsp;minutes, begin tempering the yeast by adding 125&nbsp;mL must to the slurry every five minutes.</li>
+        <li>When the slurry temperature is within 6&nbsp;&deg;C of the must, pitch the yeast into the fermenter.</li>
+      </ol>
+
+      <h3>Fermaid K / Fermaid O / DAP nutrient protocol</h3>
+      <p>The total additions for this schedule are 8.3&nbsp;g Fermaid O, 9.3&nbsp;g Fermaid K, and 9.5&nbsp;g DAP, split into four staggered nutrient additions. Degas the must and dissolve nutrient doses in 250&nbsp;mL must before adding them to the fermenter.</p>
       <ul>
-        <li>We are validating SG-to-Plato conversions and targeting a honey density default of 1.42&nbsp;kg/L.</li>
-        <li>Fermaid AT guidance references Lallemand's published dosing rates for TOSNA-style staggered nutrient additions.</li>
-        <li>Local storage and printable brew day summaries will arrive after the calculation engine solidifies.</li>
+        <li>24 and 48&nbsp;hours after pitching yeast, add 4.15&nbsp;g Fermaid O each time.</li>
+        <li>72&nbsp;hours after pitching, add 4.65&nbsp;g Fermaid K and 4.75&nbsp;g DAP.</li>
+        <li>At the one-third sugar break (for example, when 1.120 starting gravity reaches 1.080), or no later than seven days after pitching, add another 4.65&nbsp;g Fermaid K and 4.75&nbsp;g DAP.</li>
+        <li>If the mead shows signs of yeast stress (sulfur aromas) after the final scheduled addition, supplement with an extra 4.15&nbsp;g Fermaid O as needed.</li>
       </ul>
+
+      <p class="hint">This prototype does not estimate pH; plan to measure it with a calibrated meter or narrow-range strips.</p>
     </section>
   </main>
 
