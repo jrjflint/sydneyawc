@@ -74,30 +74,11 @@
           <p class="hint" id="targetFgHint">Approximate finishing gravity to express desired sweetness level.</p>
         </div>
       </fieldset>
-
-      <details class="card optional-inputs">
-        <summary>Advanced assumptions</summary>
-        <div class="control-group">
-          <label for="honeyDensity">Honey density (kg/L)</label>
-          <input id="honeyDensity" name="honeyDensity" type="number" min="1.3" max="1.5" step="0.001" inputmode="decimal" placeholder="1.42" aria-describedby="honeyDensityHint">
-          <p class="hint" id="honeyDensityHint">Default planning assumes 1.42&nbsp;kg per litre unless you measured otherwise.</p>
-        </div>
-        <div class="control-group">
-          <label for="honeyContribution">Honey gravity contribution (points/kg/L)</label>
-          <input id="honeyContribution" name="honeyContribution" type="number" min="250" max="400" step="1" inputmode="decimal" placeholder="306" aria-describedby="honeyContributionHint">
-          <p class="hint" id="honeyContributionHint">Default estimate assumes 79.6% fermentable sugar (~306 points/kg/L).</p>
-        </div>
-        <div class="control-group">
-          <label for="fermaidAddition">Fermaid AT target dose (g/hL)</label>
-          <input id="fermaidAddition" name="fermaidAddition" type="number" min="0" step="0.1" inputmode="decimal" placeholder="30" aria-describedby="fermaidAdditionHint">
-          <p class="hint" id="fermaidAdditionHint">Choose grams per hectolitre for the staggered nutrient plan.</p>
-        </div>
-      </details>
     </form>
 
     <section aria-labelledby="summary-heading" class="card">
       <h2 id="summary-heading">Batch outputs</h2>
-      <p class="hint">Enter batch details to estimate gravity targets and honey needs (assuming honey is 79.6% fermentable sugar). Other outputs will follow in a future update.</p>
+      <p class="hint">Enter batch details to estimate gravity targets, honey needs (assuming honey is 79.6% fermentable sugar), and Fermaid AT additions at 0.35&nbsp;g per litre.</p>
       <dl class="summary" aria-live="polite">
         <div>
           <dt>Target original gravity (SG)</dt>

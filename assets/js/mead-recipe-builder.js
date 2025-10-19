@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const HONEY_SUGAR_FRACTION = 0.796;
   const DEFAULT_HONEY_CONTRIBUTION =
     HONEY_SUGAR_FRACTION * SUGAR_POINTS_PER_KG_PER_LITRE;
+  const FERMAID_AT_DOSE_PER_LITRE = 0.35;
 
   const getNumericInput = (name) => {
     const input = form.elements.namedItem(name);
@@ -63,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const volumeLitres = getNumericInput('batchVolume');
     const targetAbv = getNumericInput('targetAbv');
     const targetFg = getNumericInput('targetFg');
-    const honeyContributionInput = getNumericInput('honeyContribution');
 
     let targetOg = Number.NaN;
     if (Number.isFinite(targetAbv) && Number.isFinite(targetFg)) {
@@ -76,9 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setOutput('target-og', null);
     }
 
-    const honeyContribution = Number.isFinite(honeyContributionInput)
-      ? honeyContributionInput
-      : DEFAULT_HONEY_CONTRIBUTION;
+    const honeyContribution = DEFAULT_HONEY_CONTRIBUTION;
 
     if (
       Number.isFinite(volumeLitres) &&
@@ -98,7 +96,12 @@ document.addEventListener('DOMContentLoaded', () => {
     setOutput('residual-sugar', null);
     setOutput('yeast-mass', null);
     setOutput('go-ferm', null);
-    setOutput('fermaid-at', null);
+    if (Number.isFinite(volumeLitres) && volumeLitres > 0) {
+      const fermaidAtMass = volumeLitres * FERMAID_AT_DOSE_PER_LITRE;
+      setOutput('fermaid-at', formatters.mass.format(fermaidAtMass));
+    } else {
+      setOutput('fermaid-at', null);
+    }
   };
 
   form.addEventListener('input', updateOutputs);
