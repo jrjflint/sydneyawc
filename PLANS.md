@@ -151,8 +151,18 @@ In crates/foo/planner.rs, define:
     pub trait Planner {
         fn plan(&self, observed: &Observed) -> Vec<Action>;
     }
+
 ```
 
 If you follow the guidance above, a single, stateless agent -- or a human novice -- can read your ExecPlan from top to bottom and produce a working, observable result. That is the bar: SELF-CONTAINED, SELF-SUFFICIENT, NOVICE-GUIDING, OUTCOME-FOCUSED.
 
 When you revise a plan, you must ensure your changes are comprehensively reflected across all sections, including the living document sections, and you must write a note at the bottom of the plan describing the change and the reason why. ExecPlans must describe not just the what but the why for almost everything.
+
+## Candidate Future ExecPlan Topics
+
+Maintain this backlog of potential improvements so future contributors can spin up ExecPlans quickly when prioritised:
+
+* Consolidate the Google Fonts loading strategy so the site relies on either the `<link>` element or the `@import` rule but not both, reducing redundant network requests across pages.
+* Harden the “Next Meeting” fetch in `assets/nextevent.js` by checking the HTTP status (for example, `response.ok`) before calling `res.json()` so transient CDN errors provide clearer feedback instead of falling straight into the generic exception handler.
+* When rendering events that supply a venue string with an embedded address, preserve the full address in both the visible markup and the generated JSON-LD so visitors retain the location details after dynamic data loads.
+* Mirror the visually hidden skip link pattern from `results.html` on `index.html` to give keyboard and assistive-technology users a consistent way to jump to the main content.
