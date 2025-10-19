@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const DEFAULT_HONEY_CONTRIBUTION =
     HONEY_SUGAR_FRACTION * SUGAR_POINTS_PER_KG_PER_LITRE;
   const FERMAID_AT_DOSE_PER_LITRE = 0.35;
+  const RESIDUAL_SUGAR_MULTIPLIER = 2.65;
 
   const getNumericInput = (name) => {
     const input = form.elements.namedItem(name);
@@ -93,7 +94,12 @@ document.addEventListener('DOMContentLoaded', () => {
       setOutput('honey-mass', null);
     }
 
-    setOutput('residual-sugar', null);
+    if (Number.isFinite(targetFg)) {
+      const residualSugar = (targetFg - 1) * 1000 * RESIDUAL_SUGAR_MULTIPLIER;
+      setOutput('residual-sugar', formatters.mass.format(residualSugar));
+    } else {
+      setOutput('residual-sugar', null);
+    }
     setOutput('yeast-mass', null);
     setOutput('go-ferm', null);
     if (Number.isFinite(volumeLitres) && volumeLitres > 0) {
