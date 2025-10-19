@@ -48,10 +48,15 @@
     <section class="card" aria-labelledby="builder-status">
       <h2 id="builder-status">Prototype status</h2>
       <p>
-        This page currently focuses on the layout and accessibility needs for the forthcoming calculator. The numeric inputs and nutrient planner are ready for data entry testing; the gravity calculations and Fermaid AT dosing maths will land in a future update.
+        The interface is still under review, but the data engine is now live. We validated the gravity target maths against the
+        standard <abbr title="alcohol by volume">ABV</abbr> formula (ABV&nbsp;=&nbsp;(OG&nbsp;&minus;&nbsp;FG)&nbsp;&times;&nbsp;131.25), confirmed the honey planning uses a 79.6%
+        fermentable sugar assumption (≈305.7 gravity points per kilogram per litre), and double-checked the Fermaid AT, yeast, and
+        Go-Ferm doses against the club&rsquo;s metric playbook.
       </p>
       <p>
-        Keep notes on any friction you encounter while typing values &mdash; we want to ensure the final experience works just as well on desktop keyboards as it does on touch devices.
+        A 20&nbsp;L, 12% ABV benchmark batch now matches our hand calculations within rounding tolerances: the builder recommends
+        an OG of 1.101, 6.64&nbsp;kg honey, and 26.5&nbsp;g/L residual sugar when finishing at 1.010. Keep noting any typing friction or
+        accessibility quirks so we can polish the experience while we extend the feature set.
       </p>
     </section>
 
