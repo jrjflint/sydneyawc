@@ -84,8 +84,8 @@
         </div>
         <div class="control-group">
           <label for="honeyContribution">Honey gravity contribution (points/kg/L)</label>
-          <input id="honeyContribution" name="honeyContribution" type="number" min="300" max="400" step="1" inputmode="decimal" placeholder="350" aria-describedby="honeyContributionHint">
-          <p class="hint" id="honeyContributionHint">Specific gravity points per kilogram of honey per litre of must.</p>
+          <input id="honeyContribution" name="honeyContribution" type="number" min="250" max="400" step="1" inputmode="decimal" placeholder="306" aria-describedby="honeyContributionHint">
+          <p class="hint" id="honeyContributionHint">Default estimate assumes 79.6% fermentable sugar (~306 points/kg/L).</p>
         </div>
         <div class="control-group">
           <label for="fermaidAddition">Fermaid AT target dose (g/hL)</label>
@@ -97,7 +97,7 @@
 
     <section aria-labelledby="summary-heading" class="card">
       <h2 id="summary-heading">Batch outputs</h2>
-      <p class="hint">Calculated values will display here in a future update.</p>
+      <p class="hint">Enter batch details to estimate gravity targets and honey needs (assuming honey is 79.6% fermentable sugar). Other outputs will follow in a future update.</p>
       <dl class="summary" aria-live="polite">
         <div>
           <dt>Target original gravity (SG)</dt>
