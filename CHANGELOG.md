@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 - Added dedicated mead landing and prototype recipe builder pages to support the upcoming metric calculator work.
+- Enabled the mead recipe builder to calculate residual sugar estimates from the final gravity input.
 
 ## 2025-09-27
 - Established the static site foundation, styling, and deployment configuration.
