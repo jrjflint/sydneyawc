@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
+- Audited the mead recipe builder calculations and documented the validated assumptions on the mead prototype pages.
 - Added dedicated mead landing and prototype recipe builder pages to support the upcoming metric calculator work.
 - Enabled the mead recipe builder to calculate residual sugar estimates from the final gravity input.
 - Updated the mead recipe builder to include yeast, Go-Ferm, and rehydration water dosing guidance based on club standards.
