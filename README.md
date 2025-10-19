@@ -18,6 +18,8 @@ A community of home winemaking enthusiasts in Sydney. This repo hosts the offici
 ## Project layout
 
 - `index.html` – main landing page that loads the club overview, meeting details, competition info, and embeds structured event data.
+- `mead.html` – dedicated hub for the club's metric-first mead making resources and development updates.
+- `mead-recipe-builder.html` – prototype calculator layout for the Fermaid AT-focused, metric mead batch builder.
 - `style.css` – global stylesheet with responsive layouts, print styles, the wineshow results page components, and typography rules.
 - `404.html` – custom not-found page that keeps visitors engaged and links back to the home page.
 - `results.html` – dynamic results page for the annual wineshow, powered by vanilla JS and JSON feeds.
@@ -26,6 +28,7 @@ A community of home winemaking enthusiasts in Sydney. This repo hosts the offici
   - `sawc-events.ics` – the published iCalendar feed generated from the same event data (linked from the homepage and sitemap).
   - `events.js` and `nextevent.js` fetch the feeds above and render the upcoming meeting schedule plus structured data.
   - `js/results.js` powers the wineshow results experience (filters, leaderboards, JSON-LD updates).
+  - `js/mead-recipe-builder.js` scaffolds the metric mead calculator interactions while the calculation engine is under construction.
   - `data/results.json` contains the structured competition results keyed by show year.
   - `generate_events_from_clean.py` converts a cleaned spreadsheet export into `events.json` (and can optionally emit an `.ics` file).
   - `generate_ics.py` and `generate_ics_refactored.py` rebuild an iCalendar feed from `events.json`.
