@@ -5,11 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
-- Audited the mead recipe builder calculations and documented the validated assumptions on the mead prototype pages.
-- Added dedicated mead landing and prototype recipe builder pages to support the upcoming metric calculator work.
-- Enabled the mead recipe builder to calculate residual sugar estimates from the final gravity input.
-- Updated the mead recipe builder to include yeast, Go-Ferm, and rehydration water dosing guidance based on club standards.
-- Updated the mead nutrient protocol guidance to follow the Fermaid AT staggered schedule.
+- _No changes yet._
+
+## 2025-10-19
+- Launched dedicated mead hub and prototype metric recipe builder pages to anchor the calculator rollout.
+- Verified and documented the builder's gravity, honey, and residual sugar formulas against club benchmark assumptions.
+- Automated Fermaid AT planning alongside yeast, Go-Ferm, and rehydration water dosing guidance based on club standards.
 
 ## 2025-09-27
 - Established the static site foundation, styling, and deployment configuration.
