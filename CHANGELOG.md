@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
-- No changes yet.
+- Added dedicated mead landing and prototype recipe builder pages to support the upcoming metric calculator work.
 
 ## 2025-09-27
 - Established the static site foundation, styling, and deployment configuration.

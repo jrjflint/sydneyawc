@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="canonical" href="https://www.sydneyawc.com/mead-recipe-builder.html">
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-NDSCP4Q6');</script>
+  <!-- End Google Tag Manager -->
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mead Recipe Builder (Metric) &mdash; Sydney Amateur Winemakers Club</title>
+  <meta name="description" content="Prototype metric mead calculator with Fermaid AT planning. Optimised for numeric inputs and keyboard entry.">
+  <meta name="author" content="Sydney Amateur Winemakers Club">
+  <meta property="og:title" content="Mead Recipe Builder (Metric)">
+  <meta property="og:description" content="Experiment with our metric-first mead calculator and Fermaid AT nutrient planner.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.sydneyawc.com/mead-recipe-builder.html">
+  <meta property="og:image" content="https://www.sydneyawc.com/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Mead Recipe Builder (Metric)">
+  <meta name="twitter:description" content="Prototype calculator for honey, water, and Fermaid AT additions in metric units.">
+  <meta name="twitter:image" content="https://www.sydneyawc.com/og-image.png">
+
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="mead-builder-page">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NDSCP4Q6" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <a class="skip-link" href="#builder-main">Skip to builder</a>
+
+  <header class="page-header">
+    <div class="container">
+      <p class="eyebrow">Sydney Amateur Winemakers Club</p>
+      <h1>Metric Mead Recipe Builder</h1>
+      <p class="subtitle">Keyboard-friendly inputs, gravity targets, and Fermaid AT planning.</p>
+    </div>
+  </header>
+
+  <main id="builder-main" class="container" tabindex="-1">
+    <section class="card" aria-labelledby="builder-status">
+      <h2 id="builder-status">Prototype status</h2>
+      <p>
+        This page currently focuses on the layout and accessibility needs for the forthcoming calculator. The numeric inputs and nutrient planner are ready for data entry testing; the gravity calculations and Fermaid AT dosing maths will land in a future update.
+      </p>
+      <p>
+        Keep notes on any friction you encounter while typing values &mdash; we want to ensure the final experience works just as well on desktop keyboards as it does on touch devices.
+      </p>
+    </section>
+
+    <form id="meadBuilderForm" novalidate aria-describedby="builder-status">
+      <fieldset>
+        <legend>Batch parameters</legend>
+        <div class="control-group">
+          <label for="batchVolume">Batch volume (litres)</label>
+          <input id="batchVolume" name="batchVolume" type="number" min="0" step="0.1" inputmode="decimal" placeholder="20" aria-describedby="batchVolumeHint">
+          <p class="hint" id="batchVolumeHint">Final must volume in litres (L).</p>
+        </div>
+        <div class="control-group">
+          <label for="targetOg">Target original gravity (SG)</label>
+          <input id="targetOg" name="targetOg" type="number" min="1" max="1.2" step="0.001" inputmode="decimal" placeholder="1.100" aria-describedby="targetOgHint">
+          <p class="hint" id="targetOgHint">Specific gravity target before fermentation.</p>
+        </div>
+        <div class="control-group">
+          <label for="targetFg">Estimated final gravity (SG)</label>
+          <input id="targetFg" name="targetFg" type="number" min="0.98" max="1.2" step="0.001" inputmode="decimal" placeholder="1.010" aria-describedby="targetFgHint">
+          <p class="hint" id="targetFgHint">Used to project alcohol and residual sweetness.</p>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Honey profile</legend>
+        <div class="control-group">
+          <label for="honeyVariety">Honey variety</label>
+          <input id="honeyVariety" name="honeyVariety" type="text" placeholder="Yellow Box" aria-describedby="honeyVarietyHint">
+          <p class="hint" id="honeyVarietyHint">Free text description (variety, supplier, harvest year).</p>
+        </div>
+        <div class="control-group">
+          <label for="honeyDensity">Honey density (kg/L)</label>
+          <input id="honeyDensity" name="honeyDensity" type="number" min="1.3" max="1.5" step="0.001" inputmode="decimal" placeholder="1.42" aria-describedby="honeyDensityHint">
+          <p class="hint" id="honeyDensityHint">Default planning assumes 1.42&nbsp;kg per litre unless you measured otherwise.</p>
+        </div>
+        <div class="control-group">
+          <label for="honeyContribution">Honey gravity contribution (points/kg/L)</label>
+          <input id="honeyContribution" name="honeyContribution" type="number" min="300" max="400" step="1" inputmode="decimal" placeholder="350" aria-describedby="honeyContributionHint">
+          <p class="hint" id="honeyContributionHint">Approximate specific gravity points per kilogram of honey in a litre of must.</p>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Fermaid AT plan</legend>
+        <div class="control-group">
+          <label for="gravitySchedule">Fermentation gravity bracket</label>
+          <select id="gravitySchedule" name="gravitySchedule" aria-describedby="gravityScheduleHint">
+            <option value="">Choose an initial gravity range</option>
+            <option value="medium">1.100 SG or lower</option>
+            <option value="high">Above 1.100 SG</option>
+          </select>
+          <p class="hint" id="gravityScheduleHint">Guides the Fermaid AT grams per hectolitre dosage.</p>
+        </div>
+        <div class="control-group">
+          <label for="yeastPitch">Yeast cells pitched (billion)</label>
+          <input id="yeastPitch" name="yeastPitch" type="number" min="0" step="10" inputmode="decimal" placeholder="200" aria-describedby="yeastPitchHint">
+          <p class="hint" id="yeastPitchHint">Optional tracking value if you monitor pitch rate. Helps document your batch.</p>
+        </div>
+        <div class="control-group">
+          <label for="fermaidAddition">Fermaid AT total (g/hL)</label>
+          <input id="fermaidAddition" name="fermaidAddition" type="number" min="0" step="0.1" inputmode="decimal" placeholder="30" aria-describedby="fermaidAdditionHint">
+          <p class="hint" id="fermaidAdditionHint">Enter the dosage per hectolitre you plan to trial; the calculator will scale by batch volume.</p>
+        </div>
+      </fieldset>
+    </form>
+
+    <section aria-labelledby="summary-heading" class="card">
+      <h2 id="summary-heading">Batch summary</h2>
+      <p class="hint">Calculated values will display here in a future update.</p>
+      <dl class="summary" aria-live="polite">
+        <div>
+          <dt>Honey required</dt>
+          <dd data-output="honey-mass">Pending calculation</dd>
+        </div>
+        <div>
+          <dt>Water top-up</dt>
+          <dd data-output="water-topup">Pending calculation</dd>
+        </div>
+        <div>
+          <dt>Estimated ABV</dt>
+          <dd data-output="estimated-abv">Pending calculation</dd>
+        </div>
+        <div>
+          <dt>Fermaid AT schedule</dt>
+          <dd data-output="fermaid-schedule">Plan forthcoming</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section aria-labelledby="builder-notes">
+      <h2 id="builder-notes">Working notes</h2>
+      <ul>
+        <li>We are validating SG-to-Plato conversions and targeting a honey density default of 1.42&nbsp;kg/L.</li>
+        <li>Fermaid AT guidance references Lallemand's published dosing rates for TOSNA-style staggered nutrient additions.</li>
+        <li>Local storage and printable brew day summaries will arrive after the calculation engine solidifies.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    <div class="container">
+      <p><a href="/mead.html">Back to mead hub</a></p>
+      <p><a href="/">Return to SAWC home</a></p>
+    </div>
+  </footer>
+
+  <script src="assets/js/mead-recipe-builder.js" defer></script>
+</body>
+</html>
