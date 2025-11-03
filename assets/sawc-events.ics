@@ -158,20 +158,20 @@ UID:357d0799-2447-44c3-8278-981032d2b965@sydneyawc.com
 DTSTAMP:20251016T113723Z
 DTSTART;TZID=Australia/Sydney:20251106T193000
 DTEND;TZID=Australia/Sydney:20251106T213000
-SUMMARY:Annual Presentation Night
-LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
-END:VEVENT
-BEGIN:VEVENT
-UID:677157cc-2f7f-4b75-a1cb-da66695324e6@sydneyawc.com
-DTSTAMP:20251016T113723Z
-DTSTART;TZID=Australia/Sydney:20251204T193000
-DTEND;TZID=Australia/Sydney:20251204T213000
 SUMMARY:Open discussion on the wine making process.
 LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
 DESCRIPTION:Activity: Open discussion on the wine making process.  Oak\, f
  ermentation\, cold stabilisation\, SO2 additions etc.\nMini competition: 
  Dry Red Grape Wine over 2 years old (2023 and older)\nNotes: AGM\nIssue w
  ine chemical order sheets
+END:VEVENT
+BEGIN:VEVENT
+UID:677157cc-2f7f-4b75-a1cb-da66695324e6@sydneyawc.com
+DTSTAMP:20251016T113723Z
+DTSTART;TZID=Australia/Sydney:20251204T193000
+DTEND;TZID=Australia/Sydney:20251204T213000
+SUMMARY:Annual Presentation Night
+LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
 END:VEVENT
 BEGIN:VEVENT
 UID:4df3c292-703e-4f6b-9389-4b9d414e68d0@sydneyawc.com

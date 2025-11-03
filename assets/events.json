@@ -155,25 +155,25 @@
   },
   {
     "id": "357d0799-2447-44c3-8278-981032d2b965",
-    "title": "Annual Presentation Night",
+    "title": "Open discussion on the wine making process.",
     "start": "2025-11-06T19:30:00+11:00",
     "end": "2025-11-06T21:30:00+11:00",
-    "location": "Club Rivers 32 Littleton St, Riverwood NSW 2210",
-    "description": "",
-    "meetingActivity": "Annual Presentation Night",
-    "miniCompetition": "",
-    "comments": ""
-  },
-  {
-    "id": "677157cc-2f7f-4b75-a1cb-da66695324e6",
-    "title": "Open discussion on the wine making process.",
-    "start": "2025-12-04T19:30:00+11:00",
-    "end": "2025-12-04T21:30:00+11:00",
     "location": "Club Rivers 32 Littleton St, Riverwood NSW 2210",
     "description": "",
     "meetingActivity": "Open discussion on the wine making process.  Oak, fermentation, cold stabilisation, SO2 additions etc.",
     "miniCompetition": "Dry Red Grape Wine over 2 years old (2023 and older)",
     "comments": "AGM\nIssue wine chemical order sheets"
+  },
+  {
+    "id": "677157cc-2f7f-4b75-a1cb-da66695324e6",
+    "title": "Annual Presentation Night",
+    "start": "2025-12-04T19:30:00+11:00",
+    "end": "2025-12-04T21:30:00+11:00",
+    "location": "Club Rivers 32 Littleton St, Riverwood NSW 2210",
+    "description": "",
+    "meetingActivity": "Annual Presentation Night",
+    "miniCompetition": "",
+    "comments": ""
   },
   {
     "id": "4df3c292-703e-4f6b-9389-4b9d414e68d0",
