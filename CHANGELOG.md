@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
-- _No changes yet._
+- Added the 2026 meeting schedule entries to the calendar feed.
 
 ## 2025-10-19
 - Launched dedicated mead hub and prototype metric recipe builder pages to anchor the calculator rollout.
