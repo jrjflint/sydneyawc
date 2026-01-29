@@ -2,31 +2,12 @@ BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sydney AWC//sawc-events//EN
 CALSCALE:GREGORIAN
-METHOD:PUBLISH
 X-WR-CALNAME:Sydney Amateur Winemakers Club
 X-WR-CALDESC:Meetings and club events for the Sydney Amateur Winemakers Club
 X-WR-TIMEZONE:Australia/Sydney
-BEGIN:VTIMEZONE
-TZID:Australia/Sydney
-X-LIC-LOCATION:Australia/Sydney
-BEGIN:STANDARD
-TZOFFSETFROM:+1100
-TZOFFSETTO:+1000
-TZNAME:AEST
-DTSTART:19700405T030000
-RRULE:FREQ=YEARLY;BYMONTH=4;BYDAY=1SU
-END:STANDARD
-BEGIN:DAYLIGHT
-TZOFFSETFROM:+1000
-TZOFFSETTO:+1100
-TZNAME:AEDT
-DTSTART:19701004T020000
-RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=1SU
-END:DAYLIGHT
-END:VTIMEZONE
 BEGIN:VEVENT
 UID:6ebdb7d3-b189-4c57-90ae-ffb60deefa56@sydneyawc.com
-DTSTAMP:20251016T113723Z
+DTSTAMP:20260129T073948Z
 DTSTART;TZID=Australia/Sydney:20250102T193000
 DTEND;TZID=Australia/Sydney:20250102T213000
 SUMMARY:NO MEETING
@@ -34,7 +15,7 @@ LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
 END:VEVENT
 BEGIN:VEVENT
 UID:ab4b4db0-0056-4d26-b975-7a9245455476@sydneyawc.com
-DTSTAMP:20251016T113723Z
+DTSTAMP:20260129T073948Z
 DTSTART;TZID=Australia/Sydney:20250205T193000
 DTEND;TZID=Australia/Sydney:20250205T213000
 SUMMARY:First Meeting of the Year
@@ -42,7 +23,7 @@ LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
 END:VEVENT
 BEGIN:VEVENT
 UID:bb200071-917c-4ed3-887a-d368a986a755@sydneyawc.com
-DTSTAMP:20251016T113723Z
+DTSTAMP:20260129T073948Z
 DTSTART;TZID=Australia/Sydney:20250206T193000
 DTEND;TZID=Australia/Sydney:20250206T213000
 SUMMARY:Jeff Aston\, winemaker at Tractorless Vineyard -  a tasting of a f
@@ -53,7 +34,7 @@ DESCRIPTION:Mini competition: Distribute yeast and chemicals\nNotes: Open
 END:VEVENT
 BEGIN:VEVENT
 UID:b570358f-1c70-428f-b1fd-80ebd51a5e90@sydneyawc.com
-DTSTAMP:20251016T113723Z
+DTSTAMP:20260129T073948Z
 DTSTART;TZID=Australia/Sydney:20250306T193000
 DTEND;TZID=Australia/Sydney:20250306T213000
 SUMMARY:The Saignée Process - get some free rosé - Roger
@@ -63,7 +44,7 @@ DESCRIPTION:Mini competition: Award White Grape\nDry White Grape Wine\, an
 END:VEVENT
 BEGIN:VEVENT
 UID:795841fc-8e74-43d5-9480-968a27a8d7d7@sydneyawc.com
-DTSTAMP:20251016T113723Z
+DTSTAMP:20260129T073948Z
 DTSTART;TZID=Australia/Sydney:20250403T193000
 DTEND;TZID=Australia/Sydney:20250403T213000
 SUMMARY:Make a fruit wine - Roger
@@ -74,7 +55,7 @@ DESCRIPTION:Mini competition: Award Red Grape\nDry Red Grape Wine\, any va
 END:VEVENT
 BEGIN:VEVENT
 UID:d042400b-d951-4069-b3bb-19b93436bf43@sydneyawc.com
-DTSTAMP:20251016T113723Z
+DTSTAMP:20260129T073948Z
 DTSTART;TZID=Australia/Sydney:20250501T193000
 DTEND;TZID=Australia/Sydney:20250501T213000
 SUMMARY:Making mead - Matt
@@ -84,7 +65,7 @@ DESCRIPTION:Mini competition: Barrel Sample 2024 Dry White Grape Wine\nNot
 END:VEVENT
 BEGIN:VEVENT
 UID:c81e717d-9b7c-4969-8ac3-cc8d2225cf07@sydneyawc.com
-DTSTAMP:20251016T113723Z
+DTSTAMP:20260129T073948Z
 DTSTART;TZID=Australia/Sydney:20250605T193000
 DTEND;TZID=Australia/Sydney:20250605T213000
 SUMMARY:Sulphur dioxide and ph - Roger Guerin
@@ -93,7 +74,7 @@ DESCRIPTION:Mini competition: Award Fruit\nWhite non-grape wine
 END:VEVENT
 BEGIN:VEVENT
 UID:40719126-86cd-44dd-8391-6f826a927fac@sydneyawc.com
-DTSTAMP:20251016T113723Z
+DTSTAMP:20260129T073948Z
 DTSTART;TZID=Australia/Sydney:20250614T100000
 DTEND;TZID=Australia/Sydney:20250614T120000
 SUMMARY:SO2 testing at Dario's - 10:00am to noon.
@@ -102,7 +83,7 @@ DESCRIPTION:Notes: Have the SO2 level of your wine accurately tested
 END:VEVENT
 BEGIN:VEVENT
 UID:01db8248-bee2-4bd1-a91e-e9f10299fbf9@sydneyawc.com
-DTSTAMP:20251016T113723Z
+DTSTAMP:20260129T073948Z
 DTSTART;TZID=Australia/Sydney:20250703T193000
 DTEND;TZID=Australia/Sydney:20250703T213000
 SUMMARY:Exotic wine tasting - Robert
@@ -110,7 +91,7 @@ LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
 END:VEVENT
 BEGIN:VEVENT
 UID:0f279de1-b21f-4147-8a3e-eb8db195491b@sydneyawc.com
-DTSTAMP:20251016T113723Z
+DTSTAMP:20260129T073948Z
 DTSTART;TZID=Australia/Sydney:20250807T193000
 DTEND;TZID=Australia/Sydney:20250807T213000
 SUMMARY:Racking and fining
@@ -120,7 +101,7 @@ DESCRIPTION:Mini competition: Barrel Sample 2024 Dry Red Grape Wine\nNotes
 END:VEVENT
 BEGIN:VEVENT
 UID:28e6c1e7-4746-4836-97cf-0068ede468b0@sydneyawc.com
-DTSTAMP:20251016T113723Z
+DTSTAMP:20260129T073948Z
 DTSTART;TZID=Australia/Sydney:20250904T193000
 DTEND;TZID=Australia/Sydney:20250904T213000
 SUMMARY:Oak in Wine
@@ -130,7 +111,7 @@ DESCRIPTION:Mini competition: Award Fruit\nDry White non-grape wine includ
 END:VEVENT
 BEGIN:VEVENT
 UID:e07a3ceb-88df-4613-a8e5-ad10b9f68a8f@sydneyawc.com
-DTSTAMP:20251016T113723Z
+DTSTAMP:20260129T073948Z
 DTSTART;TZID=Australia/Sydney:20250913T100000
 DTEND;TZID=Australia/Sydney:20250913T120000
 SUMMARY:Annual Wine Show Registration and Preparation
@@ -138,7 +119,7 @@ LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
 END:VEVENT
 BEGIN:VEVENT
 UID:475dc192-1a83-4e43-a35b-8077167f83e9@sydneyawc.com
-DTSTAMP:20251016T113723Z
+DTSTAMP:20260129T073948Z
 DTSTART;TZID=Australia/Sydney:20250914T100000
 DTEND;TZID=Australia/Sydney:20250914T170000
 SUMMARY:Annual Wine Show Judging
@@ -146,7 +127,7 @@ LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
 END:VEVENT
 BEGIN:VEVENT
 UID:f65daa16-1868-4213-b683-8b73ad6a55b9@sydneyawc.com
-DTSTAMP:20251016T113723Z
+DTSTAMP:20260129T073948Z
 DTSTART;TZID=Australia/Sydney:20251002T193000
 DTEND;TZID=Australia/Sydney:20251002T213000
 SUMMARY:Making Spirits - Alex and Roger
@@ -155,7 +136,7 @@ DESCRIPTION:Mini competition: Mead
 END:VEVENT
 BEGIN:VEVENT
 UID:357d0799-2447-44c3-8278-981032d2b965@sydneyawc.com
-DTSTAMP:20251016T113723Z
+DTSTAMP:20260129T073948Z
 DTSTART;TZID=Australia/Sydney:20251106T193000
 DTEND;TZID=Australia/Sydney:20251106T213000
 SUMMARY:Open discussion on the wine making process.
@@ -167,7 +148,7 @@ DESCRIPTION:Activity: Open discussion on the wine making process.  Oak\, f
 END:VEVENT
 BEGIN:VEVENT
 UID:677157cc-2f7f-4b75-a1cb-da66695324e6@sydneyawc.com
-DTSTAMP:20251016T113723Z
+DTSTAMP:20260129T073948Z
 DTSTART;TZID=Australia/Sydney:20251204T193000
 DTEND;TZID=Australia/Sydney:20251204T213000
 SUMMARY:Annual Presentation Night
@@ -175,10 +156,142 @@ LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
 END:VEVENT
 BEGIN:VEVENT
 UID:4df3c292-703e-4f6b-9389-4b9d414e68d0@sydneyawc.com
-DTSTAMP:20251016T113723Z
+DTSTAMP:20260129T073948Z
 DTSTART;TZID=Australia/Sydney:20260101T193000
 DTEND;TZID=Australia/Sydney:20260101T213000
 SUMMARY:NO MEETING
+LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
+END:VEVENT
+BEGIN:VEVENT
+UID:2a8d2ea7-9e56-4b1c-8c28-e7ff1fa2037f@sydneyawc.com
+DTSTAMP:20260129T073948Z
+DTSTART;TZID=Australia/Sydney:20260205T193000
+DTEND;TZID=Australia/Sydney:20260205T213000
+SUMMARY:Tips on malolactic fermentation
+LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
+DESCRIPTION:Mini competition: Distribute yeast and chemicals\nNotes: Open 
+ discussion on sourcing grapes and preparing for winemaking season.
+END:VEVENT
+BEGIN:VEVENT
+UID:122486d1-0b3a-4aa0-8efc-8a36262c06f2@sydneyawc.com
+DTSTAMP:20260129T073948Z
+DTSTART;TZID=Australia/Sydney:20260305T193000
+DTEND;TZID=Australia/Sydney:20260305T213000
+SUMMARY:Techniques to add and remove tannins
+LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
+DESCRIPTION:Mini competition: Award White Grape\nDry White Grape Wine\, an
+ y variety
+END:VEVENT
+BEGIN:VEVENT
+UID:11af0074-de70-4098-aa40-3b10fd29b8f2@sydneyawc.com
+DTSTAMP:20260129T073948Z
+DTSTART;TZID=Australia/Sydney:20260402T193000
+DTEND;TZID=Australia/Sydney:20260402T213000
+SUMMARY:Club Project wine - Roger
+LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
+DESCRIPTION:Mini competition: Award Red Grape\nDry Red Grape Wine\, any va
+ riety\nNotes: Opportunity for members to make a fruit wine. We will all s
+ tart with the same ingredients.
+END:VEVENT
+BEGIN:VEVENT
+UID:7086850d-9c90-40c3-9ea9-c992a7e6004c@sydneyawc.com
+DTSTAMP:20260129T073948Z
+DTSTART;TZID=Australia/Sydney:20260507T193000
+DTEND;TZID=Australia/Sydney:20260507T213000
+SUMMARY:Making mead
+LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
+DESCRIPTION:Mini competition: Barrel Sample 2025 Dry White Grape Wine\nNot
+ es: Not a wine judging night.\nOpportunity for constructive criticism.
+END:VEVENT
+BEGIN:VEVENT
+UID:14d9a06b-1b8a-407c-8660-7c0f761a8a2c@sydneyawc.com
+DTSTAMP:20260129T073948Z
+DTSTART;TZID=Australia/Sydney:20260604T193000
+DTEND;TZID=Australia/Sydney:20260604T213000
+SUMMARY:Handling stuck fermentations
+LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
+DESCRIPTION:Mini competition: Award Fruit\nWhite non-grape wine including 
+ mead
+END:VEVENT
+BEGIN:VEVENT
+UID:395b8379-be3b-4f02-a3a0-e0886ffbf8cc@sydneyawc.com
+DTSTAMP:20260129T073948Z
+DTSTART;TZID=Australia/Sydney:20260613T100000
+DTEND;TZID=Australia/Sydney:20260613T120000
+SUMMARY:SO2 testing at Dario's - 10:00am to noon. Have the SO2 level of yo
+ ur wine accurately tested
+LOCATION:TBA
+END:VEVENT
+BEGIN:VEVENT
+UID:6629196d-ce2d-40a8-8133-e7ff0338c41a@sydneyawc.com
+DTSTAMP:20260129T073948Z
+DTSTART;TZID=Australia/Sydney:20260702T193000
+DTEND;TZID=Australia/Sydney:20260702T213000
+SUMMARY:Exotic wine tasting - Robert
+LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
+END:VEVENT
+BEGIN:VEVENT
+UID:5fe95d83-ee01-4964-8830-7b23bb1d170c@sydneyawc.com
+DTSTAMP:20260129T073948Z
+DTSTART;TZID=Australia/Sydney:20260806T193000
+DTEND;TZID=Australia/Sydney:20260806T213000
+SUMMARY:Racking and fining
+LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
+DESCRIPTION:Mini competition: Barrel Sample 2025 Dry Red Grape Wine\nNotes
+ : Not a wine judging night.\nOpportunity for constructive criticism.
+END:VEVENT
+BEGIN:VEVENT
+UID:91429161-f35d-4ac1-a7ab-caa1d93e8387@sydneyawc.com
+DTSTAMP:20260129T073948Z
+DTSTART;TZID=Australia/Sydney:20260903T193000
+DTEND;TZID=Australia/Sydney:20260903T213000
+SUMMARY:Oak in Wine
+LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
+DESCRIPTION:Mini competition: Award Fruit\nClub Project wine\nNotes: Compa
+ re the wine we all made from the same ingredients.
+END:VEVENT
+BEGIN:VEVENT
+UID:48831ad6-feb4-468e-a20b-5769c63879c7@sydneyawc.com
+DTSTAMP:20260129T073948Z
+DTSTART;TZID=Australia/Sydney:20260912T100000
+DTEND;TZID=Australia/Sydney:20260912T120000
+SUMMARY:Annual Wine Show Registration and Preparation
+LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
+END:VEVENT
+BEGIN:VEVENT
+UID:e0bd61fb-ff66-4e40-af55-b79601470100@sydneyawc.com
+DTSTAMP:20260129T073948Z
+DTSTART;TZID=Australia/Sydney:20260913T100000
+DTEND;TZID=Australia/Sydney:20260913T170000
+SUMMARY:Annual Wine Show Judging
+LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
+END:VEVENT
+BEGIN:VEVENT
+UID:190ab571-bf11-47d1-8716-5a70e4f0f205@sydneyawc.com
+DTSTAMP:20260129T073948Z
+DTSTART;TZID=Australia/Sydney:20261001T193000
+DTEND;TZID=Australia/Sydney:20261001T213000
+SUMMARY:Fortifying wine
+LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
+DESCRIPTION:Mini competition: Mead
+END:VEVENT
+BEGIN:VEVENT
+UID:3048fd03-2389-4c5f-8083-9550043c0454@sydneyawc.com
+DTSTAMP:20260129T073948Z
+DTSTART;TZID=Australia/Sydney:20261105T193000
+DTEND;TZID=Australia/Sydney:20261105T213000
+SUMMARY:Open discussion on the wine making process. Oak\, fermentation\, c
+ old stabilisation\, SO2 additions etc.
+LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
+DESCRIPTION:Mini competition: Dry Red Grape Wine over 2 years old (2023 an
+ d older)\nNotes: AGM. Issue wine chemical order sheets.
+END:VEVENT
+BEGIN:VEVENT
+UID:6a72f8ec-6925-48c7-b443-a69540b7e84d@sydneyawc.com
+DTSTAMP:20260129T073948Z
+DTSTART;TZID=Australia/Sydney:20261203T193000
+DTEND;TZID=Australia/Sydney:20261203T213000
+SUMMARY:Annual Presentation and Christmas Social Night
 LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
 END:VEVENT
 END:VCALENDAR

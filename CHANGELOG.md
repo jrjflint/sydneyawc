@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
-- Added the 2026 meeting schedule entries to the calendar feed.
+- Regenerated the events calendar feed so 2026 meetings appear in the published ICS download.
 
 ## 2025-10-19
 - Launched dedicated mead hub and prototype metric recipe builder pages to anchor the calculator rollout.
