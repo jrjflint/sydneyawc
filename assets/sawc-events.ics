@@ -20,6 +20,7 @@ DTSTART;TZID=Australia/Sydney:20250205T193000
 DTEND;TZID=Australia/Sydney:20250205T213000
 SUMMARY:First Meeting of the Year
 LOCATION:Club Rivers 32 Littleton St\, Riverwood NSW 2210
+DESCRIPTION:Mini competition: Blended red wine of any variety.
 END:VEVENT
 BEGIN:VEVENT
 UID:bb200071-917c-4ed3-887a-d368a986a755@sydneyawc.com
