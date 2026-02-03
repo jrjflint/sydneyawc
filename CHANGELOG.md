@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 - Regenerated the events calendar feed so 2026 meetings appear in the published ICS download.
+- Updated the February 5 mini-competition listing to a blended red wine category across the JSON and calendar exports.
 
 ## 2025-10-19
 - Launched dedicated mead hub and prototype metric recipe builder pages to anchor the calculator rollout.
