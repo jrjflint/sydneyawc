@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
+- Added a production-ready SAWC_V1 primary horizontal logo suite with live-text and outlined SVG variants in black, burgundy, and white.
 - Regenerated the events calendar feed so 2026 meetings appear in the published ICS download.
 - Updated the February 5 mini-competition listing to a blended red wine category across the JSON and calendar exports.
 
