@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title>SAWC primary horizontal logo</title>
+  <desc>Sydney Amateur Winemakers Club logo with grape cluster icon and stacked wordmark.</desc>
+  <g id="icon" fill="#111111" fill-rule="evenodd">
+    <path d="M360 132C330 138 290 150 250 180C190 220 165 295 170 390C175 545 245 690 360 750C475 690 545 545 550 390C555 295 530 220 470 180C430 150 390 138 360 132Z
+M360 206C336 262 321 341 319 430C317 539 336 629 360 699C384 629 403 539 401 430C399 341 384 262 360 206Z"/>
+    <path d="M274 150C236 126 214 88 212 56C254 58 298 80 324 118C312 134 294 146 274 150Z"/>
+    <path d="M446 150C484 126 506 88 508 56C466 58 422 80 396 118C408 134 426 146 446 150Z"/>
+  </g>
+  <g id="tendril" fill="none" stroke="#111111" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M506 98C560 102 598 150 596 204C594 260 548 298 496 288C456 280 430 244 434 208C438 174 470 158 498 166C518 172 532 190 530 208"/>
+  </g>
+  <g id="wordmark" fill="#000000" font-family="Cinzel, Trajan Pro, 'Times New Roman', serif" font-weight="700" text-rendering="geometricPrecision">
+    <text x="690" y="300" font-size="124" letter-spacing="3">SYDNEY</text>
+    <text x="690" y="455" font-size="140" letter-spacing="2.5">AMATEUR</text>
+    <text x="690" y="620" font-size="140" letter-spacing="2.2">WINEMAKERS</text>
+  </g>
+</svg>
