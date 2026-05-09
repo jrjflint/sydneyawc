@@ -7,8 +7,10 @@ This plan describes where and how to add the Spotify podcast episode featuring D
 - [x] Reviewed the homepage structure and identified the best insertion point between the About Us section in `index.html` lines 67-76 and the Next Meeting section in `index.html` lines 77-90.
 - [x] Reviewed the existing call-to-action cards in `index.html` lines 92-121 so the podcast feature can reuse familiar card and button patterns instead of introducing a new component style.
 - [x] Reviewed repository constraints in `README.md` lines 3-39 and `PRD.md` lines 18-30, confirming the site is a static GitHub Pages site whose homepage should support prospective members with concise joining and meeting information.
-- [x] Checked the supplied Spotify episode URL. The page title exposed by Spotify is “Extra Curricular: Australian Amateur Winemaker's Club - Wine Chat with Cal (and Cam) | Podcast on Spotify” at `https://open.spotify.com/episode/4lLnzMdFcoFpWtWMJAC4M9?si=pboVlNjqQdCwhx6tcCry9w`.
+- [x] Checked the supplied Spotify episode URL. The page title exposed by Spotify is “Extra Curricular: Australian Amateur Winemaker's Club - Wine Chat with Cal (and Cam) | Podcast on Spotify” at `https://open.spotify.com/episode/4lLnzMdFcoFpWtWMJAC4M9?si=i1x43K3KTsCANOvX-d06Y`.
 - [x] Decided on a recommended placement and implementation pattern, recorded in the Decision Log below.
+- [x] Implemented the homepage feature as a Wined Up podcast coming-soon card using the supplied Spotify URL.
+- [x] Updated `style.css` with minimal spacing and label styles, and changed `CHANGELOG.md` from a planned note to an added feature note.
 
 ## Decision Log
 
@@ -19,7 +21,7 @@ This plan describes where and how to add the Spotify podcast episode featuring D
 
 ## Outcomes & Retrospective
 
-This plan is complete as a recommendation and implementation guide. It does not yet add the podcast to the live page. If implemented, the success condition is that a visitor can open the homepage, read the About Us copy, see a clearly labelled podcast feature before meeting logistics, and click through to the Spotify episode.
+This plan has now been implemented on the live homepage. A visitor can open the homepage, read the About Us copy, see a clearly labelled Wined Up podcast coming-soon feature before meeting logistics, and click through to the supplied Spotify episode listing.
 
 ## Context and Orientation
 
@@ -33,7 +35,7 @@ The existing styles include a `.cta-grid` for paired cards, a `.card` border and
 
 ## Plan of Work
 
-First, add a new semantic section in `index.html` immediately after the closing `</section>` for About Us and before the existing `<section class="meeting-info">`. Give it an `id` such as `podcast` and a class such as `podcast-feature card`. Use a heading like “Listen: Dario and James on the Club”. The body copy should say that Dario and James talk about the Sydney Amateur Winemakers Club and what makes the amateur winemaking community welcoming. Include one button-style link to the Spotify episode URL supplied by the user.
+First, add a new semantic section in `index.html` immediately after the closing `</section>` for About Us and before the existing `<section class="meeting-info">`. Give it an `id` such as `podcast` and a class such as `podcast-feature card`. Use a heading like “Coming soon: Dario and James on the Club”. The body copy should say that Dario and James join the Wined Up podcast to talk about the Sydney Amateur Winemakers Club and what makes the amateur winemaking community welcoming. Include one button-style link to the Spotify episode URL supplied by the user.
 
 Second, add tracking and safe external-link attributes to the Spotify anchor. Use `data-gtm="listen-podcast-spotify"`, `target="_blank"`, and `rel="noopener"`. The link text should be concise, for example “Listen on Spotify”. Add a `title` attribute that includes the Spotify episode title if desired.
 
@@ -46,15 +48,17 @@ Fourth, update `CHANGELOG.md` under `[Unreleased]` with a short line such as “
 From the repository root, open `index.html` and locate the About Us section. Insert this section after the About Us closing tag and before the Next Meeting section:
 
     <section id="podcast" class="podcast-feature card" aria-labelledby="podcast-heading">
-      <h2 id="podcast-heading">Listen: Dario and James on the Club</h2>
-      <p>Dario and James talk about the Sydney Amateur Winemakers Club, the people behind it, and why amateur winemaking is such a rewarding shared craft.</p>
+      <p class="eyebrow">Wined Up podcast</p>
+      <h2 id="podcast-heading">Coming soon: Dario and James on the Club</h2>
+      <p>Dario and James join the Wined Up podcast to talk about the Sydney Amateur Winemakers Club, the people behind it, and why amateur winemaking is such a rewarding shared craft.</p>
+      <p>Watch this space for the episode, or open the Spotify listing for the latest availability.</p>
       <p>
         <a class="btn"
            data-gtm="listen-podcast-spotify"
-           href="https://open.spotify.com/episode/4lLnzMdFcoFpWtWMJAC4M9?si=pboVlNjqQdCwhx6tcCry9w"
+           href="https://open.spotify.com/episode/4lLnzMdFcoFpWtWMJAC4M9?si=i1x43K3KTsCANOvX-d06Y"
            target="_blank" rel="noopener"
-           title="Listen to the Spotify episode about the Sydney Amateur Winemakers Club">
-          Listen on Spotify
+           title="Open the Wined Up podcast episode about the Sydney Amateur Winemakers Club on Spotify">
+          Open on Spotify
         </a>
       </p>
     </section>
@@ -69,8 +73,8 @@ If the club wants inline playback later, replace the button-only approach with S
 
 ## Validation and Acceptance
 
-Preview the site locally from the repository root with `python -m http.server 8000`, then open `http://localhost:8000/`. The podcast feature should appear after the About Us text and before Next Meeting. The feature should read naturally on desktop and mobile widths, and the Spotify button should open the supplied episode in a new tab.
+Preview the site locally from the repository root with `python -m http.server 8000`, then open `http://localhost:8000/`. The podcast feature should appear after the About Us text and before Next Meeting. The feature should read naturally on desktop and mobile widths, communicate that the Wined Up podcast episode is coming soon, and the Spotify button should open the supplied episode listing in a new tab.
 
 Run `python -m json.tool assets/events.json` only if event data is touched; this podcast plan does not require editing JSON feeds. No build command is required because the site is static.
 
-The change is accepted when the homepage has one discoverable podcast feature, the link uses the exact Spotify episode URL supplied by the user, no existing meeting or event rendering is broken, and `CHANGELOG.md` records the user-visible update if the homepage itself is changed.
+The change is accepted because the homepage has one discoverable podcast feature, the link uses the exact Spotify episode URL supplied by the user, no existing meeting or event rendering is broken, and `CHANGELOG.md` records the user-visible update.
