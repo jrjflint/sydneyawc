@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
+- Updated the June 4, 2026 meeting activity to Making mead across the event feed and calendar export.
 - Added a homepage podcast feature linking James and Dario's Wine Chat with Cal episode and noting James' upcoming Wined Up appearance.
 - Added a production-ready SAWC_V1 primary horizontal logo suite with live-text and outlined SVG variants in black, burgundy, and white.
 - Regenerated the events calendar feed so 2026 meetings appear in the published ICS download.
