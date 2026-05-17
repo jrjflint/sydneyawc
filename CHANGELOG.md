@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
+- Matched the Wine Chat with Cal podcast heading level and size to the Wined Up Podcast heading on the homepage.
 - Updated the June 4, 2026 meeting activity to Making mead across the event feed and calendar export.
 - Added a homepage podcast feature linking James and Dario's Wine Chat with Cal episode and noting James' upcoming Wined Up appearance.
 - Updated the homepage podcast feature with James Follent's Wined Up Podcast links for YouTube, Spotify, and Apple Podcasts while retaining the Wine Chat with Cal feature.
