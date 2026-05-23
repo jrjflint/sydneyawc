@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
+- Added a beginner winemaking guide and homepage learning links for the winemaking and mead resource pages.
 - Reworked the Mead page into a practical modern mead-making overview with style guidance, fermentation health notes, safety cautions, resources, and recipe builder links.
 - Finished the metric mead recipe builder with final gravity input, Brix, honey/water estimates, dynamic Go-Ferm rehydration, Fermaid AT scheduling, and shareable URL parameters.
 - Matched the Wine Chat with Cal podcast heading level and size to the Wined Up Podcast heading on the homepage.
