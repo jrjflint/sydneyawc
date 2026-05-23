@@ -1,9 +1,235 @@
-'use strict';
+import {
+  SWEETNESS_PRESETS,
+  calculateMeadRecipe,
+} from './mead-recipe-builder-calculations.mjs';
 
-/**
- * Metric mead recipe builder calculations.
- * Currently supports gravity targets and honey planning.
- */
+const formatters = {
+  sg: new Intl.NumberFormat('en-AU', {
+    minimumFractionDigits: 3,
+    maximumFractionDigits: 3,
+  }),
+  oneDecimal: new Intl.NumberFormat('en-AU', {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  }),
+  twoDecimal: new Intl.NumberFormat('en-AU', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }),
+  whole: new Intl.NumberFormat('en-AU', {
+    maximumFractionDigits: 0,
+  }),
+};
+
+const outputFormatters = {
+  'target-og': (value) => formatters.sg.format(value.targetOg),
+  'starting-brix': (value) => formatters.oneDecimal.format(value.startingBrix),
+  'sugar-break': (value) => formatters.sg.format(value.oneThirdSugarBreakSg),
+  'residual-sugar': (value) =>
+    `${formatters.twoDecimal.format(value.residualSugarGL)} g/L`,
+  'honey-mass': (value) => `${formatters.twoDecimal.format(value.honeyKg)} kg`,
+  'honey-volume': (value) =>
+    `${formatters.twoDecimal.format(value.honeyVolumeLitres)} L`,
+  'top-up-water': (value) =>
+    `${formatters.twoDecimal.format(value.topUpWaterLitres)} L`,
+  'yeast-mass': (value) =>
+    `${formatters.twoDecimal.format(value.yeastGrams)} g`,
+  'go-ferm': (value) => `${formatters.twoDecimal.format(value.goFermGrams)} g`,
+  'rehydration-water': (value) =>
+    `${formatters.whole.format(value.rehydrationWaterMl)} mL`,
+  'fermaid-at': (value) =>
+    `${formatters.twoDecimal.format(value.fermaidAtTotalGrams)} g`,
+};
+
+const pendingText = 'Pending calculation';
+const shareParamNames = ['volume', 'abv', 'sweetness', 'fg', 'honeySugar'];
+
+const getNumber = (form, name) => {
+  const field = form.elements.namedItem(name);
+  if (!field) {
+    return Number.NaN;
+  }
+  return Number.parseFloat(field.value);
+};
+
+const setError = (form, fieldName, message) => {
+  const field = form.elements.namedItem(fieldName);
+  const error = document.querySelector(`[data-error-for="${fieldName}"]`);
+  if (!field || !error) {
+    return;
+  }
+
+  field.setAttribute('aria-invalid', message ? 'true' : 'false');
+  error.textContent = message || '';
+};
+
+const clearErrors = (form) => {
+  Array.from(form.querySelectorAll('[aria-invalid]')).forEach((field) => {
+    field.setAttribute('aria-invalid', 'false');
+  });
+  document.querySelectorAll('[data-error-for]').forEach((error) => {
+    error.textContent = '';
+  });
+};
+
+const setOutput = (outputs, key, text) => {
+  const output = outputs[key];
+  if (output) {
+    output.textContent = text;
+  }
+};
+
+const resetOutputs = (outputs) => {
+  Object.keys(outputs).forEach((key) => setOutput(outputs, key, pendingText));
+  document.querySelectorAll('[data-fermaid-dose]').forEach((element) => {
+    element.textContent = pendingText;
+  });
+  const goFermInstruction = document.querySelector('[data-go-ferm-instruction]');
+  if (goFermInstruction) {
+    goFermInstruction.textContent =
+      'Dissolve the calculated Go-Ferm Protect dose in the calculated hot water volume, then cool before adding yeast.';
+  }
+  const fermaidInstruction = document.querySelector(
+    '[data-fermaid-instruction]'
+  );
+  if (fermaidInstruction) {
+    fermaidInstruction.textContent =
+      'Total Fermaid AT will appear once the batch inputs are valid.';
+  }
+};
+
+const renderFermaidSchedule = (values) => {
+  const labels = ['24 hours', '48 hours', '72 hours', 'One-third sugar break'];
+  document.querySelectorAll('[data-fermaid-dose]').forEach((element, index) => {
+    const dose = values.fermaidAtAdditionsGrams[index];
+    element.textContent = `${labels[index]}: ${formatters.twoDecimal.format(
+      dose
+    )} g Fermaid AT`;
+  });
+};
+
+const renderResult = (outputs, result) => {
+  const values = result.values;
+  Object.entries(outputFormatters).forEach(([key, formatter]) => {
+    setOutput(outputs, key, formatter(values));
+  });
+  renderFermaidSchedule(values);
+
+  const goFermInstruction = document.querySelector('[data-go-ferm-instruction]');
+  if (goFermInstruction) {
+    goFermInstruction.textContent = `Dissolve ${formatters.twoDecimal.format(
+      values.goFermGrams
+    )} g Go-Ferm Protect in ${formatters.whole.format(
+      values.rehydrationWaterMl
+    )} mL hot water, then cool before adding yeast.`;
+  }
+
+  const fermaidInstruction = document.querySelector(
+    '[data-fermaid-instruction]'
+  );
+  if (fermaidInstruction) {
+    fermaidInstruction.textContent = `Total Fermaid AT for this schedule is ${formatters.twoDecimal.format(
+      values.fermaidAtTotalGrams
+    )} g, split across four staggered additions.`;
+  }
+};
+
+const syncSweetnessPreset = (form) => {
+  const preset = form.elements.namedItem('sweetnessPreset');
+  const finalGravity = form.elements.namedItem('targetFinalGravity');
+  if (!preset || !finalGravity) {
+    return;
+  }
+
+  if (preset.value === 'custom') {
+    finalGravity.readOnly = false;
+    return;
+  }
+
+  const presetValue = SWEETNESS_PRESETS[preset.value];
+  if (presetValue) {
+    finalGravity.value = formatters.sg.format(presetValue);
+    finalGravity.readOnly = true;
+  }
+};
+
+const setIfPresent = (form, fieldName, value) => {
+  const field = form.elements.namedItem(fieldName);
+  if (field && value !== null) {
+    field.value = value;
+  }
+};
+
+const applyUrlParams = (form) => {
+  const params = new URLSearchParams(window.location.search);
+  setIfPresent(form, 'batchVolumeLitres', params.get('volume'));
+  setIfPresent(form, 'targetAbvPercent', params.get('abv'));
+  setIfPresent(form, 'honeySugarPercent', params.get('honeySugar'));
+
+  const sweetness = params.get('sweetness');
+  const preset = form.elements.namedItem('sweetnessPreset');
+  if (preset && sweetness && Array.from(preset.options).some((option) => option.value === sweetness)) {
+    preset.value = sweetness;
+  }
+
+  if (params.has('fg')) {
+    setIfPresent(form, 'targetFinalGravity', params.get('fg'));
+    if (preset && !sweetness) {
+      preset.value = 'custom';
+    }
+  }
+};
+
+const formatUrlNumber = (value) => {
+  const number = Number.parseFloat(value);
+  if (!Number.isFinite(number)) {
+    return '';
+  }
+  return String(number);
+};
+
+const updateShareUrl = (form) => {
+  const url = new URL(window.location.href);
+  shareParamNames.forEach((name) => url.searchParams.delete(name));
+
+  const volume = formatUrlNumber(form.elements.namedItem('batchVolumeLitres')?.value);
+  const abv = formatUrlNumber(form.elements.namedItem('targetAbvPercent')?.value);
+  const fg = formatUrlNumber(form.elements.namedItem('targetFinalGravity')?.value);
+  const honeySugar = formatUrlNumber(form.elements.namedItem('honeySugarPercent')?.value);
+  const sweetness = form.elements.namedItem('sweetnessPreset')?.value || 'custom';
+
+  if (volume) url.searchParams.set('volume', volume);
+  if (abv) url.searchParams.set('abv', abv);
+  if (sweetness) url.searchParams.set('sweetness', sweetness);
+  if (fg) url.searchParams.set('fg', fg);
+  if (honeySugar) url.searchParams.set('honeySugar', honeySugar);
+
+  window.history.replaceState({}, '', url);
+  return url.toString();
+};
+
+const setupShareButton = (form) => {
+  const button = document.querySelector('[data-copy-share-link]');
+  const status = document.querySelector('[data-share-status]');
+  if (!button) {
+    return;
+  }
+
+  button.addEventListener('click', async () => {
+    const shareUrl = updateShareUrl(form);
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      if (status) {
+        status.textContent = 'Share link copied.';
+      }
+    } catch (error) {
+      if (status) {
+        status.textContent = 'Copy the URL from your browser address bar to share this recipe.';
+      }
+    }
+  });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('meadBuilderForm');
   if (!form) {
@@ -12,122 +238,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const outputs = Array.from(document.querySelectorAll('[data-output]')).reduce(
     (accumulator, element) => {
-      accumulator[element.dataset.output] = {
-        element,
-        defaultText: element.textContent.trim(),
-      };
+      accumulator[element.dataset.output] = element;
       return accumulator;
     },
     {}
   );
 
-  const formatters = {
-    sg: new Intl.NumberFormat('en-AU', {
-      minimumFractionDigits: 3,
-      maximumFractionDigits: 3,
-    }),
-    mass: new Intl.NumberFormat('en-AU', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }),
-  };
+  applyUrlParams(form);
+  setupShareButton(form);
 
-  const ABV_TO_GRAVITY_POINTS = 131.25;
-  const SUGAR_POINTS_PER_KG_PER_LITRE = 384;
-  const HONEY_SUGAR_FRACTION = 0.796;
-  const DEFAULT_HONEY_CONTRIBUTION =
-    HONEY_SUGAR_FRACTION * SUGAR_POINTS_PER_KG_PER_LITRE;
-  const FERMAID_AT_DOSE_PER_LITRE = 0.35;
-  const YEAST_DOSE_G_PER_HL = 30;
-  const GOFERM_RATIO = 1.25;
-  const REHYDRATION_WATER_MULT = 20;
-  const RESIDUAL_SUGAR_MULTIPLIER = 2.65;
+  const update = () => {
+    syncSweetnessPreset(form);
+    clearErrors(form);
 
-  const getNumericInput = (name) => {
-    const input = form.elements.namedItem(name);
-    if (!input) {
-      return Number.NaN;
-    }
-    const value = Number.parseFloat(input.value);
-    return Number.isFinite(value) ? value : Number.NaN;
-  };
+    const result = calculateMeadRecipe({
+      batchVolumeLitres: getNumber(form, 'batchVolumeLitres'),
+      targetAbvPercent: getNumber(form, 'targetAbvPercent'),
+      targetFinalGravity: getNumber(form, 'targetFinalGravity'),
+      honeySugarPercent: getNumber(form, 'honeySugarPercent'),
+    });
 
-  const setOutput = (key, value) => {
-    const target = outputs[key];
-    if (!target) {
+    if (!result.ok) {
+      resetOutputs(outputs);
+      result.errors.forEach((error) => {
+        setError(form, error.field, error.message);
+      });
+      updateShareUrl(form);
       return;
     }
-    if (value === null) {
-      target.element.textContent = target.defaultText;
-      return;
-    }
-    target.element.textContent = value;
+
+    renderResult(outputs, result);
+    updateShareUrl(form);
   };
 
-  const updateOutputs = () => {
-    const volumeLitres = getNumericInput('batchVolume');
-    const targetAbv = getNumericInput('targetAbv');
-    const targetFg = getNumericInput('targetFg');
-
-    let targetOg = Number.NaN;
-    if (Number.isFinite(targetAbv) && Number.isFinite(targetFg)) {
-      targetOg = targetFg + targetAbv / ABV_TO_GRAVITY_POINTS;
-      if (targetOg < 1) {
-        targetOg = 1;
-      }
-      setOutput('target-og', formatters.sg.format(targetOg));
-    } else {
-      setOutput('target-og', null);
-    }
-
-    const honeyContribution = DEFAULT_HONEY_CONTRIBUTION;
-
-    if (
-      Number.isFinite(volumeLitres) &&
-      volumeLitres > 0 &&
-      Number.isFinite(targetOg) &&
-      targetOg > 1 &&
-      Number.isFinite(honeyContribution) &&
-      honeyContribution > 0
-    ) {
-      const gravityPoints = (targetOg - 1) * 1000;
-      const honeyMassKg = (gravityPoints * volumeLitres) / honeyContribution;
-      setOutput('honey-mass', formatters.mass.format(honeyMassKg));
-    } else {
-      setOutput('honey-mass', null);
-    }
-
-    if (Number.isFinite(targetFg)) {
-      const residualSugar = (targetFg - 1) * 1000 * RESIDUAL_SUGAR_MULTIPLIER;
-      setOutput('residual-sugar', formatters.mass.format(residualSugar));
-    } else {
-      setOutput('residual-sugar', null);
-    }
-    setOutput('yeast-mass', null);
-    setOutput('go-ferm', null);
-    setOutput('rehydration-water', null);
-    if (Number.isFinite(volumeLitres) && volumeLitres > 0) {
-      const yeastMass = volumeLitres * (YEAST_DOSE_G_PER_HL / 100);
-      const goFermMass = yeastMass * GOFERM_RATIO;
-      const rehydrationWaterVolume = goFermMass * REHYDRATION_WATER_MULT;
-      const fermaidAtMass = volumeLitres * FERMAID_AT_DOSE_PER_LITRE;
-
-      setOutput('yeast-mass', formatters.mass.format(yeastMass));
-      setOutput('go-ferm', formatters.mass.format(goFermMass));
-      setOutput(
-        'rehydration-water',
-        formatters.mass.format(rehydrationWaterVolume)
-      );
-      setOutput('fermaid-at', formatters.mass.format(fermaidAtMass));
-    } else {
-      setOutput('fermaid-at', null);
-    }
-  };
-
-  form.addEventListener('input', updateOutputs);
+  form.addEventListener('input', update);
+  form.addEventListener('change', update);
   form.addEventListener('submit', (event) => {
     event.preventDefault();
   });
 
-  updateOutputs();
+  update();
 });

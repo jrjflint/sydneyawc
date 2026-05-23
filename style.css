@@ -636,4 +636,319 @@ body.results-page .visually-hidden {
     background: #f1f1f1;
   }
 }
+
+/* ------------------------------ */
+/* Mead recipe builder            */
+/* ------------------------------ */
+
+body.mead-page,
+body.mead-builder-page {
+  --builder-bg: #f8f9fb;
+  --builder-surface: #ffffff;
+  --builder-text: #1f2933;
+  --builder-muted: #52606d;
+  --builder-border: rgba(82, 96, 109, 0.22);
+  --builder-accent: #6D1F35;
+  --builder-error: #9f1239;
+  --builder-radius: 0.5rem;
+  --builder-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  margin: 0;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0;
+  max-width: none;
+  background: var(--builder-bg);
+  color: var(--builder-text);
+  font-family: 'Source Sans 3', Arial, sans-serif;
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+body.mead-page *,
+body.mead-page *::before,
+body.mead-page *::after,
+body.mead-builder-page *,
+body.mead-builder-page *::before,
+body.mead-builder-page *::after {
+  box-sizing: border-box;
+}
+
+body.mead-page .skip-link,
+body.mead-builder-page .skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  transform: translateY(-200%);
+  background: #000;
+  color: #fff;
+  padding: 0.5rem 0.75rem;
+  z-index: 20;
+}
+
+body.mead-page .skip-link:focus,
+body.mead-builder-page .skip-link:focus {
+  transform: translateY(0);
+}
+
+body.mead-page .container,
+body.mead-builder-page .container {
+  width: min(1100px, calc(100% - 2rem));
+  margin: 0 auto;
+  min-width: 0;
+}
+
+body.mead-page .page-header,
+body.mead-builder-page .page-header {
+  padding: 3rem 0 2rem;
+  border-bottom: 1px solid var(--builder-border);
+  background: var(--builder-surface);
+}
+
+body.mead-page .eyebrow,
+body.mead-builder-page .eyebrow {
+  margin: 0 0 0.35rem;
+  color: var(--builder-accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+body.mead-page .page-header h1,
+body.mead-builder-page .page-header h1 {
+  margin: 0;
+  font-size: clamp(2rem, 10vw, 3rem);
+  overflow-wrap: break-word;
+}
+
+body.mead-page .subtitle,
+body.mead-builder-page .subtitle {
+  max-width: 42rem;
+  margin: 0.75rem 0 0;
+  color: var(--builder-muted);
+  font-size: 1.1rem;
+}
+
+body.mead-page main,
+body.mead-builder-page main {
+  padding: 2rem 0 3rem;
+}
+
+body.mead-page .card,
+body.mead-builder-page .card,
+body.mead-builder-page .builder-form {
+  margin: 0 0 1.25rem;
+  padding: 1.5rem;
+  border: 1px solid var(--builder-border);
+  border-radius: var(--builder-radius);
+  background: var(--builder-surface);
+  box-shadow: var(--builder-shadow);
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+body.mead-page .card h2,
+body.mead-builder-page .card h2 {
+  margin-top: 0;
+}
+
+body.mead-builder-page fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+body.mead-builder-page legend {
+  margin: 0 0 1rem;
+  font-family: 'Sorts Mill Goudy', Georgia, serif;
+  font-size: 1.6rem;
+}
+
+body.mead-builder-page .builder-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+body.mead-builder-page .control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+body.mead-builder-page label {
+  font-weight: 600;
+}
+
+body.mead-builder-page input,
+body.mead-builder-page select {
+  width: 100%;
+  min-height: 2.75rem;
+  border: 1px solid var(--builder-border);
+  border-radius: 0.35rem;
+  padding: 0.55rem 0.7rem;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+  min-width: 0;
+}
+
+body.mead-builder-page input:focus,
+body.mead-builder-page select:focus {
+  outline: 3px solid rgba(109, 31, 53, 0.2);
+  border-color: var(--builder-accent);
+}
+
+body.mead-builder-page input[readonly] {
+  background: #f3f4f6;
+}
+
+body.mead-builder-page input[aria-invalid="true"] {
+  border-color: var(--builder-error);
+}
+
+body.mead-page .hint,
+body.mead-builder-page .hint {
+  margin: 0;
+  color: var(--builder-muted);
+  font-size: 0.95rem;
+}
+
+body.mead-builder-page .field-error {
+  min-height: 1.25rem;
+  margin: 0;
+  color: var(--builder-error);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+body.mead-builder-page .share-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+body.mead-builder-page .share-row .btn {
+  margin: 0;
+}
+
+body.mead-builder-page .summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+}
+
+body.mead-builder-page .summary div {
+  padding: 0.9rem;
+  border: 1px solid var(--builder-border);
+  border-radius: 0.35rem;
+  background: #fff;
+}
+
+body.mead-builder-page .summary dt {
+  margin: 0 0 0.25rem;
+  color: var(--builder-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+body.mead-builder-page .summary dd {
+  margin: 0;
+  color: #000;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+body.mead-builder-page .output-panel .hint {
+  margin-top: 0.75rem;
+}
+
+body.mead-builder-page .protocol-list {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+body.mead-builder-page .protocol-list li {
+  margin-bottom: 0.45rem;
+  font-weight: 600;
+}
+
+body.mead-page .page-footer,
+body.mead-builder-page .page-footer {
+  padding: 2rem 0 3rem;
+  border-top: 1px solid var(--builder-border);
+  background: var(--builder-surface);
+  color: var(--builder-muted);
+}
+
+@media (max-width: 720px) {
+  body.mead-builder-page .builder-grid,
+  body.mead-builder-page .summary {
+    grid-template-columns: 1fr;
+  }
+
+  body.mead-page .page-header,
+  body.mead-builder-page .page-header {
+    padding-top: 2rem;
+  }
+
+  body.mead-page .card,
+  body.mead-builder-page .card,
+  body.mead-builder-page .builder-form {
+    padding: 1.15rem;
+  }
+
+  body.mead-page .container,
+  body.mead-builder-page .container {
+    width: min(100%, 360px);
+    max-width: calc(100vw - 1rem);
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    overflow: hidden;
+  }
+
+  body.mead-page .card,
+  body.mead-builder-page .card,
+  body.mead-builder-page .builder-form {
+    max-width: 100%;
+  }
+
+  body.mead-page .page-header h1,
+  body.mead-builder-page .page-header h1 {
+    font-size: 2.15rem;
+    line-height: 1.08;
+  }
+}
+
+@media print {
+  body.mead-builder-page {
+    --builder-bg: #ffffff;
+    --builder-surface: #ffffff;
+    --builder-text: #000000;
+    --builder-border: #000000;
+    --builder-shadow: none;
+    background: #ffffff;
+    font-size: 12pt;
+  }
+
+  body.mead-builder-page .skip-link,
+  body.mead-builder-page .page-footer {
+    display: none !important;
+  }
+
+  body.mead-builder-page .card,
+  body.mead-builder-page .builder-form {
+    break-inside: avoid;
+    box-shadow: none;
+  }
+
+  body.mead-builder-page .builder-grid,
+  body.mead-builder-page .summary {
+    grid-template-columns: 1fr 1fr;
+  }
+}
   

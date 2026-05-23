@@ -13,16 +13,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mead Recipe Builder (Metric) &mdash; Sydney Amateur Winemakers Club</title>
-  <meta name="description" content="Prototype metric mead calculator with Fermaid AT planning. Optimised for numeric inputs and keyboard entry.">
+  <meta name="description" content="Metric mead calculator with gravity targets, honey planning, yeast rehydration, and Fermaid AT nutrient scheduling.">
   <meta name="author" content="Sydney Amateur Winemakers Club">
   <meta property="og:title" content="Mead Recipe Builder (Metric)">
-  <meta property="og:description" content="Experiment with our metric-first mead calculator and Fermaid AT nutrient planner.">
+  <meta property="og:description" content="Build a metric mead recipe with gravity, honey, Go-Ferm, and Fermaid AT calculations.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.sydneyawc.com/mead-recipe-builder.html">
   <meta property="og:image" content="https://www.sydneyawc.com/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Mead Recipe Builder (Metric)">
-  <meta name="twitter:description" content="Prototype calculator for honey, water, and Fermaid AT additions in metric units.">
+  <meta name="twitter:description" content="Metric calculator for honey, water, yeast, Go-Ferm, and Fermaid AT additions.">
   <meta name="twitter:image" content="https://www.sydneyawc.com/og-image.png">
 
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
@@ -40,117 +40,162 @@
     <div class="container">
       <p class="eyebrow">Sydney Amateur Winemakers Club</p>
       <h1>Metric Mead Recipe Builder</h1>
-      <p class="subtitle">Keyboard-friendly inputs, gravity targets, and Fermaid AT planning.</p>
+      <p class="subtitle">Plan gravity, honey, yeast rehydration, and Fermaid AT additions in metric units.</p>
     </div>
   </header>
 
   <main id="builder-main" class="container" tabindex="-1">
-    <section class="card" aria-labelledby="builder-status">
-      <h2 id="builder-status">Prototype status</h2>
+    <section class="card builder-intro" aria-labelledby="builder-status">
+      <h2 id="builder-status">Ready for metric batch planning</h2>
       <p>
-        The interface is still under review, but the data engine is now live. We validated the gravity target maths against the
-        standard <abbr title="alcohol by volume">ABV</abbr> formula (ABV&nbsp;=&nbsp;(OG&nbsp;&minus;&nbsp;FG)&nbsp;&times;&nbsp;131.25), confirmed the honey planning uses a 79.6%
-        fermentable sugar assumption (≈305.7 gravity points per kilogram per litre), and double-checked the Fermaid AT, yeast, and
-        Go-Ferm doses against the club&rsquo;s metric playbook.
+        This builder follows the practical flow of MeadMakr's BatchBuildr while staying metric-only and centred on the club's
+        Fermaid AT approach. It calculates target original gravity, starting Brix, honey, estimated water, yeast, Go-Ferm,
+        and a four-step Fermaid AT schedule from the batch details below.
       </p>
       <p>
-        A 20&nbsp;L, 12% ABV benchmark batch now matches our hand calculations within rounding tolerances: the builder recommends
-        an OG of 1.101, 6.64&nbsp;kg honey, and 26.5&nbsp;g/L residual sugar when finishing at 1.010. Keep noting any typing friction or
-        accessibility quirks so we can polish the experience while we extend the feature set.
+        The default benchmark is a 20 L, 12% ABV semi-dry batch finishing at 1.010 SG with honey at 79.6% sugar. Adjust the
+        values to match your honey and target style, then confirm gravity with a hydrometer or refractometer on brew day.
       </p>
     </section>
 
-    <form id="meadBuilderForm" novalidate aria-describedby="builder-status">
+    <form id="meadBuilderForm" class="builder-form" novalidate aria-describedby="builder-status">
       <fieldset>
         <legend>Batch inputs</legend>
-        <div class="control-group">
-          <label for="batchVolume">Batch volume (litres)</label>
-          <input id="batchVolume" name="batchVolume" type="number" min="0" step="0.1" inputmode="decimal" placeholder="20" aria-describedby="batchVolumeHint">
-          <p class="hint" id="batchVolumeHint">Final must volume in litres (L).</p>
-        </div>
-        <div class="control-group">
-          <label for="targetAbv">Target alcohol by volume (%)</label>
-          <input id="targetAbv" name="targetAbv" type="number" min="0" max="25" step="0.1" inputmode="decimal" placeholder="12" aria-describedby="targetAbvHint">
-          <p class="hint" id="targetAbvHint">Desired finished ABV percentage for the batch.</p>
-        </div>
-        <div class="control-group">
-          <label for="targetFg">Target sweetness (final gravity, SG)</label>
-          <input id="targetFg" name="targetFg" type="number" min="0.98" max="1.2" step="0.001" inputmode="decimal" placeholder="1.010" aria-describedby="targetFgHint">
-          <p class="hint" id="targetFgHint">Approximate finishing gravity to express desired sweetness level.</p>
+        <div class="builder-grid">
+          <div class="control-group">
+            <label for="batchVolumeLitres">Batch volume (L)</label>
+            <input id="batchVolumeLitres" name="batchVolumeLitres" type="number" min="0.1" max="200" step="0.1" inputmode="decimal" value="20" aria-describedby="batchVolumeHint batchVolumeError" aria-invalid="false">
+            <p class="hint" id="batchVolumeHint">Final must volume in litres.</p>
+            <p class="field-error" id="batchVolumeError" data-error-for="batchVolumeLitres"></p>
+          </div>
+
+          <div class="control-group">
+            <label for="targetAbvPercent">Target alcohol by volume (%)</label>
+            <input id="targetAbvPercent" name="targetAbvPercent" type="number" min="0.1" max="25" step="0.1" inputmode="decimal" value="12" aria-describedby="targetAbvHint targetAbvError" aria-invalid="false">
+            <p class="hint" id="targetAbvHint">Desired finished ABV percentage.</p>
+            <p class="field-error" id="targetAbvError" data-error-for="targetAbvPercent"></p>
+          </div>
+
+          <div class="control-group">
+            <label for="sweetnessPreset">Sweetness preset</label>
+            <select id="sweetnessPreset" name="sweetnessPreset" aria-describedby="sweetnessHint">
+              <option value="dry">Dry - FG 1.000</option>
+              <option value="semiSweet">Semi-sweet - FG 1.020</option>
+              <option value="sweet">Sweet - FG 1.050</option>
+              <option value="custom" selected>Custom final gravity</option>
+            </select>
+            <p class="hint" id="sweetnessHint">Choose a MeadMakr-style sweetness target or enter your own FG.</p>
+          </div>
+
+          <div class="control-group">
+            <label for="targetFinalGravity">Final gravity (SG)</label>
+            <input id="targetFinalGravity" name="targetFinalGravity" type="number" min="0.990" max="1.080" step="0.001" inputmode="decimal" value="1.010" aria-describedby="targetFgHint targetFgError" aria-invalid="false">
+            <p class="hint" id="targetFgHint">The expected finishing gravity for sweetness planning.</p>
+            <p class="field-error" id="targetFgError" data-error-for="targetFinalGravity"></p>
+          </div>
+
+          <div class="control-group">
+            <label for="honeySugarPercent">Honey sugar (%)</label>
+            <input id="honeySugarPercent" name="honeySugarPercent" type="number" min="60" max="90" step="0.1" inputmode="decimal" value="79.6" aria-describedby="honeySugarHint honeySugarError" aria-invalid="false">
+            <p class="hint" id="honeySugarHint">Default matches MeadMakr's 79.6% honey sugar assumption.</p>
+            <p class="field-error" id="honeySugarError" data-error-for="honeySugarPercent"></p>
+          </div>
         </div>
       </fieldset>
+      <div class="share-row">
+        <button class="btn" type="button" data-copy-share-link>Copy share link</button>
+        <p class="hint" data-share-status aria-live="polite">The URL updates as you edit the recipe.</p>
+      </div>
     </form>
 
-    <section aria-labelledby="summary-heading" class="card">
-      <h2 id="summary-heading">Batch outputs</h2>
-      <p class="hint">Enter batch details to estimate gravity targets, honey needs (assuming honey is 79.6% fermentable sugar), and Fermaid AT additions at 0.35&nbsp;g per litre.</p>
+    <section aria-labelledby="summary-heading" class="card output-panel">
+      <h2 id="summary-heading">Batch specs</h2>
       <dl class="summary" aria-live="polite">
         <div>
-          <dt>Target original gravity (SG)</dt>
+          <dt>Target original gravity</dt>
           <dd data-output="target-og">Pending calculation</dd>
         </div>
         <div>
-          <dt>Estimated residual sugar (g/L)</dt>
+          <dt>Starting Brix</dt>
+          <dd data-output="starting-brix">Pending calculation</dd>
+        </div>
+        <div>
+          <dt>One-third sugar break</dt>
+          <dd data-output="sugar-break">Pending calculation</dd>
+        </div>
+        <div>
+          <dt>Estimated residual sugar</dt>
           <dd data-output="residual-sugar">Pending calculation</dd>
-        </div>
-        <div>
-          <dt>Honey needed (kg)</dt>
-          <dd data-output="honey-mass">Pending calculation</dd>
-        </div>
-        <div>
-          <dt>Yeast addition (g)</dt>
-          <dd data-output="yeast-mass">Pending calculation</dd>
-        </div>
-        <div>
-          <dt>Go-Ferm (g)</dt>
-          <dd data-output="go-ferm">Pending calculation</dd>
-        </div>
-        <div>
-          <dt>Rehydration water (mL)</dt>
-          <dd data-output="rehydration-water">Pending calculation</dd>
-        </div>
-        <div>
-          <dt>Fermaid AT (g)</dt>
-          <dd data-output="fermaid-at">Pending calculation</dd>
         </div>
       </dl>
     </section>
 
+    <section aria-labelledby="ingredients-heading" class="card output-panel">
+      <h2 id="ingredients-heading">Ingredients and water planning</h2>
+      <dl class="summary" aria-live="polite">
+        <div>
+          <dt>Honey needed</dt>
+          <dd data-output="honey-mass">Pending calculation</dd>
+        </div>
+        <div>
+          <dt>Estimated honey volume</dt>
+          <dd data-output="honey-volume">Pending calculation</dd>
+        </div>
+        <div>
+          <dt>Estimated top-up water</dt>
+          <dd data-output="top-up-water">Pending calculation</dd>
+        </div>
+      </dl>
+      <p class="hint">Honey volume uses an estimated honey density of 1.42 kg/L. Use gravity readings to fine tune water or honey on brew day.</p>
+    </section>
+
+    <section aria-labelledby="yeast-heading" class="card output-panel">
+      <h2 id="yeast-heading">Yeast rehydration</h2>
+      <dl class="summary" aria-live="polite">
+        <div>
+          <dt>Yeast addition</dt>
+          <dd data-output="yeast-mass">Pending calculation</dd>
+        </div>
+        <div>
+          <dt>Go-Ferm Protect</dt>
+          <dd data-output="go-ferm">Pending calculation</dd>
+        </div>
+        <div>
+          <dt>Rehydration water</dt>
+          <dd data-output="rehydration-water">Pending calculation</dd>
+        </div>
+      </dl>
+      <p data-go-ferm-instruction>Dissolve the calculated Go-Ferm Protect dose in the calculated hot water volume, then cool before adding yeast.</p>
+    </section>
+
+    <section aria-labelledby="fermaid-heading" class="card protocol-card">
+      <h2 id="fermaid-heading">Fermaid AT schedule</h2>
+      <p data-fermaid-instruction>Total Fermaid AT will appear once the batch inputs are valid.</p>
+      <ol class="protocol-list" aria-live="polite">
+        <li data-fermaid-dose>Pending calculation</li>
+        <li data-fermaid-dose>Pending calculation</li>
+        <li data-fermaid-dose>Pending calculation</li>
+        <li data-fermaid-dose>Pending calculation</li>
+      </ol>
+      <p class="hint">Degas the must and dissolve each nutrient dose in a small amount of must before adding it back to the fermenter.</p>
+    </section>
+
     <section aria-labelledby="instructions-heading" class="card">
       <h2 id="instructions-heading">Metric brew day checklist</h2>
-      <h3>General instructions</h3>
       <ol>
         <li>Clean and sanitise everything that will come into contact with your must.</li>
-        <li>Dissolve honey in a small volume of water (leave headspace so you can top up to the batch volume later).</li>
-        <li>Add water so the fermenter holds your target batch volume minus the amount reserved for yeast rehydration.</li>
-        <li>Aerate the must with a drill stirrer or shake/stir vigorously for 15&nbsp;minutes.</li>
-        <li>Rehydrate, temper, and pitch yeast per the Go-Ferm instructions below.</li>
-        <li>Record specific gravity and temperature for future reference.</li>
-        <li>Apply an airlock. Ferment within your yeast&rsquo;s recommended range; around 16&nbsp;&deg;C suits most wine strains.</li>
+        <li>Dissolve the calculated honey in a small volume of water, leaving room to top up to the target batch volume.</li>
+        <li>Add water toward the estimated top-up volume, but stop short and confirm gravity before making final adjustments.</li>
+        <li>Aerate the must with a drill stirrer or shake/stir vigorously for 15 minutes.</li>
+        <li>Rehydrate, temper, and pitch yeast with the calculated Go-Ferm and water amounts.</li>
+        <li>Record specific gravity, Brix if used, and temperature for future reference.</li>
+        <li>Apply an airlock. Ferment within the yeast's recommended temperature range; around 16 degrees C suits many wine strains.</li>
         <li>Degas twice per day for the first week of fermentation.</li>
-        <li>Dose nutrients per the Fermaid protocol below.</li>
+        <li>Dose Fermaid AT at 24 hours, 48 hours, 72 hours, and the one-third sugar break or no later than day seven.</li>
         <li>Rack when gravity is stable for two weeks. Also rack within three weeks of a sediment layer forming to avoid off flavours.</li>
-        <li>When the mead clears, bottle and enjoy. Most batches are ready to drink after 2&ndash;3&nbsp;months.</li>
+        <li>When the mead clears, bottle and enjoy. Most batches are ready to drink after 2-3 months.</li>
       </ol>
-
-      <h3>Go-Ferm rehydration procedure</h3>
-      <p>For two packets of yeast, dissolve 12.5&nbsp;g Go-Ferm Protect in 250&nbsp;mL hot water (the hotter the better).</p>
-      <ol>
-        <li>When the water cools to 40&nbsp;&deg;C, pour in the yeast and give the slurry a quick swirl.</li>
-        <li>After 15&nbsp;minutes, begin tempering the yeast by adding 125&nbsp;mL must to the slurry every five minutes.</li>
-        <li>When the slurry temperature is within 6&nbsp;&deg;C of the must, pitch the yeast into the fermenter.</li>
-      </ol>
-
-      <h3>Fermaid AT nutrient protocol</h3>
-      <p>The total additions for this schedule are 22.3&nbsp;g Fermaid AT, split into four staggered nutrient additions. Degas the must and dissolve each nutrient dose in about 250&nbsp;mL of must before adding it to the fermenter. Fermaid AT is a balanced complex nutrient containing both organic and inorganic nitrogen, so no separate DAP is required.</p>
-      <ul>
-        <li>24 and 48&nbsp;hours after pitching yeast: add 5.6&nbsp;g Fermaid AT each time.</li>
-        <li>72&nbsp;hours after pitching: add 5.6&nbsp;g Fermaid AT.</li>
-        <li>At the one-third sugar break (for example, when a 1.120 starting gravity reaches 1.080), or no later than seven days after pitching: add 5.5&nbsp;g Fermaid AT.</li>
-        <li>If the mead shows signs of yeast stress (e.g. sulfur aromas) after the final scheduled addition, supplement with an extra 2&ndash;3&nbsp;g Fermaid AT as needed.</li>
-      </ul>
-
-      <p class="hint">This prototype does not estimate pH; plan to measure it with a calibrated meter or narrow-range strips.</p>
+      <p class="hint">This calculator does not estimate pH; measure pH with a calibrated meter or narrow-range strips.</p>
     </section>
   </main>
 
@@ -161,6 +206,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/mead-recipe-builder.js" defer></script>
+  <script type="module" src="assets/js/mead-recipe-builder.js"></script>
 </body>
 </html>
