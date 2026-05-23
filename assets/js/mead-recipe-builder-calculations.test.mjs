@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict';
 import {
-  SWEETNESS_PRESETS,
   calculateMeadRecipe,
 } from './mead-recipe-builder-calculations.mjs';
 
@@ -29,7 +28,7 @@ nearly(benchmark.values.rehydrationWaterMl, 150, 0.001);
 nearly(benchmark.values.fermaidAtTotalGrams, 7, 0.001);
 nearly(benchmark.values.oneThirdSugarBreakSg, 1.068, 0.001);
 
-for (const targetFinalGravity of Object.values(SWEETNESS_PRESETS)) {
+for (const targetFinalGravity of [1.0, 1.02, 1.05]) {
   const result = calculateMeadRecipe({
     batchVolumeLitres: 10,
     targetAbvPercent: 10,
@@ -39,13 +38,13 @@ for (const targetFinalGravity of Object.values(SWEETNESS_PRESETS)) {
   assert.equal(result.values.targetFinalGravity, targetFinalGravity);
 }
 
-const customSweetness = calculateMeadRecipe({
+const customFinalGravity = calculateMeadRecipe({
   batchVolumeLitres: 10,
   targetAbvPercent: 10,
   targetFinalGravity: 1.012,
 });
-assert.equal(customSweetness.ok, true);
-assert.equal(customSweetness.values.targetFinalGravity, 1.012);
+assert.equal(customFinalGravity.ok, true);
+assert.equal(customFinalGravity.values.targetFinalGravity, 1.012);
 
 const lowerSugarHoney = calculateMeadRecipe({
   batchVolumeLitres: 20,
@@ -55,6 +54,18 @@ const lowerSugarHoney = calculateMeadRecipe({
 });
 assert.equal(lowerSugarHoney.ok, true);
 assert.ok(lowerSugarHoney.values.honeyKg > benchmark.values.honeyKg);
+
+const shareableLargeBatch = calculateMeadRecipe({
+  batchVolumeLitres: 225,
+  targetAbvPercent: 13,
+  targetFinalGravity: 1.0,
+  honeySugarPercent: 79.6,
+});
+assert.equal(shareableLargeBatch.ok, true);
+nearly(shareableLargeBatch.values.targetOg, 1.099, 0.001);
+nearly(shareableLargeBatch.values.startingBrix, 23.6, 0.05);
+nearly(shareableLargeBatch.values.honeyKg, 72.91, 0.01);
+nearly(shareableLargeBatch.values.fermaidAtTotalGrams, 78.75, 0.001);
 
 const invalid = calculateMeadRecipe({
   batchVolumeLitres: 0,

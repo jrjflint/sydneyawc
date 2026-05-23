@@ -52,11 +52,11 @@ export function calculateMeadRecipe(input) {
 
   const errors = [];
 
-  if (!(batchVolumeLitres > 0) || batchVolumeLitres > 200) {
+  if (!(batchVolumeLitres > 0) || batchVolumeLitres > 1000) {
     addRangeError(
       errors,
       'batchVolumeLitres',
-      'Enter a batch volume greater than 0 L and no more than 200 L.'
+      'Enter a batch volume greater than 0 L and no more than 1000 L.'
     );
   }
 

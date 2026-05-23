@@ -64,7 +64,7 @@
         <div class="builder-grid">
           <div class="control-group">
             <label for="batchVolumeLitres">Batch volume (L)</label>
-            <input id="batchVolumeLitres" name="batchVolumeLitres" type="number" min="0.1" max="200" step="0.1" inputmode="decimal" value="20" aria-describedby="batchVolumeHint batchVolumeError" aria-invalid="false">
+            <input id="batchVolumeLitres" name="batchVolumeLitres" type="number" min="0.1" max="1000" step="0.1" inputmode="decimal" value="20" aria-describedby="batchVolumeHint batchVolumeError" aria-invalid="false">
             <p class="hint" id="batchVolumeHint">Final must volume in litres.</p>
             <p class="field-error" id="batchVolumeError" data-error-for="batchVolumeLitres"></p>
           </div>
@@ -77,20 +77,9 @@
           </div>
 
           <div class="control-group">
-            <label for="sweetnessPreset">Sweetness preset</label>
-            <select id="sweetnessPreset" name="sweetnessPreset" aria-describedby="sweetnessHint">
-              <option value="dry">Dry - FG 1.000</option>
-              <option value="semiSweet">Semi-sweet - FG 1.020</option>
-              <option value="sweet">Sweet - FG 1.050</option>
-              <option value="custom" selected>Custom final gravity</option>
-            </select>
-            <p class="hint" id="sweetnessHint">Choose a MeadMakr-style sweetness target or enter your own FG.</p>
-          </div>
-
-          <div class="control-group">
             <label for="targetFinalGravity">Final gravity (SG)</label>
             <input id="targetFinalGravity" name="targetFinalGravity" type="number" min="0.990" max="1.080" step="0.001" inputmode="decimal" value="1.010" aria-describedby="targetFgHint targetFgError" aria-invalid="false">
-            <p class="hint" id="targetFgHint">The expected finishing gravity for sweetness planning.</p>
+            <p class="hint" id="targetFgHint">The expected finishing gravity for dryness or sweetness planning.</p>
             <p class="field-error" id="targetFgError" data-error-for="targetFinalGravity"></p>
           </div>
 

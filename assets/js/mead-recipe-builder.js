@@ -1,5 +1,4 @@
 import {
-  SWEETNESS_PRESETS,
   calculateMeadRecipe,
 } from './mead-recipe-builder-calculations.mjs';
 
@@ -42,7 +41,7 @@ const outputFormatters = {
 };
 
 const pendingText = 'Pending calculation';
-const shareParamNames = ['volume', 'abv', 'sweetness', 'fg', 'honeySugar'];
+const shareParamNames = ['volume', 'abv', 'fg', 'honeySugar'];
 
 const getNumber = (form, name) => {
   const field = form.elements.namedItem(name);
@@ -134,25 +133,6 @@ const renderResult = (outputs, result) => {
   }
 };
 
-const syncSweetnessPreset = (form) => {
-  const preset = form.elements.namedItem('sweetnessPreset');
-  const finalGravity = form.elements.namedItem('targetFinalGravity');
-  if (!preset || !finalGravity) {
-    return;
-  }
-
-  if (preset.value === 'custom') {
-    finalGravity.readOnly = false;
-    return;
-  }
-
-  const presetValue = SWEETNESS_PRESETS[preset.value];
-  if (presetValue) {
-    finalGravity.value = formatters.sg.format(presetValue);
-    finalGravity.readOnly = true;
-  }
-};
-
 const setIfPresent = (form, fieldName, value) => {
   const field = form.elements.namedItem(fieldName);
   if (field && value !== null) {
@@ -165,19 +145,7 @@ const applyUrlParams = (form) => {
   setIfPresent(form, 'batchVolumeLitres', params.get('volume'));
   setIfPresent(form, 'targetAbvPercent', params.get('abv'));
   setIfPresent(form, 'honeySugarPercent', params.get('honeySugar'));
-
-  const sweetness = params.get('sweetness');
-  const preset = form.elements.namedItem('sweetnessPreset');
-  if (preset && sweetness && Array.from(preset.options).some((option) => option.value === sweetness)) {
-    preset.value = sweetness;
-  }
-
-  if (params.has('fg')) {
-    setIfPresent(form, 'targetFinalGravity', params.get('fg'));
-    if (preset && !sweetness) {
-      preset.value = 'custom';
-    }
-  }
+  setIfPresent(form, 'targetFinalGravity', params.get('fg'));
 };
 
 const formatUrlNumber = (value) => {
@@ -196,11 +164,9 @@ const updateShareUrl = (form) => {
   const abv = formatUrlNumber(form.elements.namedItem('targetAbvPercent')?.value);
   const fg = formatUrlNumber(form.elements.namedItem('targetFinalGravity')?.value);
   const honeySugar = formatUrlNumber(form.elements.namedItem('honeySugarPercent')?.value);
-  const sweetness = form.elements.namedItem('sweetnessPreset')?.value || 'custom';
 
   if (volume) url.searchParams.set('volume', volume);
   if (abv) url.searchParams.set('abv', abv);
-  if (sweetness) url.searchParams.set('sweetness', sweetness);
   if (fg) url.searchParams.set('fg', fg);
   if (honeySugar) url.searchParams.set('honeySugar', honeySugar);
 
@@ -248,7 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupShareButton(form);
 
   const update = () => {
-    syncSweetnessPreset(form);
     clearErrors(form);
 
     const result = calculateMeadRecipe({

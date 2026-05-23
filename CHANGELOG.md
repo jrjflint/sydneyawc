@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
-- Finished the metric mead recipe builder with sweetness presets, Brix, honey/water estimates, dynamic Go-Ferm rehydration, Fermaid AT scheduling, and shareable URL parameters.
+- Finished the metric mead recipe builder with final gravity input, Brix, honey/water estimates, dynamic Go-Ferm rehydration, Fermaid AT scheduling, and shareable URL parameters.
 - Matched the Wine Chat with Cal podcast heading level and size to the Wined Up Podcast heading on the homepage.
 - Updated the June 4, 2026 meeting activity to Making mead across the event feed and calendar export.
 - Added a homepage podcast feature linking James and Dario's Wine Chat with Cal episode and noting James' upcoming Wined Up appearance.
