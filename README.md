@@ -18,7 +18,7 @@ A community of home winemaking enthusiasts in Sydney. This repo hosts the offici
 ## Project layout
 
 - `index.html` – main landing page that loads the club overview, meeting details, competition info, and embeds structured event data.
-- `mead.html` – dedicated hub for the club's metric-first mead making resources and development updates.
+- `mead.html` – educational overview for modern mead making, linking through to the club's metric-first recipe builder.
 - `mead-recipe-builder.html` – Fermaid AT-focused, metric mead batch builder with gravity, honey, water, yeast, Go-Ferm, and nutrient calculations.
 - `style.css` – global stylesheet with responsive layouts, print styles, the wineshow results page components, and typography rules.
 - `404.html` – custom not-found page that keeps visitors engaged and links back to the home page.

@@ -734,6 +734,25 @@ body.mead-builder-page main {
   padding: 2rem 0 3rem;
 }
 
+body.mead-page main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+body.mead-page section {
+  scroll-margin-top: 1rem;
+}
+
+body.mead-page h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+}
+
+body.mead-page .intro-actions {
+  margin-top: 1.25rem;
+}
+
 body.mead-page .card,
 body.mead-builder-page .card,
 body.mead-builder-page .builder-form {
@@ -750,6 +769,75 @@ body.mead-builder-page .builder-form {
 body.mead-page .card h2,
 body.mead-builder-page .card h2 {
   margin-top: 0;
+}
+
+body.mead-page .card p:last-child,
+body.mead-page .card ul:last-child,
+body.mead-page .card ol:last-child {
+  margin-bottom: 0;
+}
+
+body.mead-page .section-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+body.mead-page .resources-grid {
+  align-items: start;
+}
+
+body.mead-page .feature-list,
+body.mead-page .resource-list {
+  padding-left: 1.25rem;
+}
+
+body.mead-page .feature-list li,
+body.mead-page .resource-list li {
+  margin-bottom: 0.45rem;
+}
+
+body.mead-page .note,
+body.mead-page .caution {
+  border-left: 4px solid var(--builder-accent);
+}
+
+body.mead-page .note {
+  padding: 1rem;
+  background: var(--builder-surface);
+}
+
+body.mead-page .table-wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--builder-border);
+  border-radius: var(--builder-radius);
+  background: var(--builder-surface);
+  box-shadow: var(--builder-shadow);
+}
+
+body.mead-page table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+}
+
+body.mead-page th,
+body.mead-page td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--builder-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+body.mead-page thead th {
+  background: rgba(109, 31, 53, 0.08);
+  color: var(--builder-text);
+  font-weight: 600;
+}
+
+body.mead-page tbody tr:last-child th,
+body.mead-page tbody tr:last-child td {
+  border-bottom: 0;
 }
 
 body.mead-builder-page fieldset {
@@ -887,7 +975,8 @@ body.mead-builder-page .page-footer {
 
 @media (max-width: 720px) {
   body.mead-builder-page .builder-grid,
-  body.mead-builder-page .summary {
+  body.mead-builder-page .summary,
+  body.mead-page .section-grid {
     grid-template-columns: 1fr;
   }
 
