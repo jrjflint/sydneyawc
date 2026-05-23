@@ -215,6 +215,15 @@ DESCRIPTION:Mini competition: Award Fruit\nWhite non-grape wine including
  mead
 END:VEVENT
 BEGIN:VEVENT
+UID:8f3c3f4b-8cf8-4d85-9a2f-37a2f6e22b7a@sydneyawc.com
+DTSTAMP:20260523T100000Z
+DTSTART;TZID=Australia/Sydney:20260606T140000
+DTEND;TZID=Australia/Sydney:20260606T163000
+SUMMARY:Red Wine Exploration (5 Wines)
+LOCATION:Art Syndicate\, Shop 3/344 Bourke St\, Surry Hills NSW 2010
+DESCRIPTION:An afternoon of red wine exploration and discussion in Surry Hills.\n\nWe’ll taste through five red wines together in a guided and conversational format designed to be relaxed\, educational\, and enjoyable for both enthusiasts and curious learners alike. Partners and friends with an interest in wine are welcome to attend.\n\nVenue: Art Syndicate\, Shop 3/344 Bourke St\, Surry Hills NSW 2010\nWebsite: https://www.theartsyndicate.com.au/\n\nArt Syndicate is about a 15-minute walk from Central Station\, via Exit 5 - Chalmers Street.\n\nWhat to expect:\nGuided tasting of 5 red wines\nGroup discussion and exploration of style\, structure\, and regional expression\nRelaxed\, social atmosphere\n\nEstimated attendance: approx. 20 attendees.\n\nPlease note this is primarily a wine tasting rather than a lunch event\, so we recommend having lunch beforehand.\n\nHigh-level schedule:\n2:00pm - Arrival\n2:10pm - Wines 1–3\n3:00pm - Short break\n3:10pm - Wines 4–5\n3:45pm - Discussion and wrap-up\n\nCost: $50 per person\n\nOptional post-event dinner: Casual pay-your-own-way dinner at The Beresford from around 5:00pm.\n\nRSVP by Thursday 4 June at the latest by emailing sydneyawclub@gmail.com. Earlier responses would be greatly appreciated to assist with final numbers and planning.
+END:VEVENT
+BEGIN:VEVENT
 UID:395b8379-be3b-4f02-a3a0-e0886ffbf8cc@sydneyawc.com
 DTSTAMP:20260517T070905Z
 DTSTART;TZID=Australia/Sydney:20260613T100000
