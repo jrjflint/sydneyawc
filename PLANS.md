@@ -166,3 +166,4 @@ Maintain this backlog of potential improvements so future contributors can spin 
 * Harden the “Next Meeting” fetch in `assets/nextevent.js` by checking the HTTP status (for example, `response.ok`) before calling `res.json()` so transient CDN errors provide clearer feedback instead of falling straight into the generic exception handler.
 * When rendering events that supply a venue string with an embedded address, preserve the full address in both the visible markup and the generated JSON-LD so visitors retain the location details after dynamic data loads.
 * Mirror the visually hidden skip link pattern from `results.html` on `index.html` to give keyboard and assistive-technology users a consistent way to jump to the main content.
+* Maintain `sawc-brand-book.md` as the canonical SAWC brand book and regenerate `sawc-brand-book.pdf` whenever logo, colour, typography, tone, event, competition, newsletter, or social media guidance changes.
